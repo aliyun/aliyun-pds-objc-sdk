@@ -1,0 +1,39 @@
+use_frameworks!
+inhibit_all_warnings!
+
+platform :ios, '9.0'
+
+target 'pds-sdk-objc_Example' do
+  pod 'PDS_SDK', :path => '../',:inhibit_warnings => false
+
+  target 'pds-sdk-objc_Tests' do
+    inherit! :search_paths
+
+    pod 'Specta'
+    pod 'Expecta'
+    pod 'OHHTTPStubs'
+    pod 'OCMock'
+    
+  end
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.3'
+        # warning 切 error 的开关
+        config.build_settings['GCC_TREAT_WARNINGS_AS_ERRORS'] = 'YES'
+
+        # 关闭部分 warning
+        config.build_settings['WARNING_CFLAGS'] ||= '-Wno-nullability-completeness'
+        config.build_settings['CLANG_WARN_STRICT_PROTOTYPES'] = 'NO'
+        config.build_settings['GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS'] = 'NO'
+        config.build_settings['CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS'] = 'NO'
+        config.build_settings['CLANG_WARN_DOCUMENTATION_COMMENTS'] = 'NO'
+        config.build_settings['GCC_WARN_UNUSED_VARIABLE'] = 'NO'
+        config.build_settings['GCC_WARN_UNUSED_FUNCTION'] = 'NO'
+        config.build_settings['CLANG_MIGRATOR_OBJC_DESIGNATED_INIT'] = 'NO'
+        config.build_settings['CLANG_WARN_COMMA'] = 'NO'
+        config.build_settings['CLANG_WARN_BOOL_CONVERSION'] = 'NO'
+      end
+    end
+  end
+end
