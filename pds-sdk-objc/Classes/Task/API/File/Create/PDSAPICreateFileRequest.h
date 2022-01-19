@@ -37,6 +37,8 @@ typedef NS_ENUM(NSInteger,PDSAPICreateFileType){
 @property(nonatomic, copy) NSString *parentFileID;
 ///文件名,必填
 @property(nonatomic, copy) NSString *fileName;
+///文件ID，选填
+@property(nonatomic, copy) NSString *fileID;
 ///MIME类型,可选
 @property(nonatomic, copy) NSString *contentType;
 ///文件大小，单位byte,必填
@@ -59,7 +61,7 @@ typedef NS_ENUM(NSInteger,PDSAPICreateFileType){
 @property(nonatomic, assign) NSUInteger sectionCount;
 
 
-- (instancetype)initWithShareID:(NSString *_Nullable)shareID driveID:(NSString *_Nullable)driveID parentFileID:(NSString *)parentFileID fileName:(NSString *)fileName fileSize:(uint64_t)fileSize hashValue:(NSString *_Nullable)hashValue preHashValue:(NSString *_Nullable)preHashValue sectionSize:(uint64_t)sectionSize sectionCount:(NSUInteger)sectionCount;
+- (instancetype)initWithShareID:(NSString *_Nullable)shareID driveID:(NSString *_Nullable)driveID parentFileID:(NSString *)parentFileID fileName:(NSString *)fileName fileID:(NSString *_Nullable)fileID fileSize:(uint64_t)fileSize hashValue:(NSString *_Nullable)hashValue preHashValue:(NSString *_Nullable)preHashValue sectionSize:(uint64_t)sectionSize sectionCount:(NSUInteger)sectionCount;
 
 @end
 

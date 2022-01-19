@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)initWithDictionary:(NSDictionary *)storageInfo;
 
-- (id)initWithFileSectionInfo:(PDSTaskFileSectionInfo *)fileSectionInfo path:(NSString *)path status:(NSInteger)status;
+- (id)initWithTaskIdentifier:(NSString *)taskIdentifier uploadID:(NSString *)uploadID fileID:(NSString *)fileID path:(NSString *)path sectionSize:(uint64_t)sectionSize status:(NSInteger)status;
 @end
 
 NS_ASSUME_NONNULL_END

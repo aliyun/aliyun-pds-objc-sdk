@@ -19,7 +19,7 @@
 #import "PDSAPIGetUploadUrlResponse.h"
 #import "PDSMacro.h"
 #import "PDSAPIUploadFilePartInfoItem.h"
-#import "NSObject+YYModel.h"
+#import <YYModel/NSObject+YYModel.h>
 
 
 @implementation PDSAPIGetUploadUrlRequest {

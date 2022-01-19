@@ -20,7 +20,6 @@
 #import <PDS_SDK/PDSClientManager.h>
 
 @interface PDSTestConfig ()
-@property(nonatomic, strong) NSDictionary *config;
 @property(nonatomic, copy) NSString *samplePath;
 @property(nonatomic, copy) NSString *sampleName;
 @end
@@ -56,16 +55,11 @@
 
     self.samplePath = [samplesDirPath URLByAppendingPathComponent:[NSString stringWithFormat:@"%@",self.sampleName]].path;
     NSData *sampleData = [self randomDataOfSize:(1024*10000)];
-    BOOL success = [sampleData writeToFile:self.samplePath atomically:NO];
-    NSLog(@"success : %d",success);
+    [sampleData writeToFile:self.samplePath atomically:NO];
 }
 
 - (uint64_t)sampleSize {
     return [[NSFileManager defaultManager] pds_fileSizeForPath:[self samplePath]];
-}
-
-- (NSString *)sampleContentType {
-    return [[NSFileManager defaultManager] pds_mimeTypeForPath:[self samplePath]];
 }
 
 - (NSString *)userID {
@@ -84,32 +78,6 @@
     return self.config[@"drive_id"];
 }
 
-- (NSString *)downloadUrl {
-    return self.config[@"download_url"];
-}
-
-- (NSString *)downloadFileID {
-    return self.config[@"download_file_id"];
-}
-
-- (NSString *)downloadHash {
-    return self.config[@"download_hash"];
-}
-
-- (uint64_t)downloadSize {
-    return [self.config[@"download_size"] longLongValue];
-}
-
-- (NSString *)downloadFileName {
-    return self.config[@"download_file_name"];
-}
-
-- (NSString *)downloadDestination {
-    NSURL *documentUrl = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-    NSURL *downloadDirPath = [documentUrl URLByAppendingPathComponent:@"downloaded"];
-    [self createDirAtPath:downloadDirPath.path];
-    return downloadDirPath.path;
-}
 
 - (nullable NSData *)randomDataOfSize:(size_t)sizeInBytes
 {
@@ -129,13 +97,6 @@
                withIntermediateDirectories:YES
                                 attributes:nil
                                      error:nil];
-    }
-}
-
-- (void)cleanDownloaded {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    if([fileManager fileExistsAtPath:self.downloadDestination]) {
-        [fileManager removeItemAtPath:self.downloadDestination error:nil];
     }
 }
 

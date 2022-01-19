@@ -29,6 +29,7 @@ typedef NS_ENUM(NSInteger, PDSFileHashType) {
     PDSFileHashTypeSha1,
     PDSFileHashTypeSha512,
     PDSFileHashTypeCrc32,
+    PDSFileHashTypeCrc64,
 };
 
 @interface PDSFileHash : NSObject
@@ -42,6 +43,8 @@ typedef NS_ENUM(NSInteger, PDSFileHashType) {
 
 + (NSString *)crc32HashOfData:(NSData *)data;
 
++ (NSString *)crc64HashOfData:(NSData *)data;
+
 + (NSString *)hashOfFileAtPath:(NSString *)filePath hashType:(PDSFileHashType)hashType;
 
 + (NSString *)md5HashOfFileAtPath:(NSString *)filePath;
@@ -52,6 +55,6 @@ typedef NS_ENUM(NSInteger, PDSFileHashType) {
 
 + (NSString *)crc32HashOfFileAtPath:(NSString *)filePath;
 
-+ (NSString *)md5HashOfPHAsset:(PHAsset *)phAsset;
++ (NSString *)crc64HashOfFileAtPath:(NSString *)filePath;
 
 @end

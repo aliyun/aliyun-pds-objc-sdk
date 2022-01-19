@@ -15,14 +15,15 @@
 // *
 
 #import <Foundation/Foundation.h>
-#import <PDS_SDK/PDSDownloadUrlTask.h>
+#import <PDS_SDK/PDSDownloadTask.h>
 
 @class PDSDownloadUrlRequest;
 @class PDSSessionDelegate;
 @class PDSTransportClient;
+@class PDSTaskStorageClient;
 
-@interface PDSDownloadUrlTaskImpl : PDSDownloadUrlTask
+@interface PDSDownloadUrlTaskImpl : PDSDownloadTask
 
-- (id)initWithRequest:(PDSDownloadUrlRequest *)request identifier:(NSString *)identifier session:(NSURLSession *)session sessionDelegate:(PDSSessionDelegate *)sessionDelegate transportClient:(PDSTransportClient *)transportClient;
+- (id)initWithRequest:(PDSDownloadUrlRequest *)request identifier:(NSString *)identifier session:(NSURLSession *)session sessionDelegate:(PDSSessionDelegate *)sessionDelegate transportClient:(PDSTransportClient *)transportClient storageClient:(PDSTaskStorageClient *)storageClient;
 
 @end

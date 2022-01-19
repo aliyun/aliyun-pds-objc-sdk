@@ -31,7 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// 如果已经上传上去了，那么不再执行上传操作，直接完成
 @property(nonatomic, assign) BOOL enableFastUpload;
 
-- (instancetype)initWithHost:(NSString *)host userAgent:(NSString *)userAgent;
+/// 数据库初始化的名称，如果不填会用默认值
+@property(nonatomic, copy) NSString *dbName;
 
 @end
 

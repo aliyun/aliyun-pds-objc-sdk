@@ -21,12 +21,10 @@
 @interface PDSDownloadUrlRequest : PDSRequest
 // 下载链接
 @property(nonatomic, copy, readonly) NSString *downloadUrl;
-//文件的保存路径，如果对应的文件存储的目录不存在，SDK内部会自动存在
+//文件的保存路径，如果对应的文件存储的目录不存在，SDK内部会自动创建
 @property(nonatomic, copy, readonly) NSString *destination;
-// 用户身份唯一标识
-@property(nonatomic, copy, readonly) NSString *userID;
-// 文件所在目录的唯一标识
-@property(nonatomic, copy, readonly) NSString *parentID;
+//下载文件的相对路径
+@property(nonatomic, readonly) NSString *relativeDestination;
 // 文件大小
 @property(nonatomic, assign, readonly) uint64_t fileSize;
 // 文件唯一标识
@@ -39,19 +37,17 @@
 @property(nonatomic, copy) NSString *driveID;
 //分享空间ID
 @property(nonatomic, copy) NSString *shareID;
-
 /**
  * 初始化通过Url下载的任务请求
  * @param downloadUrl 下载链接，必填
  * @param destination 下载的文件保存地址，必填
  * @param userID 用户ID，可选，用于下载链接失效情况下自动刷新下载链接
- * @param parentID 文件夹目录ID，可选
  * @param fileSize 文件大小，必填
  * @param fileID 文件ID，可选，用于下载链接失效情况下自动刷新下载链接
  * @param hashValue 文件参数值，可选
  * @param hashType 文件校验算法，可选
  * @return 通过URL下载任务请求
  */
-- (instancetype)initWithDownloadUrl:(NSString *)downloadUrl destination:(NSString *)destination userID:(NSString *)userID parentID:(NSString *)parentID fileSize:(uint64_t)fileSize fileID:(NSString *)fileID hashValue:(NSString *)hashValue hashType:(PDSFileHashType)hashType driveID:(NSString *)driveID shareID:(NSString *)shareID;
+- (instancetype)initWithDownloadUrl:(NSString *)downloadUrl destination:(NSString *)destination fileSize:(uint64_t)fileSize fileID:(NSString *)fileID hashValue:(NSString *)hashValue hashType:(PDSFileHashType)hashType driveID:(NSString *)driveID shareID:(NSString *)shareID;
 
 @end

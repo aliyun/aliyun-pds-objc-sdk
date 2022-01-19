@@ -14,6 +14,7 @@
 // * limitations under the License.
 // *
 
+#import "PDSDownloadLivePhotoTaskImpl.h"
 #import "PDSRequestError.h"
 #import "PDSAPIRequestTaskImpl.h"
 #import "PDSDownloadUrlRequest.h"
@@ -35,12 +36,15 @@
     if (statusCode == 200 || statusCode == 201 || statusCode == 202 || statusCode == 204) {
         return nil;
     }
+
     NSDictionary *deserializedData = [self deserializeHttpData:errorData];
     NSString *errorMessage = nil;
     NSString *errorCode = nil;
     if (deserializedData) {
         errorMessage = deserializedData[@"message"];
         errorCode = deserializedData[@"code"];
+    } else {//返回的错误信息无法json化，直接把原始的字符串返回
+        errorMessage = [[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding];
     }
     PDSRequestErrorType errorType = PDSRequestErrorTypeUnknown;
     switch (statusCode) {
@@ -68,6 +72,7 @@
     }
     return [[PDSRequestError alloc] initWithErrorType:errorType statusCode:statusCode errorCode:errorCode errorMessage:errorMessage clientError:nil];
 }
+
 
 + (NSDictionary *)deserializeHttpData:(NSData *)data {
     if (!data) {
@@ -116,6 +121,21 @@
         return nil;
     }
     return [(Class<PDSSerializable>) request.responseClass deserialize:jsonData];
+}
+
+
+- (PDSUploadTask **)requestUploadLivePhoto:(PDSUploadPhotoRequest *)request taskIdentifier:(NSString *)identifier {
+    return NULL;
+}
+
+- (PDSDownloadTask *)requestDownloadLivePhoto:(PDSDownloadUrlRequest *)request taskIdentifier:(NSString *)identifier {
+    PDSDownloadLivePhotoTaskImpl *task = [[PDSDownloadLivePhotoTaskImpl alloc] initWithRequest:request
+                                                                                    identifier:identifier
+                                                                                       session:self.session
+                                                                               sessionDelegate:self.delegate
+                                                                               transportClient:self];
+    [task resume];
+    return task;
 }
 
 

@@ -22,4 +22,16 @@ static inline BOOL PDSIsEmpty(id thing) {
             && [(NSData *) thing length] == 0)
             || ([thing respondsToSelector:@selector(count)]
             && [(NSArray *) thing count] == 0);
-}
+};
+
+
+static inline NSString *PDSSDKStorageFolderPath() {
+    static dispatch_once_t predicate = 0;
+    static NSString *storageFolderPath = nil;
+    dispatch_once(&predicate, ^{
+        NSString *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
+        storageFolderPath = [documentPath stringByAppendingPathComponent:@"PDSSDK"];
+    });
+    return storageFolderPath;
+};
+

@@ -59,7 +59,7 @@ static PDSUserClient *_userClient;
 }
 
 + (void)setupClientsWithAccessToken:(NSString *)accessToken {
-    PDSUserClient *userClient = [[PDSUserClient alloc] initWithAccessToken:accessToken clientConfig:[self clientConfig]];
+    PDSUserClient *userClient = [[PDSUserClient alloc] initWithAccessToken:accessToken clientConfig:self.clientConfig];
     [self setUserClient:userClient];
 }
 

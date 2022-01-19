@@ -15,6 +15,7 @@
 // *
 
 #import "PDSTaskDiskCapacityValidator.h"
+#import "NSError+PDS.h"
 #import "NSFileManager+PDS.h"
 
 
@@ -30,7 +31,15 @@
     if (availableCapacity == 0) {
         return YES;
     }
-    return (availableCapacity - self.size) > 1000;
+    if((availableCapacity - self.size) > 1000) {
+        return YES;
+    }
+    else {
+        if(error) {
+            *error = [NSError pds_errorWithCode:PDSErrorFileCreatedFailed message:@"磁盘空间不足"];
+        }
+        return NO;
+    }
 }
 
 - (id)initWithSize:(uint64_t)size {

@@ -28,7 +28,7 @@
 @property(nonatomic, strong) NSURLSessionTask *sessionTask;
 @property(nonatomic, strong) dispatch_queue_t serialQueue;
 @property(nonatomic, assign) BOOL cancelled;
-@property(nonatomic, assign) BOOL suspended;
+@property(nonatomic, assign) BOOL executing;
 @property(nonatomic, assign) BOOL started;
 @end
 
@@ -66,13 +66,17 @@
 
 - (void)suspend {
     dispatch_async(_serialQueue, ^{
-        self.suspended = YES;
+        self.executing = NO;
         [self.sessionTask suspend];
     });
 }
 
 - (void)resume {
     dispatch_async(_serialQueue, ^{
+        if (self.executing) {
+            return;
+        }
+        self.executing = YES;
         if (self.started) {
             [self.sessionTask resume];
         } else {
@@ -106,7 +110,7 @@
     [self setResponseBlockHandlerIfNecessary];
     if (_cancelled) {
         [_sessionTask cancel];
-    } else if (_suspended) {
+    } else if (!_executing) {
         [_sessionTask suspend];
     } else if (_started) {
         [_sessionTask resume];

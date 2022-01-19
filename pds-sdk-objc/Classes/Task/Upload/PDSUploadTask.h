@@ -25,19 +25,18 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-@interface PDSUploadFileTask : PDSTask
-@property(nonatomic, strong) PDSUploadFileRequest *request;
+@interface PDSUploadTask : PDSTask
 
 typedef void (^PDSUploadResponseBlock)(PDSFileMetadata *_Nullable result,
-        PDSRequestError *_Nullable requestError, PDSUploadFileRequest *request, NSString *taskIdentifier);
+        PDSRequestError *_Nullable requestError, NSString *taskIdentifier);
 
-- (PDSUploadFileTask *)setResponseBlock:(PDSUploadResponseBlock)responseBlock;
+- (PDSUploadTask *)setResponseBlock:(PDSUploadResponseBlock)responseBlock;
 
-- (PDSUploadFileTask *)setResponseBlock:(PDSUploadResponseBlock)responseBlock queue:(NSOperationQueue *_Nullable)queue;
+- (PDSUploadTask *)setResponseBlock:(PDSUploadResponseBlock)responseBlock queue:(NSOperationQueue *_Nullable)queue;
 
-- (PDSUploadFileTask *)setProgressBlock:(PDSProgressBlock)progressBlock;
+- (PDSUploadTask *)setProgressBlock:(PDSProgressBlock)progressBlock;
 
-- (PDSUploadFileTask *)setProgressBlock:(PDSProgressBlock)progressBlock queue:(NSOperationQueue *_Nullable)queue;
+- (PDSUploadTask *)setProgressBlock:(PDSProgressBlock)progressBlock queue:(NSOperationQueue *_Nullable)queue;
 
 @end
 

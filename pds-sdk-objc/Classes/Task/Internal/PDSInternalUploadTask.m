@@ -69,6 +69,10 @@
     }
 }
 
+- (void)cleanup {
+
+}
+
 - (void)startTask {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:self.uploadSection.outputUrl]];
     request.HTTPMethod = @"PUT";

@@ -36,6 +36,7 @@
     if (self) {
         self.type = errorType;
         self.statusCode = statusCode;
+        self.code = errorCode;
         self.message = errorMessage;
         self.clientError = clientError;
     }
@@ -49,7 +50,7 @@
 
 - (NSString *)description {
     if(self.clientError) {
-        return [NSString stringWithFormat:@"client Error: %@",[self.clientError description]];
+        return [NSString stringWithFormat:@"transportClient Error: %@",[self.clientError description]];
     }
     return [NSString stringWithFormat:@"Server Error: Status Code :%ld,Error Code :%@, Error Message: %@",self.statusCode,self.code,self.message];
 }

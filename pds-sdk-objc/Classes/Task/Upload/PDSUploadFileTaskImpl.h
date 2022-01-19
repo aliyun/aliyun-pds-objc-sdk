@@ -15,7 +15,7 @@
 // *
 
 #import <Foundation/Foundation.h>
-#import <PDS_SDK/PDSUploadFileTask.h>
+#import <PDS_SDK/PDSUploadTask.h>
 
 @class PDSUploadFileRequest;
 @class PDSSessionDelegate;
@@ -23,9 +23,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PDSUploadFileTaskImpl : PDSUploadFileTask
+@interface PDSUploadFileTaskImpl : PDSUploadTask
 
-- (id)initWithRequest:(PDSUploadFileRequest *)request identifier:(NSString *)identifier session:(NSURLSession *)session sessionDelegate:(PDSSessionDelegate *)sessionDelegate transportClient:(PDSTransportClient *)transportClient;
+- (id)initWithRequest:(PDSUploadFileRequest *)request identifier:(NSString *)identifier session:(NSURLSession *)session sessionDelegate:(PDSSessionDelegate *)sessionDelegate transportClient:(PDSTransportClient *)transportClient storageClient:(PDSTaskStorageClient *)storageClient;
 
 @end
 

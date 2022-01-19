@@ -16,7 +16,7 @@
 
 #import "PDSAPICompleteFileResponse.h"
 #import "PDSAPIImageMetaData.h"
-#import "NSObject+YYModel.h"
+#import <YYModel/NSObject+YYModel.h>
 
 
 @implementation PDSAPICompleteFileResponse {

@@ -22,8 +22,7 @@ NSString *const PDSErrorCodeCommonFormatInvalid = @"ResultFormatInvalid";//返�
 NSString *const PDSErrorCodeCommonFormatInvalidMessage = @"Result can't be recognized.JSON format failed, or result data can't be parsed";
 
 NSString *const PDSErrorCodeCommonUnknown = @"ServerResponseErrorUnknown";
-NSString *const PDSErrorCodeCommonUnknownMessage = @"Server Response code is error,unfortunately client doesn't known what happened";
-
+NSString *const PDSErrorCodeCommonUnknownMessage = @"Server Response code is error,unfortunately transportClient doesn't known what happened";
 
 NSString *const PDSErrorCodeCreateFilePreHashMatched = @"PreHashMatched";//预Hash请求匹配,继续计算全量Hash
 

@@ -14,15 +14,14 @@
 // * limitations under the License.
 // *
 
-#import "PDSDownloadUrlTask.h"
+#import "PDSDownloadTask.h"
 #import "PDSRequestError.h"
 #import "PDSFileMetadata.h"
-#import "PDSDownloadUrlRequest.h"
 
-@interface PDSDownloadUrlTask ()
+@interface PDSDownloadTask ()
 @end
 
-@implementation PDSDownloadUrlTask {
+@implementation PDSDownloadTask {
 
 }
 
@@ -38,7 +37,7 @@
 - (void)start {
 }
 
-- (PDSDownloadUrlTask *)setResponseBlock:(PDSDownloadUrlResponseBlock)responseBlock {
+- (PDSDownloadTask *)setResponseBlock:(PDSDownloadResponseBlock)responseBlock {
 #pragma unused(responseBlock)
     @throw [NSException
             exceptionWithName:NSInternalInconsistencyException
@@ -46,7 +45,7 @@
                      userInfo:nil];
 }
 
-- (PDSDownloadUrlTask *)setResponseBlock:(PDSDownloadUrlResponseBlock)responseBlock queue:(NSOperationQueue *)queue {
+- (PDSDownloadTask *)setResponseBlock:(PDSDownloadResponseBlock)responseBlock queue:(NSOperationQueue *)queue {
 #pragma unused(responseBlock)
     @throw [NSException
             exceptionWithName:NSInternalInconsistencyException
@@ -54,7 +53,7 @@
                      userInfo:nil];
 }
 
-- (PDSDownloadUrlTask *)setProgressBlock:(PDSProgressBlock)progressBlock {
+- (PDSDownloadTask *)setProgressBlock:(PDSProgressBlock)progressBlock {
 #pragma unused(progressBlock)
     @throw [NSException
             exceptionWithName:NSInternalInconsistencyException
@@ -62,7 +61,7 @@
                      userInfo:nil];
 }
 
-- (PDSDownloadUrlTask *)setProgressBlock:(PDSProgressBlock)progressBlock queue:(NSOperationQueue *)queue {
+- (PDSDownloadTask *)setProgressBlock:(PDSProgressBlock)progressBlock queue:(NSOperationQueue *)queue {
 #pragma unused(progressBlock)
     @throw [NSException
             exceptionWithName:NSInternalInconsistencyException

@@ -23,7 +23,6 @@
 #import <extobjc/EXTScope.h>
 
 @interface PDSInternalHashTask ()
-
 /// 要计算的hash文件路径
 @property(nonatomic, copy) NSString *filePath;
 /// 要计算的hash类型
@@ -87,14 +86,15 @@
 
 - (void)suspend {
     //hash任务只支持取消，不支持暂停
-    [self cancelled];
+    [self cancel];
 }
 
 - (void)resume {
     @synchronized (self) {
-        if (!self.finished || !self.cancelled) {
-            [self _start];
+        if (self.finished || self.cancelled) {
+            return;
         }
+        [self _start];
     }
 }
 
@@ -105,6 +105,11 @@
 - (id <PDSInternalTask>)restart {
     return nil;
 }
+
+- (void)cleanup {
+    //没什么要清理的
+}
+
 
 - (void)_start {
     BOOL fileExist = [[NSFileManager defaultManager] fileExistsAtPath:self.filePath];

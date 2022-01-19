@@ -15,7 +15,7 @@
 // *
 
 #import "PDSTaskFolderExistValidator.h"
-#import "PDSError.h"
+#import "NSError+PDS.h"
 
 
 @interface PDSTaskFolderExistValidator ()
@@ -41,19 +41,16 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.folderPath]) {
         return YES;
     }
-    NSError *createDirError;
+    NSError *createDirError = nil;
     BOOL result = [[NSFileManager defaultManager] createDirectoryAtPath:self.folderPath
                                             withIntermediateDirectories:YES
                                                              attributes:nil
                                                                   error:&createDirError];
     if (!result) {
-        *error = [NSError errorWithDomain:PDSErrorDomain
-                                     code:PDSErrorFileCreatedFailed
-                                 userInfo:@{
-                                         NSLocalizedDescriptionKey: @"文件目录创建失败"
-                                 }];
+        if(error) {
+            *error = [NSError pds_errorWithCode:PDSErrorFileCreatedFailed message:@"文件目录创建失败"];
+        }
         return NO;
-
     }
     return YES;
 }

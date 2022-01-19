@@ -18,6 +18,7 @@
 #import <PDS_SDK/PDSInternalTask.h>
 #import <PDS_SDK/PDSFileHash.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^PDSInternalHashTaskResponseBlock)(BOOL success, NSString *hashResult, NSError *error);
 
@@ -37,12 +38,14 @@ typedef NS_ENUM(NSInteger, PDSFileHashCalculateType) {
 
 @property(nonatomic, readonly) BOOL finished;
 
-- (instancetype)initWithFilePath:(NSString *)filePath hashType:(PDSFileHashType)hashType hashValue:(NSString *)hashValue calculateType:(PDSFileHashCalculateType)calculateType;
+- (instancetype)initWithFilePath:(NSString *)filePath hashType:(PDSFileHashType)hashType hashValue:(NSString *_Nullable)hashValue calculateType:(PDSFileHashCalculateType)calculateType;
 
-- (instancetype)initWithFilePath:(NSString *)filePath hashType:(PDSFileHashType)hashType hashValue:(NSString *)hashValue;
+- (instancetype)initWithFilePath:(NSString *)filePath hashType:(PDSFileHashType)hashType hashValue:(NSString *_Nullable)hashValue;
 
 - (void)setResponseBlock:(PDSInternalHashTaskResponseBlock)responseBlock;
 
-- (void)setResponseBlock:(PDSInternalHashTaskResponseBlock)responseBlock queue:(NSOperationQueue *)queue;
+- (void)setResponseBlock:(PDSInternalHashTaskResponseBlock)responseBlock queue:(NSOperationQueue *_Nullable)queue;
 
 @end
+
+NS_ASSUME_NONNULL_END

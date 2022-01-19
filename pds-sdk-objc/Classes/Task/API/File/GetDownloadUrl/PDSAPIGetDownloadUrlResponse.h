@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *method;
 @property(nonatomic, copy) NSString *expiration;
 @property(nonatomic, copy) NSString *url;
+@property(nonatomic, copy) NSDictionary *streams_info;
 @end
 
 NS_ASSUME_NONNULL_END

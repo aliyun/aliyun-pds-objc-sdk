@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 #import <PDS_SDK/PDSTask.h>
-#import <PDS_SDK/PDSUploadFileTask.h>
+#import <PDS_SDK/PDSUploadTask.h>
 #import <PDS_SDK/PDSAPIRequestTask.h>
 #import <PDS_SDK/PDSInternalTypes.h>
 

@@ -17,13 +17,15 @@
 #import <Foundation/Foundation.h>
 
 @class PDSTransportClient;
+@class PDSTaskStorageClient;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PDSBaseSession : NSObject
-@property(nonatomic, strong, readonly) PDSTransportClient *client;
+@property(nonatomic, strong, readonly) PDSTransportClient *transportClient;
+@property(nonatomic, strong, readonly) PDSTaskStorageClient *storageClient;
 
-- (id)initWithClient:(PDSTransportClient *)client;
+- (id)initWithTransportClient:(PDSTransportClient *)transportClient storageClient:(PDSTaskStorageClient *)storageClient;
 @end
 
 NS_ASSUME_NONNULL_END

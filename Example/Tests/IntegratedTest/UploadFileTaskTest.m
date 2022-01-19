@@ -16,21 +16,12 @@
 
 // https://github.com/Specta/Specta
 
-#import <PDS_SDK/PDSAPICreateFileRequest.h>
-#import <PDS_SDK/PDSClientConfig.h>
-#import <PDS_SDK/PDSUploadFileRequest.h>
-#import <PDS_SDK/PDSUploadFileTask.h>
-#import <PDS_SDK/PDSClientManager.h>
-#import <PDS_SDK/PDSUserClient.h>
-#import <PDS_SDK/PDSFileSession.h>
-#import <PDS_SDK/NSFileManager+PDS.h>
-#import <PDS_SDK/PDSAPICreateFileResponse.h>
+
+@import PDS_SDK;
 #import "PDSTestConfig.h"
 
-
-
 SpecBegin(UploadFileTask)
-__block PDSUploadFileTask *uploadTask;
+__block PDSUploadTask *uploadTask;
 __block PDSTestConfig *testConfig;
     beforeAll(^{
         testConfig = [PDSTestConfig new];
@@ -45,41 +36,31 @@ describe(@"001 test config", ^{
 
 describe(@"002 UploadFileTask", ^{
     it(@"001 file request init", ^{
-        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath
-                                                                                            userID:testConfig.userID
-                                                                                      parentFileID:testConfig.parentID
-                                                                                           driveID:testConfig.driveID
-                                                                                           shareID:nil
-                                                                                          fileName:nil];
+        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath parentFileID:testConfig.parentID driveID:testConfig.driveID shareID:nil fileName:nil];
         expect(uploadFileRequest.fileName).equal(testConfig.sampleName);
         expect(uploadFileRequest.fileSize).equal(testConfig.sampleSize);
-        expect(uploadFileRequest.contentType).to.beNil();
+        expect(uploadFileRequest.contentType).toNot.beNil();
         expect(uploadFileRequest.uploadPath).equal(testConfig.samplePath);
     });
     it(@"002 normal file upload", ^{
-        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath
-                                                                                            userID:testConfig.userID
-                                                                                      parentFileID:testConfig.parentID
-                                                                                           driveID:testConfig.driveID
-                                                                                           shareID:nil
-                                                                                          fileName:nil];
+        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath parentFileID:testConfig.parentID driveID:testConfig.driveID shareID:nil fileName:nil];
         uploadTask = [[PDSClientManager defaultClient].file uploadFile:uploadFileRequest taskIdentifier:nil];
         expect(uploadTask).toNot.beNil();
         waitUntilTimeout(100.0, ^(DoneCallback done) {
-            [uploadTask setResponseBlock:^(PDSFileMetadata *result, PDSRequestError *requestError, PDSUploadFileRequest *request, NSString *taskIdentifier) {
+            [uploadTask setResponseBlock:^(PDSFileMetadata *result, PDSRequestError *requestError, NSString *taskIdentifier) {
                 expect(requestError).to.beNil();
+                expect(result).notTo.beNil();
+                expect(result.fileName).notTo.beNil();
+                expect(result.fileID).notTo.beNil();
+                expect(result.uploadID).notTo.beNil();
+                expect(result.driveID).notTo.beNil();
                 done();
             }];
         });
     });
     it(@"003 resume file upload",^{
         [testConfig refreshSample];
-        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath
-                                                                                            userID:testConfig.userID
-                                                                                      parentFileID:testConfig.parentID
-                                                                                           driveID:testConfig.driveID
-                                                                                           shareID:nil
-                                                                                          fileName:nil];
+        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath parentFileID:testConfig.parentID driveID:testConfig.driveID shareID:nil fileName:nil];
         uploadTask = [[PDSClientManager defaultClient].file uploadFile:uploadFileRequest taskIdentifier:nil];
         expect(uploadTask).toNot.beNil();
         //暂停0.1秒再暂停上传任务，确保上传任务已经进入了上传流程
@@ -90,7 +71,7 @@ describe(@"002 UploadFileTask", ^{
                 [uploadTask suspend];
                 //重新创建一个上传任务，使用之前的taskID和配置参数
                 uploadTask = [[PDSClientManager defaultClient].file uploadFile:uploadFileRequest taskIdentifier:uploadTask.taskIdentifier];
-                [uploadTask setResponseBlock:^(PDSFileMetadata *result, PDSRequestError *requestError, PDSUploadFileRequest *request, NSString *taskIdentifier) {
+                [uploadTask setResponseBlock:^(PDSFileMetadata *result, PDSRequestError *requestError, NSString *taskIdentifier) {
                     expect(requestError).to.beNil();
                     done();
                 }];
@@ -98,6 +79,9 @@ describe(@"002 UploadFileTask", ^{
             });
         });
 });
+//    it(@"004 zero size file upload", ^{
+//        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath parentFileID:testConfig.parentID driveID:testConfig.driveID shareID:nil fileName:nil];
+//    });
 });
 
 SpecEnd

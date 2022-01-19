@@ -15,27 +15,33 @@
 // *
 
 #import "PDSDownloadUrlRequest.h"
+#import "PDSMacro.h"
 
 
 @implementation PDSDownloadUrlRequest {
 
 }
-- (instancetype)initWithDownloadUrl:(NSString *)downloadUrl destination:(NSString *)destination userID:(NSString *)userID parentID:(NSString *)parentID fileSize:(uint64_t)fileSize fileID:(NSString *)fileID hashValue:(NSString *)hashValue hashType:(PDSFileHashType)hashType driveID:(NSString *)driveID shareID:(NSString *)shareID {
+- (instancetype)initWithDownloadUrl:(NSString *)downloadUrl destination:(NSString *)destination fileSize:(uint64_t)fileSize fileID:(NSString *)fileID hashValue:(NSString *)hashValue hashType:(PDSFileHashType)hashType driveID:(NSString *)driveID shareID:(NSString *)shareID {
     self = [super init];
     if (self) {
         _downloadUrl = [downloadUrl copy];
-        _userID = [userID copy];
-        _parentID = [parentID copy];
         _fileSize = fileSize;
         _fileID = [fileID copy];
         _hashValue = [hashValue copy];
         _hashType = hashType;
         _destination = [destination copy];
-        _shareID = shareID;
-        _driveID = driveID;
+        _shareID = [shareID copy];
+        _driveID = [driveID copy];
     }
 
     return self;
+}
+
+- (NSString *)relativeDestination {
+    if (PDSIsEmpty(self.destination)) {
+        return nil;
+    }
+    return [self.destination stringByReplacingOccurrencesOfString:NSHomeDirectory() withString:@""];
 }
 
 @end

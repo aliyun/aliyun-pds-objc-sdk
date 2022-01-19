@@ -27,6 +27,8 @@
 
 - (void)start;
 
+- (void)cleanup;
+
 - (id<PDSInternalTask> )restart;
 
 @end

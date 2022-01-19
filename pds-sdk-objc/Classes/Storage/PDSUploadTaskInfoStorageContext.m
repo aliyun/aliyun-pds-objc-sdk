@@ -44,14 +44,14 @@
     return self;
 }
 
-- (id)initWithFileSectionInfo:(PDSTaskFileSectionInfo *)fileSectionInfo path:(NSString *)path status:(NSInteger)status {
+- (id)initWithTaskIdentifier:(NSString *)taskIdentifier uploadID:(NSString *)uploadID fileID:(NSString *)fileID path:(NSString *)path sectionSize:(uint64_t)sectionSize status:(NSInteger)status {
     self = [super init];
     if (self) {
         self.path = path;
-        self.uploadId = fileSectionInfo.uploadID;
-        self.fileId = fileSectionInfo.fileID;
-        self.taskIdentifier = fileSectionInfo.taskIdentifier;
-        self.sectionSize = fileSectionInfo.sectionSize;
+        self.uploadId = uploadID;
+        self.fileId = fileID;
+        self.taskIdentifier = taskIdentifier;
+        self.sectionSize = sectionSize;
         self.status = status;
     }
     return self;

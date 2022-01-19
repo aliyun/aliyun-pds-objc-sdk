@@ -20,7 +20,7 @@
 #import "PDSInternalTypes.h"
 #import "PDSTransportClient.h"
 #import "PDSAPIRequestTask.h"
-#import "PDSUploadFileTask.h"
+#import "PDSUploadTask.h"
 #import "PDSFileMetadata.h"
 #import "PDSRequestError.h"
 #import "PDSUploadFileRequest.h"
@@ -28,7 +28,7 @@
 #import "PDSTask+Internal.h"
 
 
-@implementation PDSUploadFileTask {
+@implementation PDSUploadTask {
 
 }
 
@@ -40,7 +40,7 @@
     return NO;
 }
 
-- (PDSUploadFileTask *)setResponseBlock:(PDSUploadResponseBlock)responseBlock {
+- (PDSUploadTask *)setResponseBlock:(PDSUploadResponseBlock)responseBlock {
 #pragma unused(responseBlock)
     @throw [NSException
             exceptionWithName:NSInternalInconsistencyException
@@ -48,7 +48,7 @@
                      userInfo:nil];
 }
 
-- (PDSUploadFileTask *)setResponseBlock:(PDSUploadResponseBlock)responseBlock queue:(NSOperationQueue *)queue {
+- (PDSUploadTask *)setResponseBlock:(PDSUploadResponseBlock)responseBlock queue:(NSOperationQueue *)queue {
 #pragma unused(responseBlock)
     @throw [NSException
             exceptionWithName:NSInternalInconsistencyException
@@ -57,7 +57,7 @@
 }
 
 
-- (PDSUploadFileTask *)setProgressBlock:(PDSProgressBlock)progressBlock {
+- (PDSUploadTask *)setProgressBlock:(PDSProgressBlock)progressBlock {
 #pragma unused(progressBlock)
     @throw [NSException
             exceptionWithName:NSInternalInconsistencyException
@@ -65,7 +65,7 @@
                      userInfo:nil];
 }
 
-- (PDSUploadFileTask *)setProgressBlock:(PDSProgressBlock)progressBlock queue:(NSOperationQueue *)queue {
+- (PDSUploadTask *)setProgressBlock:(PDSProgressBlock)progressBlock queue:(NSOperationQueue *)queue {
 #pragma unused(progressBlock)
     @throw [NSException
             exceptionWithName:NSInternalInconsistencyException

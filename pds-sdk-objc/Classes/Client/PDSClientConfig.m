@@ -30,16 +30,6 @@
     return self;
 }
 
-- (instancetype)initWithHost:(NSString *)host userAgent:(NSString *)userAgent {
-    self = [super init];
-    if (self) {
-        _host = [host copy];
-        _userAgent = [userAgent copy];
-    }
-
-    return self;
-}
-
 - (void)setupDefaults {
     self.enableFastUpload = YES;
 }

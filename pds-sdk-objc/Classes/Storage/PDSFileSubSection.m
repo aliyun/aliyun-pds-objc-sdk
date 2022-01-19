@@ -99,6 +99,6 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"PDSFileSubSection: taskId:%@,index:%ld,size:%llu,committed:%llu,offset:%llu",self.taskIdentifier,self.index,self.size,self.committed,self.offset];
+    return [NSString stringWithFormat:@"PDSFileSubSection: taskId:%@,index:%ld,size:%llu,committed:%llu,offset:%llu,url:%@",self.taskIdentifier,self.index,self.size,self.committed,self.offset,self.outputUrl];
 }
 @end

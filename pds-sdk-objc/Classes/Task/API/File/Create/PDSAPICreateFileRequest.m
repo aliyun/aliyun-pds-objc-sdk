@@ -30,13 +30,14 @@
 @implementation PDSAPICreateFileRequest {
 
 }
-- (instancetype)initWithShareID:(NSString *)shareID driveID:(NSString *)driveID parentFileID:(NSString *)parentFileID fileName:(NSString *)fileName fileSize:(uint64_t)fileSize hashValue:(NSString *_Nullable)hashValue preHashValue:(NSString *_Nullable)preHashValue sectionSize:(uint64_t)sectionSize sectionCount:(NSUInteger)sectionCount {
+- (instancetype)initWithShareID:(NSString *_Nullable)shareID driveID:(NSString *_Nullable)driveID parentFileID:(NSString *)parentFileID fileName:(NSString *)fileName fileID:(NSString *)fileID fileSize:(uint64_t)fileSize hashValue:(NSString *_Nullable)hashValue preHashValue:(NSString *_Nullable)preHashValue sectionSize:(uint64_t)sectionSize sectionCount:(NSUInteger)sectionCount {
     self = [super init];
     if (self) {
         _shareID = [shareID copy];
         _driveID = [driveID copy];
         _parentFileID = [parentFileID copy];
         _fileName = [fileName copy];
+        _fileID = [fileID copy];
         _size = fileSize;
         _hashValue = [hashValue copy];
         _preHashValue = [preHashValue copy];
@@ -79,6 +80,9 @@
     } else if (!PDSIsEmpty(self.hashValue)) {
         params[@"content_hash"] = self.hashValue;
         params[@"content_hash_name"] = @"sha1";
+    }
+    if (!PDSIsEmpty(self.fileID)) {
+        params[@"file_id"] = self.fileID;
     }
     params[@"image_media_metadata"] = [self.imageMeta yy_modelToJSONObject];
     params[@"video_media_metadata"] = [self.videoMeta yy_modelToJSONObject];

@@ -44,6 +44,20 @@
     return self;
 }
 
+- (id)initWithTaskIdentifier:(NSString *)taskIdentifier fileSize:(uint64_t)fileSize sectionSize:(uint64_t)sectionSize fileID:(NSString *)fileId uploadID:(NSString *)uploadId subSections:(NSArray<PDSFileSubSection *> *)subSections {
+    self = [super init];
+    if (self) {
+        _taskIdentifier = taskIdentifier;
+        _fileSize = fileSize;
+        _sectionSize = sectionSize;
+        _fileID = fileId;
+        _uploadID = uploadId;
+        _subSections = subSections;
+        [self setupSubSections];
+    }
+    return self;
+}
+
 - (void)setup {
     if (self.fileSize == 0) {
         self.subSections = nil;
@@ -71,20 +85,6 @@
     }];
     self.committed = committed;
     self.availableSectionIndexes = availableSectionIndexes;
-}
-
-- (id)initWithTaskIdentifier:(NSString *)taskIdentifier fileSize:(uint64_t)fileSize sectionSize:(uint64_t)sectionSize fileID:(NSString *)fileId uploadID:(NSString *)uploadId subSections:(NSArray<PDSFileSubSection *> *)subSections {
-    self = [super init];
-    if (self) {
-        _taskIdentifier = taskIdentifier;
-        _fileSize = fileSize;
-        _sectionSize = sectionSize;
-        _fileID = fileId;
-        _uploadID = uploadId;
-        _subSections = subSections;
-        [self setupSubSections];
-    }
-    return self;
 }
 
 #pragma mark Public Method
@@ -125,7 +125,7 @@
         [resultIndexes enumerateObjectsUsingBlock:^(NSNumber *index, NSUInteger idx, BOOL *stop) {
             PDSFileSubSection *subSection = [self subSectionAtIndex:[index unsignedIntegerValue]];
             if (subSection) {
-//                [PDSLogger logDebug:[NSString stringWithFormat:@"获取待下载的分片index:%d",index.unsignedIntValue]];
+                [PDSLogger logDebug:[NSString stringWithFormat:@"获取待下载的分片index:%d",index.unsignedIntValue]];
                 [resultSubSections addObject:subSection];
             }
         }];

@@ -1,3 +1,4 @@
+//
 // /*
 // * Copyright 2009-2021 Alibaba Cloud All rights reserved.
 // *
@@ -13,10 +14,20 @@
 // * See the License for the specific language governing permissions and
 // * limitations under the License.
 // *
+  
 
-// https://github.com/Specta/Specta
+#import <PDS_SDK/PDSUploadTask.h>
+@class PDSUploadPhotoRequest;
+@class PDSSessionDelegate;
+@class PDSTransportClient;
+@class PDSTaskStorageClient;
 
-SpecBegin(HashTask)
+NS_ASSUME_NONNULL_BEGIN
 
-SpecEnd
+@interface PDSUploadPhotoTaskImpl : PDSUploadTask
 
+- (id)initWithRequest:(PDSUploadPhotoRequest *)request identifier:(NSString *)identifier session:(NSURLSession *)session sessionDelegate:(PDSSessionDelegate *)sessionDelegate transportClient:(PDSTransportClient *)transportClient storageClient:(PDSTaskStorageClient *)storageClient;
+
+@end
+
+NS_ASSUME_NONNULL_END

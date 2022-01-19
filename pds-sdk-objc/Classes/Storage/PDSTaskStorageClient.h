@@ -23,16 +23,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @interface PDSTaskStorageClient : NSObject
-
-+ (instancetype)sharedInstance;
+- (instancetype)initWithDBName:(NSString *)dbName;
 
 - (void)getUploadTaskInfoWithId:(NSString *)taskIdentifier completion:(PDSTaskStorageGetInfoCompletion)completion;
 
 - (void)setFileSubSections:(NSArray<PDSFileSubSection *> *)fileSubSections uploadTaskInfo:(id<PDSTaskStorageInfo>)taskInfo;
 
-- (void)cleanUploadTaskInfoWithIdentifier:(NSString *)taskIdentifier;
-
 - (void)setFileSubSections:(NSArray<PDSFileSubSection *> *)fileSubSections forTaskIdentifier:(NSString *)taskIdentifier;
+
+- (void)getDownloadTaskInfoWithId:(NSString *)taskIdentifier completion:(PDSTaskStorageGetInfoCompletion)completion;
+
+- (void)setFileSubSections:(NSArray<PDSFileSubSection *> *)fileSubSections downloadTaskInfo:(id<PDSTaskStorageInfo>)taskInfo;
+
+- (void)cleanUploadTaskInfoWithIdentifier:(NSString *)taskIdentifier force:(BOOL)force;
+
+- (void)cleanDownloadTaskInfoWithIdentifier:(NSString *)taskIdentifier;
 
 @end
 

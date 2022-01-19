@@ -23,17 +23,17 @@
 @class PDSDownloadUrlRequest;
 
 NS_ASSUME_NONNULL_BEGIN
-@interface PDSDownloadUrlTask : PDSTask
-typedef void (^PDSDownloadUrlResponseBlock)(PDSFileMetadata *_Nullable result,
-        PDSRequestError *_Nullable networkError, PDSDownloadUrlRequest *request, NSString *taskIdentifier);
+@interface PDSDownloadTask : PDSTask
+typedef void (^PDSDownloadResponseBlock)(PDSFileMetadata *_Nullable result,
+        PDSRequestError *_Nullable requestError, NSString *taskIdentifier);
 
-- (PDSDownloadUrlTask *)setResponseBlock:(PDSDownloadUrlResponseBlock)responseBlock;
+- (PDSDownloadTask *)setResponseBlock:(PDSDownloadResponseBlock)responseBlock;
 
-- (PDSDownloadUrlTask *)setResponseBlock:(PDSDownloadUrlResponseBlock)responseBlock queue:(NSOperationQueue *_Nullable)queue;
+- (PDSDownloadTask *)setResponseBlock:(PDSDownloadResponseBlock)responseBlock queue:(NSOperationQueue *_Nullable)queue;
 
-- (PDSDownloadUrlTask *)setProgressBlock:(PDSProgressBlock)progressBlock;
+- (PDSDownloadTask *)setProgressBlock:(PDSProgressBlock)progressBlock;
 
-- (PDSDownloadUrlTask *)setProgressBlock:(PDSProgressBlock)progressBlock queue:(NSOperationQueue *_Nullable)queue;
+- (PDSDownloadTask *)setProgressBlock:(PDSProgressBlock)progressBlock queue:(NSOperationQueue *_Nullable)queue;
 
 NS_ASSUME_NONNULL_END
 @end

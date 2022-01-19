@@ -42,19 +42,29 @@
     }
     [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         NSError *error = nil;
-        [db executeUpdate:PDSUploadTaskInsertTableSql
-//        @"INSERT OR REPLACE INTO \"upload_task\" (\"identifier\",\"path\",\"uploadId\",\"fileID\",\"sectionSize\",\"status\") VALUES (?,?,?,?,?,?);";
+//        NSString *const PDSDownloadTaskInsertTableSql = @"INSERT\n"
+//                                                        "\tOR REPLACE INTO \"download_task\" (\n"
+//                                                        "\t\t\"identifier\",\n"
+//                                                        "\t\t\"path\",\n"
+//                                                        "\t\t\"driveID\",\n"
+//                                                        "\t\t\"fileID\",\n"
+//                                                        "\t\t\"sectionSize\",\n"
+//                                                        "\t\t\"status\"\n"
+//                                                        "\t)\n"
+//                                                        "VALUES\n"
+//                                                        "\t(?, ?, ?, ?, ?, ?);";
+        [db executeUpdate:PDSDownloadTaskInsertTableSql
                    values:@[
                            taskStorageInfo.taskIdentifier,
                            taskStorageInfo.storageInfo[@"path"] ?: @"",
-                           taskStorageInfo.storageInfo[@"uploadId"] ?: @"",
+                           taskStorageInfo.storageInfo[@"driveID"] ?: @"",
                            taskStorageInfo.storageInfo[@"fileID"] ?: @"",
                            taskStorageInfo.storageInfo[@"sectionSize"] ?: @(0),
                            taskStorageInfo.storageInfo[@"status"] ?: @(0),
                    ]
                     error:&error];
         if (error) {
-            [PDSLogger logError:[NSString stringWithFormat:@"数据库插入上传任务数据错误:%@",error.localizedDescription]];
+            [PDSLogger logError:[NSString stringWithFormat:@"数据库插入下载任务数据错误:%@",error.localizedDescription]];
             *rollback = YES;
             return;
         }
@@ -115,7 +125,7 @@
     __block NSMutableArray *fileSubSections = [[NSMutableArray alloc] init];
 
     [self.dbQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet *uploadTaskResultSet = [db executeQuery:PDSUploadTaskSelectTableSql values:@[taskIdentifier] error:nil];
+        FMResultSet *uploadTaskResultSet = [db executeQuery:PDSDownloadTaskSelectTableSql values:@[taskIdentifier] error:nil];
         if(![uploadTaskResultSet next]) {
             [uploadTaskResultSet close];
             return;
@@ -140,13 +150,32 @@
     }
 }
 
-- (void)deleteTaskInfoWithIdentifier:(NSString *)taskIdentifier {
-    if(PDSIsEmpty(taskIdentifier)) {
+- (void)deleteTaskInfoWithIdentifier:(NSString *)taskIdentifier force:(BOOL)force {
+    if (PDSIsEmpty(taskIdentifier)) {
         return;
     }
+    //先找出本地文件删除，再删除数据库
+    __block NSDictionary *taskInfo = nil;
+    [self.dbQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet *uploadTaskResultSet = [db executeQuery:PDSDownloadTaskSelectTableSql values:@[taskIdentifier] error:nil];
+        if (![uploadTaskResultSet next]) {
+            [uploadTaskResultSet close];
+            return;
+        }
+        taskInfo = uploadTaskResultSet.resultDictionary;
+        [uploadTaskResultSet close];
+    }];
+    if (taskInfo[@"path"]) {
+        NSString *filePath = [NSHomeDirectory() stringByAppendingPathComponent:taskInfo[@"path"]];//文件路径
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if ([fileManager fileExistsAtPath:filePath]) {
+            [fileManager removeItemAtPath:filePath error:nil];
+        }
+    }
+
     [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         [db executeUpdate:PDSFileSubSectionDeleteSql values:@[taskIdentifier] error:nil];
-        [db executeUpdate:PDSUploadTaskDeleteTableSql values:@[taskIdentifier] error:nil];
+        [db executeUpdate:PDSDownloadTaskDeleteTableSql values:@[taskIdentifier] error:nil];
     }];
 }
 

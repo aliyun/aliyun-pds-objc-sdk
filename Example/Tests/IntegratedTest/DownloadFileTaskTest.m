@@ -16,20 +16,15 @@
 
 // https://github.com/Specta/Specta
 
-#import <PDS_SDK/PDSDownloadUrlRequest.h>
-#import <PDS_SDK/PDSClientConfig.h>
-#import <PDS_SDK/PDSDownloadUrlTask.h>
-#import <PDS_SDK/PDSClientManager.h>
-#import <PDS_SDK/PDSUserClient.h>
-#import <PDS_SDK/PDSFileSession.h>
-#import <PDS_SDK/PDSAPICreateFileResponse.h>
-#import "PDSTestConfig.h"
+
+#import "PDSTestConfig+DownloadTask.h"
+@import PDS_SDK;
 
 
 SpecBegin(DownloadFileTask)
-    __block PDSDownloadUrlTask *downloadTask;
+    __block PDSDownloadTask *downloadTask;
     __block PDSTestConfig *testConfig;
-    __block PDSDownloadUrlTask *normalDownloadTask;
+    __block PDSDownloadTask *normalDownloadTask;
     beforeAll(^{
         testConfig = [PDSTestConfig new];
         [testConfig cleanDownloaded];
@@ -38,63 +33,38 @@ SpecBegin(DownloadFileTask)
     describe(@"PDS file download", ^{
         it(@"001 init success", ^{
             NSString *destinationDirPath = [testConfig.downloadDestination stringByAppendingPathComponent:testConfig.downloadFileName];
-            PDSDownloadUrlRequest *downloadUrlRequest = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:testConfig.downloadUrl
-                                                                                               destination:destinationDirPath
-                                                                                                    userID:testConfig.userID
-                                                                                                  parentID:testConfig.parentID
-                                                                                                  fileSize:testConfig.downloadSize
-                                                                                                    fileID:testConfig.downloadFileID
-                                                                                                 hashValue:testConfig.downloadHash
-                                                                                                  hashType:PDSFileHashTypeSha1
-                                                                                                   driveID:testConfig.driveID
-                                                                                                   shareID:nil];
+            PDSDownloadUrlRequest *downloadUrlRequest = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:testConfig.downloadUrl destination:destinationDirPath fileSize:testConfig.downloadSize fileID:testConfig.downloadFileID hashValue:testConfig.downloadHash hashType:PDSFileHashTypeSha1 driveID:testConfig.driveID shareID:nil];
             expect(downloadUrlRequest).toNot.beNil();
             expect(downloadUrlRequest.hashValue).equal(testConfig.downloadHash);
-            expect(downloadUrlRequest.userID).equal(testConfig.userID);
-            expect(downloadUrlRequest.parentID).equal(testConfig.parentID);
             expect(downloadUrlRequest.fileSize).equal(@(testConfig.downloadSize));
             expect(downloadUrlRequest.fileID).equal(testConfig.downloadFileID);
             expect(downloadUrlRequest.driveID).equal(testConfig.driveID);
         });
         it(@"002 start download", ^{
             NSString *destinationDirPath = [testConfig.downloadDestination stringByAppendingPathComponent:testConfig.downloadFileName];
-            PDSDownloadUrlRequest *downloadUrlRequest = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:testConfig.downloadUrl
-                                                                                               destination:destinationDirPath
-                                                                                                    userID:testConfig.userID
-                                                                                                  parentID:testConfig.parentID
-                                                                                                  fileSize:testConfig.downloadSize
-                                                                                                    fileID:testConfig.downloadFileID
-                                                                                                 hashValue:testConfig.downloadHash
-                                                                                                  hashType:PDSFileHashTypeSha1
-                                                                                                   driveID:testConfig.driveID
-                                                                                                   shareID:nil];
+            PDSDownloadUrlRequest *downloadUrlRequest = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:testConfig.downloadUrl destination:destinationDirPath fileSize:testConfig.downloadSize fileID:testConfig.downloadFileID hashValue:testConfig.downloadHash hashType:PDSFileHashTypeSha1 driveID:testConfig.driveID shareID:nil];
             downloadTask = [[PDSClientManager defaultClient].file downloadUrl:downloadUrlRequest
                                                                taskIdentifier:nil];
             expect(downloadTask).toNot.beNil();
-        waitUntilTimeout(500.0, ^(DoneCallback done) {
-            [downloadTask setResponseBlock:^(PDSFileMetadata * _Nullable result, PDSRequestError * _Nullable networkError, PDSDownloadUrlRequest * _Nonnull request, NSString * _Nonnull taskIdentifier) {
+        waitUntilTimeout(30.0, ^(DoneCallback done) {
+            [downloadTask setResponseBlock:^(PDSFileMetadata * _Nullable result, PDSRequestError * _Nullable networkError, NSString * _Nonnull taskIdentifier) {
                 expect(networkError).to.beNil();
+                expect(result).toNot.beNil();
+                expect(result.fileID).equal(testConfig.downloadFileID);
+                expect(result.fileName).equal(testConfig.downloadFileName);
+                expect(result.driveID).equal(testConfig.driveID);
                 done();
             }];
         });
         });
         it(@"003 start download again", ^{
             NSString *destinationDirPath = [testConfig.downloadDestination stringByAppendingPathComponent:testConfig.downloadFileName];
-            PDSDownloadUrlRequest *downloadUrlRequest = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:testConfig.downloadUrl
-                                                                                               destination:destinationDirPath
-                                                                                                    userID:testConfig.userID
-                                                                                                  parentID:testConfig.parentID
-                                                                                                  fileSize:testConfig.downloadSize
-                                                                                                    fileID:testConfig.downloadFileID
-                                                                                                 hashValue:testConfig.downloadHash
-                                                                                                  hashType:PDSFileHashTypeSha1
-                                                                                                   driveID:testConfig.driveID
-                                                                                                   shareID:nil];
+            PDSDownloadUrlRequest *downloadUrlRequest = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:testConfig.downloadUrl destination:destinationDirPath fileSize:testConfig.downloadSize fileID:testConfig.downloadFileID hashValue:testConfig.downloadHash hashType:PDSFileHashTypeSha1 driveID:testConfig.driveID shareID:nil];
             downloadTask = [[PDSClientManager defaultClient].file downloadUrl:downloadUrlRequest
                                                                taskIdentifier:nil];
             expect(downloadTask).toNot.beNil();
             waitUntilTimeout(500.0, ^(DoneCallback done) {
-                [downloadTask setResponseBlock:^(PDSFileMetadata * _Nullable result, PDSRequestError * _Nullable networkError, PDSDownloadUrlRequest * _Nonnull request, NSString * _Nonnull taskIdentifier) {
+                [downloadTask setResponseBlock:^(PDSFileMetadata * _Nullable result, PDSRequestError * _Nullable networkError, NSString * _Nonnull taskIdentifier) {
                     expect(networkError).to.beNil();
                     done();
                 }];
@@ -105,15 +75,7 @@ SpecBegin(DownloadFileTask)
 describe(@"Normal file download", ^{
     it(@"001 start and suspend", ^{
         NSString *destinationDirPath = [testConfig.downloadDestination stringByAppendingPathComponent:@"edmDrive-0.7.0-mac.dmg"];
-        PDSDownloadUrlRequest *downloadUrlRequest = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:@"https://statics.aliyunpds.com/download/edm/desktop/0.7.0/edmDrive-0.7.0-mac.dmg"
-                                                                                           destination:destinationDirPath
-                                                                                                userID:testConfig.userID
-                                                                                              parentID:testConfig.parentID
-                                                                                              fileSize:114499672
-                                                                                                fileID:nil
-                                                                                             hashValue:@"ae6d5e73666feb69ea31c9303c92d8e4828be8c5" hashType:PDSFileHashTypeSha1
-                                                                                               driveID:testConfig.driveID
-                                                                                               shareID:nil];
+        PDSDownloadUrlRequest *downloadUrlRequest = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:@"https://statics.aliyunpds.com/download/edm/desktop/0.7.0/edmDrive-0.7.0-mac.dmg" destination:destinationDirPath fileSize:114499672 fileID:nil hashValue:@"ae6d5e73666feb69ea31c9303c92d8e4828be8c5" hashType:PDSFileHashTypeSha1 driveID:testConfig.driveID shareID:nil];
 
         normalDownloadTask = [[PDSClientManager defaultClient].file downloadUrl:downloadUrlRequest
                                                            taskIdentifier:nil];
@@ -129,8 +91,8 @@ describe(@"Normal file download", ^{
     });
     it(@"002 resume", ^{
         [normalDownloadTask resume];
-        waitUntilTimeout(30, ^(DoneCallback done) {
-            [normalDownloadTask setResponseBlock:^(PDSFileMetadata * _Nullable result, PDSRequestError * _Nullable networkError, PDSDownloadUrlRequest * _Nonnull request, NSString * _Nonnull taskIdentifier) {
+        waitUntilTimeout(60, ^(DoneCallback done) {
+            [normalDownloadTask setResponseBlock:^(PDSFileMetadata * _Nullable result, PDSRequestError * _Nullable networkError, NSString * _Nonnull taskIdentifier) {
                 expect(networkError).to.beNil();
                 done();
             }];

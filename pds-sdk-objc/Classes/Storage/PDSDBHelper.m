@@ -26,11 +26,39 @@ NSString *const PDSUploadTaskSelectTableSql = @"SELECT \"identifier\",\"path\",\
 NSString *const PDSUploadTaskDeleteTableSql = @"DELETE  FROM upload_task WHERE identifier = ?";
 
 // Download Task
-NSString *const PDSDownloadTaskCreateTableSql = @"CREATE TABLE IF NOT EXISTS \"download_task\" ( \"identifier\"\tTEXT NOT NULL UNIQUE, \"path\"\tTEXT, \"uploadId\"\tTEXT, \"fileID\"\tTEXT, \"sectionSize\"\tINTEGER, \"status\"\tINTEGER NOT NULL, PRIMARY KEY(\"identifier\"))";
+NSString *const PDSDownloadTaskCreateTableSql = @"CREATE TABLE IF NOT EXISTS \"download_task\" (\n"
+                                                "\t\"identifier\" TEXT NOT NULL UNIQUE,\n"
+                                                "\t\"path\" TEXT,\n"
+                                                "\t\"driveID\" TEXT,\n"
+                                                "\t\"fileID\" TEXT,\n"
+                                                "\t\"sectionSize\" INTEGER,\n"
+                                                "\t\"status\" INTEGER NOT NULL,\n"
+                                                "\tPRIMARY KEY(\"identifier\")\n"
+                                                ")";
 
-NSString *const PDSDownloadTaskInsertTableSql = @"INSERT OR REPLACE INTO \"download_task\" (\"identifier\",\"path\",\"uploadId\",\"fileID\",\"sectionSize\",\"status\") VALUES (?,?,?,?,?,?);";
+NSString *const PDSDownloadTaskInsertTableSql = @"INSERT\n"
+                                                "\tOR REPLACE INTO \"download_task\" (\n"
+                                                "\t\t\"identifier\",\n"
+                                                "\t\t\"path\",\n"
+                                                "\t\t\"driveID\",\n"
+                                                "\t\t\"fileID\",\n"
+                                                "\t\t\"sectionSize\",\n"
+                                                "\t\t\"status\"\n"
+                                                "\t)\n"
+                                                "VALUES\n"
+                                                "\t(?, ?, ?, ?, ?, ?);";
 
-NSString *const PDSDownloadTaskSelectTableSql = @"SELECT \"identifier\",\"path\",\"uploadId\",\"fileID\",\"sectionSize\",\"status\" from download_task WHERE identifier = ?";
+NSString *const PDSDownloadTaskSelectTableSql = @"SELECT\n"
+                                                "\t\"identifier\",\n"
+                                                "\t\"path\",\n"
+                                                "\t\"driveID\",\n"
+                                                "\t\"fileID\",\n"
+                                                "\t\"sectionSize\",\n"
+                                                "\t\"status\"\n"
+                                                "from\n"
+                                                "\tdownload_task\n"
+                                                "WHERE\n"
+                                                "\tidentifier = ?";
 
 NSString *const PDSDownloadTaskDeleteTableSql = @"DELETE  FROM download_task WHERE identifier = ?";
 
@@ -41,6 +69,6 @@ NSString *const PDSFileSubSectionCreateTableSql = @"CREATE TABLE IF NOT EXISTS \
 NSString *const PDSFileSubSectionInsertSql = @"INSERT OR REPLACE INTO \"task_file_section\" (\"identifier\",\"taskId\",\"index\",\"size\",\"offset\",\"committed\",\"confirmed\",\"outputUrl\") "
                                                                      "VALUES (?,?,?,?,?,?,?,?);";
 
-NSString *const PDSFileSubSectionSelectSql = @"SELECT \"identifier\",\"taskId\",\"index\",\"size\",\"offset\",\"committed\",\"confirmed\",\"outputUrl\" from task_file_section WHERE taskId = ?";
+NSString *const PDSFileSubSectionSelectSql = @"SELECT \"identifier\",\"taskId\",\"index\",\"size\",\"offset\",\"committed\",\"confirmed\",\"outputUrl\" from task_file_section WHERE taskId = ? order by \"index\" ASC";
 
 NSString *const PDSFileSubSectionDeleteSql = @"DELETE from task_file_section WHERE taskId = ?";

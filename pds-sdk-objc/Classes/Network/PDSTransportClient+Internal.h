@@ -21,6 +21,8 @@
 @protocol PDSAPIRequestSerialize;
 
 @interface PDSTransportClient (Internal)
+- (PDSDownloadTask *)requestDownloadLivePhoto:(PDSDownloadUrlRequest *)request taskIdentifier:(NSString *)identifier;
+
 - (NSURL *)urlWithRequest:(PDSAPIRequest *)request;
 
 - (NSData *)serializeBodyDataWithRequest:(PDSAPIRequest <PDSAPIRequestSerialize> *)request;
@@ -28,6 +30,8 @@
 - (NSURLRequest *)requestWithUrl:(NSURL *)url method:(NSString *)method headers:(NSDictionary *)headers content:(NSData *)content;
 
 + (PDSRequestError *)requestErrorWithErrorData:(NSData *)errorData clientError:(NSError *)clientError statusCode:(int)statusCode httpHeaders:(NSDictionary *)httpHeaders;
+
+- (PDSUploadTask **)requestUploadLivePhoto:(PDSUploadPhotoRequest *)request taskIdentifier:(NSString *)identifier;
 
 + (id)resultWithRequest:(PDSAPIRequest *)request data:(NSData *)data serializationError:(NSError **)serializationError;
 @end

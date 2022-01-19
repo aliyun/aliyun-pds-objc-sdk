@@ -23,6 +23,8 @@
 #import "PDSAPIRequest.h"
 #import "PDSTransportClient+Internal.h"
 #import "PDSUploadFileTaskImpl.h"
+#import "PDSUploadPhotoTaskImpl.h"
+#import "PDSTaskStorageClient.h"
 #import <extobjc/EXTScope.h>
 
 @interface PDSTransportClient ()
@@ -54,22 +56,35 @@
 
 #pragma mark Create Request
 
-- (PDSDownloadUrlTask *)requestDownload:(PDSDownloadUrlRequest *)request taskIdentifier:(NSString *)identifier {
+- (PDSDownloadTask *)requestDownload:(PDSDownloadUrlRequest *)request taskIdentifier:(NSString *)identifier storageClient:(PDSTaskStorageClient *)storageClient {
     PDSDownloadUrlTaskImpl *task = [[PDSDownloadUrlTaskImpl alloc] initWithRequest:request
-                                                                      identifier:identifier
-                                                                         session:self.session
-                                                                 sessionDelegate:self.delegate
-                                                                   transportClient:self];
+                                                                        identifier:identifier
+                                                                           session:self.session
+                                                                   sessionDelegate:self.delegate
+                                                                   transportClient:self
+                                                                     storageClient:storageClient];
     [task resume];
     return task;
 }
 
-- (PDSUploadFileTask *)requestUpload:(PDSUploadFileRequest *)request taskIdentifier:(NSString *)identifier {
-    PDSUploadFileTask *task = [[PDSUploadFileTaskImpl alloc] initWithRequest:request
-                                                                identifier:identifier
-                                                                   session:self.session
-                                                           sessionDelegate:self.delegate
-                                                           transportClient:self];
+- (PDSUploadTask *)requestUpload:(PDSUploadFileRequest *)request taskIdentifier:(NSString *)identifier storageClient:(PDSTaskStorageClient *)storageClient {
+    PDSUploadTask *task = [[PDSUploadFileTaskImpl alloc] initWithRequest:request
+                                                              identifier:identifier
+                                                                 session:self.session
+                                                         sessionDelegate:self.delegate
+                                                         transportClient:self
+                                                           storageClient:storageClient];
+    [task resume];
+    return task;
+}
+
+- (PDSUploadTask *)requestUploadPhoto:(PDSUploadPhotoRequest *)request taskIdentifier:(NSString *)identifier storageClient:(PDSTaskStorageClient *)storageClient {
+    PDSUploadTask *task = [[PDSUploadPhotoTaskImpl alloc] initWithRequest:request
+                                                               identifier:identifier
+                                                                  session:self.session
+                                                          sessionDelegate:self.delegate
+                                                          transportClient:self
+                                                            storageClient:storageClient];
     [task resume];
     return task;
 }

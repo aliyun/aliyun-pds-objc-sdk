@@ -17,26 +17,33 @@
 #import <Foundation/Foundation.h>
 
 @class PDSClientConfig;
-@class PDSDownloadUrlTask;
+@class PDSDownloadTask;
 @class PDSDownloadUrlRequest;
 @class PDSRequestError;
 @class PDSAPIRequestTask;
 @class PDSAPIRequest;
-@class PDSUploadFileTask;
+@class PDSUploadTask;
 @class PDSUploadFileRequest;
+@class PDSUploadPhotoRequest;
+@class PDSSessionDelegate;
+@class PDSTaskStorageClient;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PDSTransportClient : NSObject
 @property(nonatomic, readonly) PDSClientConfig *clientConfig;
+@property(nonatomic, readonly) PDSSessionDelegate *delegate;
+@property(nonatomic, readonly) NSURLSession *session;
 @property(nonatomic, copy) NSString *accessToken;
 @property(nonatomic, copy) NSString *userAgent;
 
 - (instancetype)initWithAccessToken:(NSString *)accessToken clientConfig:(PDSClientConfig *)clientConfig;
 
-- (PDSDownloadUrlTask *)requestDownload:(PDSDownloadUrlRequest *)request taskIdentifier:(NSString *)identifier;
+- (PDSDownloadTask *)requestDownload:(PDSDownloadUrlRequest *)request taskIdentifier:(NSString *)identifier storageClient:(PDSTaskStorageClient *)storageClient;
 
-- (PDSUploadFileTask *)requestUpload:(PDSUploadFileRequest *)request taskIdentifier:(NSString *)identifier;
+- (PDSUploadTask *)requestUpload:(PDSUploadFileRequest *)request taskIdentifier:(NSString *)identifier storageClient:(PDSTaskStorageClient *)storageClient;
+
+- (PDSUploadTask *)requestUploadPhoto:(PDSUploadPhotoRequest *)request taskIdentifier:(NSString *)identifier storageClient:(PDSTaskStorageClient *)storageClient;
 
 - (PDSAPIRequestTask *)requestSDAPIRequest:(PDSAPIRequest *)request;
 

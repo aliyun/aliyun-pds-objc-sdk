@@ -26,7 +26,8 @@ typedef NS_ERROR_ENUM(PDSErrorDomain,PDSError)
     PDSErrorUnknown = -1,//未知错误
     PDSErrorCancelled = -999,//用户取消
     //媒体文件
-    PDSErrorAssetIdentifierNotAvailable = -1000,//用于从iOS相册库中导出照片的localIdentifier无效
+    PDSErrorExportPhotoAssetFailed = -1000,//导出相册文件到沙盒失败，可能原因:localIdentifier无效,导出过程中照片被删除等
+    PDSErrorExportUnsupportedFormat = -1001,//导出相册文件到沙盒失败，文件类型不支持，目前只支持导出视频和照片
     //文件错误
     PDSErrorFileCreatedFailed = -2000,//本地创建文件/文件夹失败,检查权限/磁盘空间
     PDSErrorFileNotExist = -2001,//本地文件不存在

@@ -37,22 +37,25 @@
 
 + (NSString *)pds_errorMessageWithCode:(PDSError)errorCode {
     switch (errorCode) {
-            //TODO 补全错误信息
         case PDSErrorFileNameConflict:
-            break;
+            return @"超过自动重命名尝试次数，同名文件已存在";
         case PDSErrorUnknown:
-            break;
+            return @"未知错误";
         case PDSErrorCancelled:
-            break;
-        case PDSErrorAssetIdentifierNotAvailable:
-            break;
+            return @"用户取消";
+        case PDSErrorExportPhotoAssetFailed:
+            return @"导出相册资源失败";
+        case PDSErrorExportUnsupportedFormat:
+            return @"相册资源的格式目前不支持导出";
         case PDSErrorFileCreatedFailed:
-            break;
+            return @"本地创建文件失败";
         case PDSErrorFileNotExist:
-            break;
+            return @"文件不存在";
         case PDSErrorFileHashCalculateFailed:
-            break;
+            return @"无法校验hash";
         case PDSErrorFileHashNotEqual:
+            return @"hash校验不符";
+        default:
             break;
     }
     return nil;

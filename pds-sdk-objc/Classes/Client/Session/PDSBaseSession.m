@@ -14,20 +14,24 @@
 // * limitations under the License.
 // *
 
+#import <PDSTaskStorageClient.h>
 #import "PDSBaseSession.h"
 #import "PDSTransportClient.h"
+#import "PDSTaskStorageClient.h"
 
 @interface PDSBaseSession ()
-@property(nonatomic, strong, readwrite) PDSTransportClient *client;
+@property(nonatomic, strong, readwrite) PDSTransportClient *transportClient;
+@property(nonatomic, strong, readwrite) PDSTaskStorageClient *storageClient;
 @end
 
 @implementation PDSBaseSession {
 
 }
 
-- (id)initWithClient:(PDSTransportClient *)client {
+- (id)initWithTransportClient:(PDSTransportClient *)transportClient storageClient:(PDSTaskStorageClient *)storageClient {
     self = [self init];
-    self.client = client;
+    self.transportClient = transportClient;
+    self.storageClient = storageClient;
     return self;
 }
 

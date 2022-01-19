@@ -21,6 +21,7 @@
 @class PDSDownloadUrlRequest;
 @class PDSSessionDelegate;
 @class PDSRequestError;
+@class PDSTaskStorageClient;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,7 +31,7 @@ typedef void (^PDSInternalParallelDownloadTaskResponseBlock)(BOOL finished, PDSR
 @property(nonatomic, assign) NSInteger retryCount;
 @property(nonatomic, readonly) BOOL finished;
 
-- (id)initWithRequest:(PDSDownloadUrlRequest *)request identifier:(NSString *)identifier session:(NSURLSession *)session sessionDelegate:(PDSSessionDelegate *)sessionDelegate;
+- (id)initWithRequest:(PDSDownloadUrlRequest *)request identifier:(NSString *)identifier session:(NSURLSession *)session sessionDelegate:(PDSSessionDelegate *)sessionDelegate storageClient:(PDSTaskStorageClient *)storageClient;
 
 - (void)setResponseBlock:(PDSInternalParallelDownloadTaskResponseBlock)responseBlock;
 

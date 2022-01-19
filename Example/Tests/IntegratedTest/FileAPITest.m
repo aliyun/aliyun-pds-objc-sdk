@@ -14,8 +14,9 @@
 // * limitations under the License.
 // *
 
-@import PDS_SDK;
 #import "PDSTestConfig.h"
+#import "PDSTestConfig+DownloadTask.h"
+@import PDS_SDK;
 
 SpecBegin(FileAPI)
 __block PDSTestConfig *testConfig;
@@ -24,6 +25,7 @@ __block PDSAPICreateFileRequest *createFileRequest;
 __block PDSAPIDeleteFileRequest *deleteFileRequest;
 __block PDSAPIUpdateFileRequest *updateFileRequest;
 __block PDSAPIGetFileRequest *getFileRequest;
+__block PDSAPIGetDownloadUrlRequest *getDownloadUrlRequest;
 __block PDSAPIRequestTask<PDSAPICreateFileResponse *> *createFileTask;
 __block PDSAPIRequestTask<PDSAPICompleteFileResponse *> *completeFileAPITask;
 __block PDSAPIRequestTask<PDSAPIDeleteFileResponse *> *deleteFileAPITask;
@@ -32,6 +34,7 @@ __block PDSAPIRequestTask<PDSAPIGetFileResponse *> *getFileAPITask;
 __block PDSAPIRequestTask<PDSAPISearchFileResponse *> *searchFileAPITask;
 __block PDSAPIRequestTask<PDSAPIMoveFileResponse *> *moveFileAPITask;
 __block PDSAPIRequestTask<PDSAPICopyFileResponse *> *copyFileAPITask;
+__block PDSAPIRequestTask<PDSAPIGetDownloadUrlResponse *> *getDownloadUrlApiTask;
 __block NSString *fileID;
 __block NSString *uploadID;
 __block NSString *fileName;
@@ -42,15 +45,7 @@ beforeAll(^{
 
 describe(@"API requests", ^{
     it(@"001 create file", ^{
-        createFileRequest = [[PDSAPICreateFileRequest alloc] initWithShareID:nil
-                                                           driveID:testConfig.driveID
-                                                      parentFileID:testConfig.parentID
-                                                          fileName:fileName
-                                                          fileSize:0
-                                                         hashValue:nil
-                                                      preHashValue:nil
-                                                       sectionSize:4000
-                                                      sectionCount:0];
+        createFileRequest = [[PDSAPICreateFileRequest alloc] initWithShareID:nil driveID:testConfig.driveID parentFileID:testConfig.parentID fileName:fileName fileID:nil fileSize:0 hashValue:nil preHashValue:nil sectionSize:4000 sectionCount:0];
         waitUntil(^(DoneCallback done) {
             createFileTask = [[PDSClientManager defaultClient].file createFile:createFileRequest];
             [createFileTask setResponseBlock:^(PDSAPICreateFileResponse * _Nullable result, PDSRequestError * _Nullable requestError) {
@@ -232,6 +227,33 @@ describe(@"API requests", ^{
                     done();
                 }];
             });
+    });
+});
+
+describe(@"get download url", ^{
+    it(@"001 create request", ^{
+        getDownloadUrlRequest = [[PDSAPIGetDownloadUrlRequest alloc] initWithShareID:nil
+                                                               driveID:testConfig.driveID
+                                                                fileID:testConfig.downloadFileID
+                                                              fileName:testConfig.downloadFileName];
+        expect(getDownloadUrlRequest).toNot.beNil();
+        expect(getDownloadUrlRequest.driveID).equal(testConfig.driveID);
+        expect(getDownloadUrlRequest.driveID).toNot.beNil();
+        expect(getDownloadUrlRequest.fileID).equal(testConfig.downloadFileID);
+        expect(getDownloadUrlRequest.fileID).toNot.beNil();
+        expect(getDownloadUrlRequest.fileName).equal(testConfig.downloadFileName);
+        expect(getDownloadUrlRequest.fileName).toNot.beNil();
+    });
+    it(@"get response", ^{
+        getDownloadUrlApiTask = [[PDSClientManager defaultClient].file getDownloadUrl:getDownloadUrlRequest];
+        expect(getDownloadUrlApiTask).toNot.beNil();
+        waitUntil(^(DoneCallback done) {
+            [getDownloadUrlApiTask setResponseBlock:^(PDSAPIGetDownloadUrlResponse * _Nullable result, PDSRequestError * _Nullable requestError) {
+                expect(requestError).to.beNil();
+                expect(result.url).toNot.beNil();
+                done();
+            }];
+        });
     });
 });
 

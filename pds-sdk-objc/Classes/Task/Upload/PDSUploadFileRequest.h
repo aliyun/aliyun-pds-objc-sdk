@@ -22,8 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PDSUploadFileRequest : PDSRequest
 //要上传的文件路径
 @property(nonatomic, copy, readonly) NSString *uploadPath;
-// 用户身份唯一标识
-@property(nonatomic, copy, readonly) NSString *userID;
+//要上传的文件相对路径
+@property(nonatomic, copy, readonly) NSString *relativeUploadPath;
 // 文件所在目录的唯一标识
 @property(nonatomic, copy, readonly) NSString *parentFileID;
 // 文件大小
@@ -42,14 +42,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * 初始化上传文件请求
  * @param uploadPath 要上传的文件的本地绝对路径
- * @param userID  用户ID
  * @param parentFileID  上传的目录ID，要传到根目录的话设为空
- * @param driveID driverID和shareID必传器重之一
- * @param shareID driverID和shareID必传器重之一
+ * @param driveID driverID和shareID必传其中之一
+ * @param shareID driverID和shareID必传其中之一
  * @param fileName 文件名，如果不传的话会取上传路径的文件名
  * @return 文件上传请求
  */
-- (instancetype)initWithUploadPath:(NSString *)uploadPath userID:(NSString *)userID parentFileID:(NSString *)parentFileID driveID:(NSString *_Nullable)driveID shareID:(NSString *_Nullable)shareID fileName:(NSString *_Nullable)fileName;
+- (instancetype)initWithUploadPath:(NSString *)uploadPath parentFileID:(NSString *)parentFileID driveID:(NSString *_Nullable)driveID shareID:(NSString *_Nullable)shareID fileName:(NSString *_Nullable)fileName;
 
 @end
 

@@ -20,7 +20,9 @@
 
 }
 - (void)log:(NSString *)message level:(PDSLoggerLevel)level {
-    NSLog(@"PDSLogger: %@",message);
+    if(level & self.recordLogLevel) {
+        NSLog(@"PDSLogger: %@",message);
+    }
 }
 
 + (void)logError:(NSString *)message {

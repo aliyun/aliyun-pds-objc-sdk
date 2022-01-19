@@ -22,11 +22,10 @@
 @implementation PDSUploadFileRequest {
 
 }
-- (instancetype)initWithUploadPath:(NSString *)uploadPath userID:(NSString *)userID parentFileID:(NSString *)parentFileID driveID:(NSString *)driveID shareID:(NSString *)shareID fileName:(NSString *)fileName {
+- (instancetype)initWithUploadPath:(NSString *)uploadPath parentFileID:(NSString *)parentFileID driveID:(NSString *_Nullable)driveID shareID:(NSString *_Nullable)shareID fileName:(NSString *_Nullable)fileName {
     self = [super init];
     if (self) {
         _uploadPath = [uploadPath copy];
-        _userID = [userID copy];
         _parentFileID = [parentFileID copy];
         _driveID = [driveID copy];
         _shareID = [shareID copy];
@@ -42,5 +41,11 @@
     return self;
 }
 
+- (NSString *)relativeUploadPath {
+    if (PDSIsEmpty(self.uploadPath)) {
+        return nil;
+    }
+    return [self.uploadPath stringByReplacingOccurrencesOfString:NSHomeDirectory() withString:@""];
+}
 
 @end

@@ -20,7 +20,7 @@
 #import "PDSDownloadTaskStorage.h"
 #import <fmdb/FMDB.h>
 
-static NSString *const kPDSDBName = @"PDSSDK.db";
+static NSString *const kPDSDefaultDBName = @"PDSSDK.db";
 
 @interface PDSTaskStorageClient ()
 @property(nonatomic, strong) FMDatabaseQueue *dbQueue;
@@ -30,53 +30,55 @@ static NSString *const kPDSDBName = @"PDSSDK.db";
 
 @implementation PDSTaskStorageClient
 
-+ (instancetype)sharedInstance {
-    static id _sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _sharedInstance = [[self alloc] init];
-    });
-
-    return _sharedInstance;
-}
-
-- (instancetype)init {
-    self = [super init];
+- (instancetype)initWithDBName:(NSString *)dbName {
+    self = [self init];
     if (self) {
-        [self setup];
+        [self setupWithDBName:dbName];
     }
-
     return self;
 }
 
-- (void)setup {
+- (void)setupWithDBName:(NSString *)dbName {
     NSString *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
-    NSString *dbPath = [documentPath stringByAppendingPathComponent:kPDSDBName];
+    NSString *dbPath = [documentPath stringByAppendingPathComponent:dbName ?: kPDSDefaultDBName];
     self.dbQueue = [[FMDatabaseQueue alloc] initWithPath:dbPath];
 
     self.uploadTaskStorage = [[PDSUploadTaskStorage alloc] init];
     [self.uploadTaskStorage setupWithDBQueue:self.dbQueue];
 
-//    self.downloadTaskStorage = [[PDSDownloadTaskStorage alloc] init];
-//    [self.downloadTaskStorage setupWithDBQueue:self.dbQueue];
+    self.downloadTaskStorage = [[PDSDownloadTaskStorage alloc] init];
+    [self.downloadTaskStorage setupWithDBQueue:self.dbQueue];
 }
+
+#pragma mark - Upload
 
 - (void)getUploadTaskInfoWithId:(NSString *)taskIdentifier completion:(PDSTaskStorageGetInfoCompletion)completion {
     [self.uploadTaskStorage getTaskInfoWithIdentifier:taskIdentifier completion:completion];
 }
 
-- (void)setFileSubSections:(NSArray<PDSFileSubSection *> *)fileSubSections uploadTaskInfo:(id<PDSTaskStorageInfo>)taskInfo {
+- (void)setFileSubSections:(NSArray<PDSFileSubSection *> *)fileSubSections uploadTaskInfo:(id <PDSTaskStorageInfo>)taskInfo {
     [self.uploadTaskStorage setFileSections:fileSubSections withTaskStorageInfo:taskInfo];
 }
 
-
-- (void)cleanUploadTaskInfoWithIdentifier:(NSString *)taskIdentifier {
-    [self.uploadTaskStorage deleteTaskInfoWithIdentifier:taskIdentifier];
+- (void)cleanUploadTaskInfoWithIdentifier:(NSString *)taskIdentifier force:(BOOL)force {
+    [self.uploadTaskStorage deleteTaskInfoWithIdentifier:taskIdentifier force:force];
 }
 
 - (void)setFileSubSections:(NSArray<PDSFileSubSection *> *)fileSubSections forTaskIdentifier:(NSString *)taskIdentifier {
     [self.uploadTaskStorage setFileSubSections:fileSubSections forTaskIdentifier:taskIdentifier];
 }
 
+#pragma mark - Download
 
+- (void)getDownloadTaskInfoWithId:(NSString *)taskIdentifier completion:(PDSTaskStorageGetInfoCompletion)completion {
+    [self.downloadTaskStorage getTaskInfoWithIdentifier:taskIdentifier completion:completion];
+}
+
+- (void)setFileSubSections:(NSArray<PDSFileSubSection *> *)fileSubSections downloadTaskInfo:(id <PDSTaskStorageInfo>)taskInfo {
+    [self.downloadTaskStorage setFileSections:fileSubSections withTaskStorageInfo:taskInfo];
+}
+
+- (void)cleanDownloadTaskInfoWithIdentifier:(NSString *)taskIdentifier {
+    [self.downloadTaskStorage deleteTaskInfoWithIdentifier:taskIdentifier force:NO];
+}
 @end

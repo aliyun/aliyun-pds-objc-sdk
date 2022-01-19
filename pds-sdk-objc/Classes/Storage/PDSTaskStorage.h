@@ -36,6 +36,6 @@ typedef void (^PDSTaskStorageGetInfoCompletion)(NSString *taskIdentifier,NSDicti
 
 - (void)getTaskInfoWithIdentifier:(NSString *)taskIdentifier completion:(PDSTaskStorageGetInfoCompletion)completion;
 
-- (void)deleteTaskInfoWithIdentifier:(NSString *)taskIdentifier;
+- (void)deleteTaskInfoWithIdentifier:(NSString *)taskIdentifier force:(BOOL)force;
 
 @end

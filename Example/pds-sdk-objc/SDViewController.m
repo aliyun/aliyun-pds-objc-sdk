@@ -23,8 +23,8 @@
 @property(weak, nonatomic) IBOutlet UIProgressView *uploadProgressView;
 @property(weak, nonatomic) IBOutlet UILabel *downloadStatusLabel;
 @property(weak, nonatomic) IBOutlet UILabel *uploadStatusLabel;
-@property(nonatomic, strong) PDSDownloadUrlTask *downloadTask;
-@property(nonatomic, strong) PDSUploadFileTask *uploadTask;
+@property(nonatomic, strong) PDSDownloadTask *downloadTask;
+@property(nonatomic, strong) PDSUploadTask *uploadTask;
 @property(nonatomic, copy) NSDictionary *config;
 @property(nonatomic, copy) NSString *samplePath;
 @end
@@ -54,14 +54,14 @@
     }
     NSURL *documentUrl = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
     documentUrl = [documentUrl URLByAppendingPathComponent:@"download/WeChatMac.dmg"];
-    PDSDownloadUrlRequest *request = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:@"https://dldir1.qq.com/weixin/mac/WeChatMac.dmg" destination:documentUrl.path userID:nil parentID:nil fileSize:141830090 fileID:@"10293783" hashValue:@"5b813cf4fd285088440c3f58d74c772d72c6a326" hashType:PDSFileHashTypeSha1 driveID:nil shareID:nil];
+    PDSDownloadUrlRequest *request = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:@"https://dldir1.qq.com/weixin/mac/WeChatMac.dmg" destination:documentUrl.path fileSize:141830090 fileID:@"10293783" hashValue:@"5b813cf4fd285088440c3f58d74c772d72c6a326" hashType:PDSFileHashTypeSha1 driveID:nil shareID:nil];
     self.downloadTask = [[PDSClientManager defaultClient].file downloadUrl:request taskIdentifier:nil];
     @weakify(self);
     [self.downloadTask setProgressBlock:^(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
         @strongify(self);
        self.downloadProgressView.progress = totalBytesWritten / (float)totalBytesExpectedToWrite;
     }];
-    [self.downloadTask setResponseBlock:^(PDSFileMetadata *result, PDSRequestError *networkError, PDSDownloadUrlRequest *request, NSString *taskIdentifier) {
+    [self.downloadTask setResponseBlock:^(PDSFileMetadata *result, PDSRequestError *networkError, NSString *taskIdentifier) {
         sender.enabled = YES;
     }];
 }
@@ -83,14 +83,10 @@
         return;
     }
     PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:self.samplePath
-                                                                                      userID:self.config[@"user_id"]
-                                                                                parentFileID:self.config[@"parent_file_id"]
-                                                                                     driveID:self.config[@"drive_id"]
-                                                                                     shareID:nil
-                                                                                    fileName:nil];
+                                                                                  parentFileID:self.config[@"parent_file_id"] driveID:self.config[@"drive_id"] shareID:nil fileName:nil];
     self.uploadTask = [[[[PDSClientManager defaultClient].file uploadFile:uploadFileRequest
                                                           taskIdentifier:nil]
-            setResponseBlock:^(PDSFileMetadata *result, PDSRequestError *requestError, PDSUploadFileRequest *request, NSString *taskIdentifier) {
+            setResponseBlock:^(PDSFileMetadata *result, PDSRequestError *requestError, NSString *taskIdentifier) {
         self.uploadStatusLabel.text = @"上传完成";
             }] setProgressBlock:^(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
         self.uploadStatusLabel.text = @"上传中";

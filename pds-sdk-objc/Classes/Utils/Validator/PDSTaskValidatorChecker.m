@@ -34,6 +34,9 @@
             return;
         }
     }];
+    if(theError) {//绕过NSError *autorelease *的隐式声明导致的野指针错误
+        *error = theError;
+    }
     return passed;
 }
 

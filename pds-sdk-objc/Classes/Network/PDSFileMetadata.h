@@ -16,11 +16,27 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface PDSFileMetadata : NSObject
+
+//文件ID
 @property(nonatomic, copy) NSString *fileID;
-@property(nonatomic, copy) NSString *filePath;
+
+//文件名
 @property(nonatomic, copy) NSString *fileName;
+
+//文件本地保存的路径,仅针对下载文件返回数据有效
+@property(nonatomic, copy) NSString *filePath;
+
+//文件所在的磁盘ID，仅针对上传文件有效
 @property(nonatomic, copy) NSString *driveID;
+
+//文件的上传ID，仅针对上传文件有效
 @property(nonatomic, copy) NSString *uploadID;
+
+- (instancetype)initWithFileID:(NSString *)fileID fileName:(NSString *)fileName filePath:(NSString *_Nullable)filePath driveID:(NSString *_Nullable)driveID uploadID:(NSString *_Nullable)uploadID;
+
 @end
+
+NS_ASSUME_NONNULL_END

@@ -16,6 +16,7 @@
 
 #import "PDSUserClient.h"
 #import "PDSTransportClient.h"
+#import "PDSTaskStorageClient.h"
 #import "PDSFileSession.h"
 #import "PDSSDKConstants.h"
 #import "PDSClientConfig.h"
@@ -25,20 +26,23 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PDSUserClient ()
 @property(nonatomic, copy) NSString *accessToken;
 @property(nonatomic, strong, readwrite) PDSTransportClient *transportClient;
+@property(nonatomic, strong, readwrite) PDSTaskStorageClient *storageClient;
 @property(nonatomic, strong, readwrite) PDSFileSession *file;
 @end
 
 @implementation PDSUserClient
 - (instancetype)initWithAccessToken:(NSString *)accessToken clientConfig:(PDSClientConfig *)clientConfig {
     PDSTransportClient *transportClient = [[PDSTransportClient alloc] initWithAccessToken:accessToken clientConfig:clientConfig];
-    return [self initWithTransportClient:transportClient];
+    PDSTaskStorageClient *storageClient = [[PDSTaskStorageClient alloc] initWithDBName:clientConfig.dbName];
+    return [self initWithTransportClient:transportClient storageClient:storageClient];
 }
 
-- (id)initWithTransportClient:(PDSTransportClient *)client {
+- (id)initWithTransportClient:(PDSTransportClient *)transportClient storageClient:(PDSTaskStorageClient *)storageClient {
     self = [super init];
     if (self) {
-        self.transportClient = client;
-        self.file = [[PDSFileSession alloc] initWithClient:client];
+        self.transportClient = transportClient;
+        self.storageClient = storageClient;
+        self.file = [[PDSFileSession alloc] initWithTransportClient:transportClient storageClient:storageClient];
     }
     return self;
 }

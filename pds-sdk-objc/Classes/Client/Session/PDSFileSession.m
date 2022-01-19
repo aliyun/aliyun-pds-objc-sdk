@@ -36,66 +36,84 @@
 #import "PDSAPISearchFileRequest.h"
 #import "PDSAPIMoveFileRequest.h"
 #import "PDSAPICopyFileRequest.h"
+#import "PDSUploadTask.h"
+#import "PDSTaskStorageClient.h"
 
 @implementation PDSFileSession
 
-- (PDSDownloadUrlTask *)downloadUrl:(PDSDownloadUrlRequest *)request taskIdentifier:(NSString *_Nullable)taskIdentifier {
-    return [self.client requestDownload:request taskIdentifier:taskIdentifier];
+- (PDSDownloadTask *)downloadUrl:(PDSDownloadUrlRequest *)request taskIdentifier:(NSString *_Nullable)taskIdentifier {
+    return [self.transportClient requestDownload:request taskIdentifier:taskIdentifier storageClient:self.storageClient];
 }
 
-- (PDSUploadFileTask *)uploadFile:(PDSUploadFileRequest *)request taskIdentifier:(NSString *_Nullable)taskIdentifier {
-    return [self.client requestUpload:request taskIdentifier:taskIdentifier];
+- (PDSUploadTask *)uploadFile:(PDSUploadFileRequest *)request taskIdentifier:(NSString *_Nullable)taskIdentifier {
+    return [self.transportClient requestUpload:request taskIdentifier:taskIdentifier storageClient:self.storageClient];
+}
+
+- (PDSUploadTask *)uploadPhotoAsset:(PDSUploadPhotoRequest *)request taskIdentifier:(NSString *)taskIdentifier {
+    return [self.transportClient requestUploadPhoto:request taskIdentifier:taskIdentifier storageClient:self.storageClient];
 }
 
 - (void)cleanUploadTaskWithTaskIdentifier:(NSString *)taskIdentifier {
+    [self cleanUploadTaskWithTaskIdentifier:taskIdentifier force:NO];
+}
+
+- (void)cleanUploadTaskWithTaskIdentifier:(NSString *)taskIdentifier force:(BOOL)force {
     if (PDSIsEmpty(taskIdentifier)) {
         return;
     }
-    [[PDSTaskStorageClient sharedInstance] cleanUploadTaskInfoWithIdentifier:taskIdentifier];
+    [self.storageClient cleanUploadTaskInfoWithIdentifier:taskIdentifier force:force];
+}
+
+- (void)cleanDownloadTaskWithTaskIdentifier:(NSString *)taskIdentifier {
+    if (PDSIsEmpty(taskIdentifier)) {
+        return;
+    }
+    [self.storageClient cleanDownloadTaskInfoWithIdentifier:taskIdentifier];
 }
 
 
+#pragma mark - File API
 - (PDSAPIRequestTask<PDSAPICreateFileResponse *> *)createFile:(PDSAPICreateFileRequest *)request {
-    return [self.client requestSDAPIRequest:request];
+    return [self.transportClient requestSDAPIRequest:request];
 }
 
 - (PDSAPIRequestTask<PDSAPICompleteFileResponse *> *)completeFile:(PDSAPICompleteFileRequest *)request {
-    return [self.client requestSDAPIRequest:request];
+    return [self.transportClient requestSDAPIRequest:request];
 }
 
 - (PDSAPIRequestTask<PDSAPIGetUploadUrlResponse *> *)getUploadUrl:(PDSAPIGetUploadUrlRequest *)request {
-    return [self.client requestSDAPIRequest:request];
+    return [self.transportClient requestSDAPIRequest:request];
 }
 
 - (PDSAPIRequestTask<PDSAPIGetDownloadUrlResponse *> *)getDownloadUrl:(PDSAPIGetDownloadUrlRequest *)request {
-    return [self.client requestSDAPIRequest:request];
+    return [self.transportClient requestSDAPIRequest:request];
 }
 
 - (PDSAPIRequestTask<PDSAPIGetFileResponse *> *)getFile:(PDSAPIGetFileRequest *)request {
-    return [self.client requestSDAPIRequest:request];
+    return [self.transportClient requestSDAPIRequest:request];
 }
 
 - (PDSAPIRequestTask<PDSAPIUpdateFileResponse *> *)updateFile:(PDSAPIUpdateFileRequest *)request {
-    return [self.client requestSDAPIRequest:request];
+    return [self.transportClient requestSDAPIRequest:request];
 }
 
 - (PDSAPIRequestTask<PDSAPIDeleteFileResponse *> *)deleteFile:(PDSAPIDeleteFileRequest *)request {
-    return [self.client requestSDAPIRequest:request];
+    return [self.transportClient requestSDAPIRequest:request];
 }
 
 - (PDSAPIRequestTask<PDSAPIGetAsyncTaskResponse *> *)getAsyncTask:(PDSAPIGetAsyncTaskRequest *)request {
-    return [self.client requestSDAPIRequest:request];
+    return [self.transportClient requestSDAPIRequest:request];
 }
 
 - (PDSAPIRequestTask<PDSAPISearchFileResponse *> *)searchFile:(PDSAPISearchFileRequest *)request {
-    return [self.client requestSDAPIRequest:request];
+    return [self.transportClient requestSDAPIRequest:request];
 }
 
 - (PDSAPIRequestTask<PDSAPIMoveFileResponse *> *)moveFile:(PDSAPIMoveFileRequest *)request {
-    return [self.client requestSDAPIRequest:request];
+    return [self.transportClient requestSDAPIRequest:request];
 }
 
 - (PDSAPIRequestTask<PDSAPICopyFileResponse *> *)copyFile:(PDSAPICopyFileRequest *)request {
-    return [self.client requestSDAPIRequest:request];
+    return [self.transportClient requestSDAPIRequest:request];
 }
 @end

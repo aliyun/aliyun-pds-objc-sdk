@@ -19,25 +19,18 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PDSTestConfig : NSObject
-@property(nonatomic, readonly) NSString *samplePath;
-@property(nonatomic, readonly) NSString *sampleName;
+@property(nonatomic, strong) NSDictionary *config;
+@property(nonatomic, readonly, copy) NSString *samplePath;
+@property(nonatomic, readonly, copy) NSString *sampleName;
 @property(nonatomic, readonly) uint64_t sampleSize;
-@property(nonatomic, readonly) NSString *sampleContentType;
-@property(nonatomic, readonly) NSString *userID;
 @property(nonatomic, readonly) NSString *parentID;
 @property(nonatomic, readonly) NSString *toMoveParentID;
 @property(nonatomic, readonly) NSString *driveID;
-@property(nonatomic, readonly) NSString *downloadUrl;
-@property(nonatomic, readonly) NSString *downloadDestination;
-@property(nonatomic, readonly) NSString *downloadFileID;
-@property(nonatomic, readonly) NSString *downloadFileName;
-@property(nonatomic, readonly) NSString *downloadHash;
-@property(nonatomic, readonly) uint64_t downloadSize;
 
 /// 重新生成sample文件
 - (void)refreshSample;
 
-- (void)cleanDownloaded;
+- (void)createDirAtPath:(NSString *)dirPath;
 @end
 
 NS_ASSUME_NONNULL_END

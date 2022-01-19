@@ -52,6 +52,11 @@
     [self resume];
 }
 
+- (void)cleanup {
+
+}
+
+
 - (id <PDSInternalTask>)restart {
     return nil;
 }

@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0EAA87AA2755C4870014C24B /* GetDownloadUrlTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA87A92755C4870014C24B /* GetDownloadUrlTest.m */; };
+		0EBB624D27688BDC003CDC21 /* hash.sample in Resources */ = {isa = PBXBuildFile; fileRef = 0EBB624C27688B98003CDC21 /* hash.sample */; };
+		0EBB624E27688BDD003CDC21 /* hash.sample in Resources */ = {isa = PBXBuildFile; fileRef = 0EBB624C27688B98003CDC21 /* hash.sample */; };
+		0EBB6262276997EF003CDC21 /* StringCategoryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBB6261276997EF003CDC21 /* StringCategoryTest.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -32,8 +34,11 @@
 		D2C0C3BEBB9C751B821A664B /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = D2C0C58872677D1843E0DD3A /* config.json */; };
 		D2C0C52CDA94782125FEED6B /* UploadTaskStorageTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0CEFFCE45FE3E26E91CDD /* UploadTaskStorageTest.m */; };
 		D2C0C6FAF086D0D5BA74DBAB /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = D2C0C58872677D1843E0DD3A /* config.json */; };
+		D2C0C81B6E964A04BAE4AB10 /* PDSTestConfig+Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0CB6702D428AC40372E4C /* PDSTestConfig+Hash.m */; };
+		D2C0CA1835692955C3241E77 /* ExportPhotoTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0C0809B5A8F8D4282EE0B /* ExportPhotoTest.m */; };
 		D2C0CD62733713BBC6A94FDC /* DownloadFileTaskTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0CD2386A59E68FFE7FF2E /* DownloadFileTaskTest.m */; };
 		D2C0CDED33C6FCF3FAB82AD4 /* FileAPITest.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0CAEB5BCBAD9AC99AF8AD /* FileAPITest.m */; };
+		D2C0CEC6A0944531CDCDA415 /* PDSTestConfig+DownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0C420EFB1531100F19536 /* PDSTestConfig+DownloadTask.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +52,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0EAA87A92755C4870014C24B /* GetDownloadUrlTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetDownloadUrlTest.m; sourceTree = "<group>"; };
+		0EBB624C27688B98003CDC21 /* hash.sample */ = {isa = PBXFileReference; lastKnownFileType = file; path = hash.sample; sourceTree = "<group>"; };
+		0EBB6261276997EF003CDC21 /* StringCategoryTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StringCategoryTest.m; sourceTree = "<group>"; };
 		3E336865B1D101BC1F2DA89B /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		5281C4A839BFBF63A1D75D96 /* pds-sdk-objc.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; name = "pds-sdk-objc.podspec"; path = "../pds-sdk-objc.podspec"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* pds-sdk-objc_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pds-sdk-objc_Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,16 +82,21 @@
 		ADA81D61064109D2D35E4AAD /* Pods-pds-sdk-objc_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pds-sdk-objc_Example.debug.xcconfig"; path = "Target Support Files/Pods-pds-sdk-objc_Example/Pods-pds-sdk-objc_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		BA85207ABBD2E14F8138AA3D /* Pods_pds_sdk_objc_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pds_sdk_objc_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE6BFC8CFC22B080C4C4D98C /* Pods_pds_sdk_objc_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pds_sdk_objc_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2C0C0809B5A8F8D4282EE0B /* ExportPhotoTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExportPhotoTest.m; sourceTree = "<group>"; };
 		D2C0C32CFB37091F24DDDA56 /* PDSTestConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDSTestConfig.m; sourceTree = "<group>"; };
+		D2C0C420EFB1531100F19536 /* PDSTestConfig+DownloadTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PDSTestConfig+DownloadTask.m"; sourceTree = "<group>"; };
+		D2C0C4E73887015177D75112 /* PDSTestConfig+Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PDSTestConfig+Hash.h"; sourceTree = "<group>"; };
 		D2C0C58872677D1843E0DD3A /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
 		D2C0C71E0896BE14718ADDD6 /* PDSTestStorageContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDSTestStorageContext.m; sourceTree = "<group>"; };
 		D2C0C80DF1F6028E9FF5D257 /* UploadFileTaskTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadFileTaskTest.m; sourceTree = "<group>"; };
 		D2C0C8E82933194521CF1C38 /* DownloadTaskStorageTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadTaskStorageTest.m; sourceTree = "<group>"; };
 		D2C0CA2A8336D41791DEA2C1 /* HashTaskTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HashTaskTest.m; sourceTree = "<group>"; };
 		D2C0CAEB5BCBAD9AC99AF8AD /* FileAPITest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileAPITest.m; sourceTree = "<group>"; };
+		D2C0CB6702D428AC40372E4C /* PDSTestConfig+Hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PDSTestConfig+Hash.m"; sourceTree = "<group>"; };
 		D2C0CC058AA40330F5C75D20 /* PDSTestStorageContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDSTestStorageContext.h; sourceTree = "<group>"; };
 		D2C0CCEAF58224FBF72FD53C /* PDSTestConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDSTestConfig.h; sourceTree = "<group>"; };
 		D2C0CD2386A59E68FFE7FF2E /* DownloadFileTaskTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadFileTaskTest.m; sourceTree = "<group>"; };
+		D2C0CE857E84BAAB8ECEABB2 /* PDSTestConfig+DownloadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PDSTestConfig+DownloadTask.h"; sourceTree = "<group>"; };
 		D2C0CEFFCE45FE3E26E91CDD /* UploadTaskStorageTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadTaskStorageTest.m; sourceTree = "<group>"; };
 		EB71D1687D8A48ECD7BD3219 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -122,6 +133,7 @@
 				D2C0C80DF1F6028E9FF5D257 /* UploadFileTaskTest.m */,
 				D2C0CD2386A59E68FFE7FF2E /* DownloadFileTaskTest.m */,
 				D2C0CAEB5BCBAD9AC99AF8AD /* FileAPITest.m */,
+				D2C0C0809B5A8F8D4282EE0B /* ExportPhotoTest.m */,
 			);
 			path = IntegratedTest;
 			sourceTree = "<group>";
@@ -129,6 +141,8 @@
 		0E2C4CDA27562303004627B4 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				D2C0CA2A8336D41791DEA2C1 /* HashTaskTest.m */,
+				0EBB6261276997EF003CDC21 /* StringCategoryTest.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -204,7 +218,6 @@
 				D2C0C30F7399708173C80D48 /* API */,
 				D2C0C30E0B07FDC9A1A2EDE3 /* Storage */,
 				D2C0C8A01FAF23525962A418 /* Context */,
-				D2C0C050A6F3ABCF824C008B /* Task */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -229,14 +242,6 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
-		D2C0C050A6F3ABCF824C008B /* Task */ = {
-			isa = PBXGroup;
-			children = (
-				D2C0CA2A8336D41791DEA2C1 /* HashTaskTest.m */,
-			);
-			path = Task;
-			sourceTree = "<group>";
-		};
 		D2C0C30E0B07FDC9A1A2EDE3 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
@@ -249,7 +254,6 @@
 		D2C0C30F7399708173C80D48 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				0EAA87A92755C4870014C24B /* GetDownloadUrlTest.m */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -266,9 +270,14 @@
 		D2C0CEA1700018D0BE16DD19 /* Config */ = {
 			isa = PBXGroup;
 			children = (
+				0EBB624C27688B98003CDC21 /* hash.sample */,
 				D2C0C58872677D1843E0DD3A /* config.json */,
 				D2C0C32CFB37091F24DDDA56 /* PDSTestConfig.m */,
 				D2C0CCEAF58224FBF72FD53C /* PDSTestConfig.h */,
+				D2C0C420EFB1531100F19536 /* PDSTestConfig+DownloadTask.m */,
+				D2C0CE857E84BAAB8ECEABB2 /* PDSTestConfig+DownloadTask.h */,
+				D2C0CB6702D428AC40372E4C /* PDSTestConfig+Hash.m */,
+				D2C0C4E73887015177D75112 /* PDSTestConfig+Hash.h */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -367,6 +376,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
+				0EBB624D27688BDC003CDC21 /* hash.sample in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
@@ -379,6 +389,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */,
+				0EBB624E27688BDD003CDC21 /* hash.sample in Resources */,
 				D2C0C3BEBB9C751B821A664B /* config.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -497,15 +508,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0EAA87AA2755C4870014C24B /* GetDownloadUrlTest.m in Sources */,
 				D2C0C18A5026D97F70929855 /* PDSTestConfig.m in Sources */,
 				D2C0CDED33C6FCF3FAB82AD4 /* FileAPITest.m in Sources */,
+				0EBB6262276997EF003CDC21 /* StringCategoryTest.m in Sources */,
 				D2C0C52CDA94782125FEED6B /* UploadTaskStorageTest.m in Sources */,
 				D2C0C1408C50B792CCBC2042 /* PDSTestStorageContext.m in Sources */,
 				D2C0C29C838FFCC0F2095802 /* DownloadTaskStorageTest.m in Sources */,
 				D2C0C33D007BB3DE6EEB8197 /* UploadFileTaskTest.m in Sources */,
 				D2C0C01BD4750F37ED9A344C /* HashTaskTest.m in Sources */,
 				D2C0CD62733713BBC6A94FDC /* DownloadFileTaskTest.m in Sources */,
+				D2C0CEC6A0944531CDCDA415 /* PDSTestConfig+DownloadTask.m in Sources */,
+				D2C0C81B6E964A04BAE4AB10 /* PDSTestConfig+Hash.m in Sources */,
+				D2C0CA1835692955C3241E77 /* ExportPhotoTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

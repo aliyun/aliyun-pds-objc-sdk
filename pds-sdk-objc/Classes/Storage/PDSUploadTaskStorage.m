@@ -95,11 +95,13 @@
                                               @(fileSubSection.confirmed),
                                               fileSubSection.outputUrl ?: @""
                                       ] error:nil];
-            [PDSLogger logDebug:[NSString stringWithFormat:@"fileSection id:%@,taskId :%@ 数据库插入%@%@",
-                                 fileSubSection.identifier,
-                                 fileSubSection.taskIdentifier,
-                                 success ? @"成功" : @"失败",
-                                 success?@"" : [NSString stringWithFormat:@":%@",[db lastErrorMessage]]]];
+            if (!success) {
+                [PDSLogger logDebug:[NSString stringWithFormat:@"fileSection id:%@,taskId :%@ 数据库插入%@%@",
+                                                               fileSubSection.identifier,
+                                                               fileSubSection.taskIdentifier,
+                                                               success ? @"成功" : @"失败",
+                                                               success?@"" : [NSString stringWithFormat:@":%@",[db lastErrorMessage]]]];
+            }
         }];
     }];
 }
@@ -141,10 +143,32 @@
     }
 }
 
-- (void)deleteTaskInfoWithIdentifier:(NSString *)taskIdentifier {
-    if(PDSIsEmpty(taskIdentifier)) {
+- (void)deleteTaskInfoWithIdentifier:(NSString *)taskIdentifier force:(BOOL)force {
+    if (PDSIsEmpty(taskIdentifier)) {
         return;
     }
+    //先找出本地文件删除，再删除数据库
+    __block NSDictionary *taskInfo = nil;
+    [self.dbQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet *uploadTaskResultSet = [db executeQuery:PDSUploadTaskSelectTableSql values:@[taskIdentifier] error:nil];
+        if (![uploadTaskResultSet next]) {
+            [uploadTaskResultSet close];
+            return;
+        }
+        taskInfo = uploadTaskResultSet.resultDictionary;
+        [uploadTaskResultSet close];
+    }];
+    if (taskInfo[@"path"]) {
+        NSString *filePath = [NSHomeDirectory() stringByAppendingPathComponent:taskInfo[@"path"]];
+        if (force || [filePath containsString:PDSSDKStorageFolderPath()]) {
+            //这个上传文件是SDK创建的临时文件，任务结束时候需要清理掉
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            if ([fileManager fileExistsAtPath:filePath]) {
+                [fileManager removeItemAtPath:filePath error:nil];
+            }
+        }
+    }
+
     [self.dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         [db executeUpdate:PDSFileSubSectionDeleteSql values:@[taskIdentifier] error:nil];
         [db executeUpdate:PDSUploadTaskDeleteTableSql values:@[taskIdentifier] error:nil];

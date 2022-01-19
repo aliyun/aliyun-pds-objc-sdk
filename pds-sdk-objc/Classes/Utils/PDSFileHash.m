@@ -16,6 +16,7 @@
 
 // Header file
 #import "PDSFileHash.h"
+#import "pds_crc64.h"
 
 // System framework and libraries
 #include <CommonCrypto/CommonDigest.h>
@@ -136,7 +137,7 @@ int CC_CRC32_Update(CC_CRC32_CTX *c, const uint8_t *data, CC_LONG len) {
     for (CC_LONG i = 0; i < len; i++) {
         crc = (crc >> 8) ^ crc32_tbl[(crc & 0xFF) ^ *data++];
     }
-
+    
     c->crc = crc;
 
     return 0;
@@ -152,6 +153,46 @@ int CC_CRC32_Final(unsigned char *md, CC_CRC32_CTX *c) {
     md[2] = (crc & 0x0000ff00UL) >> 8;
     md[3] = (crc & 0x000000ffUL);
 
+    return 0;
+}
+
+#pragma mark -
+#pragma CRC64 implementation
+
+typedef struct {
+    CC_LONG64 crc;
+} CC_CRC64_CTX;
+
+static int CC_CRC64_Init(CC_CRC64_CTX *c);
+
+static int CC_CRC64_Update(CC_CRC64_CTX *c, const uint8_t *data, CC_LONG64 len);
+
+static int CC_CRC64_Final(unsigned char *md, CC_CRC64_CTX *c);
+
+#define CC_CRC64_DIGEST_LENGTH 8
+
+int CC_CRC64_Init(CC_CRC64_CTX *c) {
+    c->crc = 0;
+    return 0;
+}
+
+int CC_CRC64_Update(CC_CRC64_CTX *c, const uint8_t *data, CC_LONG64 len) {
+    CC_LONG64 crc = c->crc;
+    crc = pds_crc64(crc, (void *) data, len);
+    c->crc = crc;
+    return 0;
+}
+
+int CC_CRC64_Final(unsigned char *md, CC_CRC64_CTX *c) {
+    CC_LONG64 crc = c->crc;
+    md[0] = (crc & 0xff00000000000000UL) >> 56;
+    md[1] = (crc & 0x00ff000000000000UL) >> 48;
+    md[2] = (crc & 0x0000ff0000000000UL) >> 40;
+    md[3] = (crc & 0x000000ff00000000UL) >> 32;
+    md[4] = (crc & 0x00000000ff000000UL) >> 24;
+    md[5] = (crc & 0x0000000000ff0000UL) >> 16;
+    md[6] = (crc & 0x000000000000ff00UL) >> 8;
+    md[7] = (crc & 0x00000000000000ffUL);
     return 0;
 }
 
@@ -325,6 +366,8 @@ int CC_CRC32_Final(unsigned char *md, CC_CRC32_CTX *c) {
             return [self sha512HashOfData:data];
         case PDSFileHashTypeCrc32:
             return [self crc32HashOfData:data];
+        case PDSFileHashTypeCrc64:
+            return [self crc64HashOfData:data];
     }
     return nil;
 }
@@ -353,6 +396,13 @@ int CC_CRC32_Final(unsigned char *md, CC_CRC32_CTX *c) {
     return [self hashOfNSData:data withComputationContext:&context];
 }
 
++ (NSString *)crc64HashOfData:(NSData *)data {
+    FileHashComputationContext context;
+    FileHashComputationContextInitialize(context, CRC64);
+    return [self hashOfNSData:data withComputationContext:&context];
+}
+
+
 + (NSString *)hashOfFileAtPath:(NSString *)filePath hashType:(PDSFileHashType)hashType {
     switch (hashType) {
         case PDSFileHashTypeNone:
@@ -365,6 +415,8 @@ int CC_CRC32_Final(unsigned char *md, CC_CRC32_CTX *c) {
             return [self sha512HashOfFileAtPath:filePath];
         case PDSFileHashTypeCrc32:
             return [self crc32HashOfFileAtPath:filePath];
+        case PDSFileHashTypeCrc64:
+            return [self crc64HashOfFileAtPath:filePath];
     }
     return nil;
 }
@@ -394,31 +446,10 @@ int CC_CRC32_Final(unsigned char *md, CC_CRC32_CTX *c) {
     return [self hashOfFileAtPath:filePath withComputationContext:&context];
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
-
-// This will have a much higher memory impact than ALAsset
-+ (NSString *)md5HashOfPHAsset:(PHAsset *)phAsset {
++ (NSString *)crc64HashOfFileAtPath:(NSString *)filePath {
     FileHashComputationContext context;
-    FileHashComputationContextInitialize(context, MD5);
-
-    if (phAsset.mediaType == PHAssetMediaTypeImage) {
-        PHImageRequestOptions *options = [PHImageRequestOptions new];
-        options.resizeMode = PHImageRequestOptionsResizeModeNone;   // No resize
-        options.networkAccessAllowed = YES;                         // Allow network access
-        options.version = PHImageRequestOptionsVersionCurrent;      // Latest edit
-        // Is Image
-        [[PHImageManager defaultManager] requestImageDataForAsset:phAsset options:options resultHandler:^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
-
-        }];
-    } else if (phAsset.mediaType == PHAssetMediaTypeVideo) {
-        // Is Video
-
-    }
-
-    //return [self hashOfALAssetRepresentation:alAssetRep withComputationContext:&context];
-    return nil; // As of now always return nil, until implementation is complete!
+    FileHashComputationContextInitialize(context, CRC64);
+    return [self hashOfFileAtPath:filePath withComputationContext:&context];
 }
-
-#endif
 
 @end

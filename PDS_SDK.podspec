@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'PDS_SDK'
-  s.version          = '0.1.0'
-  s.summary          = 'A short description of pds-sdk-objc.'
+  s.version          = '0.0.2'
+  s.summary          = '阿里云相册与网盘服务Objc SDK'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES'}
   s.public_header_files = 'pds-sdk-objc/Classes/**/*.h'
 #  s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'FMDB/SQLCipher', '~> 2.7'
+  s.dependency 'FMDB', '~> 2.7'
   s.dependency 'extobjc'
   s.dependency 'YYModel'
 end
