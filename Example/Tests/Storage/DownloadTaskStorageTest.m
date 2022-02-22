@@ -163,7 +163,7 @@ describe(@"002 Download Task", ^{
             [db executeUpdate:@"INSERT INTO \"upload_task\" (\"identifier\",\"path\",\"uploadId\",\"fileID\",\"sectionSize\",\"status\") VALUES ('task_identifier','/dd','123','123',100,1);"];
             [db executeUpdate:@"INSERT INTO \"task_file_section\" (\"identifier\",\"taskId\",\"index\",\"size\",\"offset\",\"committed\",\"confirmed\",\"outputUrl\") VALUES ('identifier','task_identifier',1,100,1,0,0,'');"];
         }];
-        [uploadTaskStorage deleteTaskInfoWithIdentifier:@"task_identifier"];
+        [uploadTaskStorage deleteTaskInfoWithIdentifier:@"task_identifier" force:YES];
         [queue inDatabase:^(FMDatabase *_Nonnull db) {
             FMResultSet *resultSet = [db executeQuery:@"select * from task_file_section where taskId = ?"
                                                values:@[@"task_identifier"]

@@ -25,12 +25,13 @@
 @implementation PDSAPIGetUploadUrlRequest {
 
 }
-- (instancetype)initWithFileID:(NSString *)fileID uploadID:(NSString *)uploadID driveId:(NSString *)driveId partInfoList:(NSArray<PDSAPIUploadFilePartInfoItem *> *)partInfoList contentMd5:(NSString *)contentMd5 {
+- (instancetype)initWithFileID:(NSString *)fileID uploadID:(NSString *)uploadID driveID:(NSString *)driveID shareID:(NSString *)shareID partInfoList:(NSArray<PDSAPIUploadFilePartInfoItem *> *)partInfoList contentMd5:(NSString *)contentMd5 {
     self = [super init];
     if (self) {
         _fileID = [fileID copy];
         _uploadID = [uploadID copy];
-        _driveID = [driveId copy];
+        _driveID = [driveID copy];
+        _shareID = [shareID copy];
         _partInfoList = [partInfoList copy];
         _contentMd5 = [contentMd5 copy];
     }
@@ -47,11 +48,12 @@
     return [PDSAPIGetUploadUrlResponse class];
 }
 
-
 - (NSDictionary *)requestParams {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     if (!PDSIsEmpty(self.driveID)) {
         params[@"drive_id"] = self.driveID;
+    } else if (!PDSIsEmpty(self.shareID)) {
+        params[@"share_id"] = self.shareID;
     }
     params[@"file_id"] = self.fileID;
     params[@"upload_id"] = self.uploadID;

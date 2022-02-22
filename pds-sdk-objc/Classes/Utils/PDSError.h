@@ -32,6 +32,7 @@ typedef NS_ERROR_ENUM(PDSErrorDomain,PDSError)
     PDSErrorFileCreatedFailed = -2000,//本地创建文件/文件夹失败,检查权限/磁盘空间
     PDSErrorFileNotExist = -2001,//本地文件不存在
     PDSErrorFileNameConflict = -2002,//文件名已经存在，重命名失败
+    PDSErrorFileReadError = -2003,//读取文件错误，可能是文件偏移值变了
     //Hash错误
     PDSErrorFileHashCalculateFailed = -3000,//文件的Hash计算失败
     PDSErrorFileHashNotEqual = -3001,//文件的Hash不匹配

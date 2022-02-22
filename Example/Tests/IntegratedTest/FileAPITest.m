@@ -234,14 +234,14 @@ describe(@"get download url", ^{
     it(@"001 create request", ^{
         getDownloadUrlRequest = [[PDSAPIGetDownloadUrlRequest alloc] initWithShareID:nil
                                                                driveID:testConfig.driveID
-                                                                fileID:testConfig.downloadFileID
-                                                              fileName:testConfig.downloadFileName];
+                                                                fileID:testConfig.normalDownloadFileID
+                                                              fileName:testConfig.normalDownloadFileName];
         expect(getDownloadUrlRequest).toNot.beNil();
         expect(getDownloadUrlRequest.driveID).equal(testConfig.driveID);
         expect(getDownloadUrlRequest.driveID).toNot.beNil();
-        expect(getDownloadUrlRequest.fileID).equal(testConfig.downloadFileID);
+        expect(getDownloadUrlRequest.fileID).equal(testConfig.normalDownloadFileID);
         expect(getDownloadUrlRequest.fileID).toNot.beNil();
-        expect(getDownloadUrlRequest.fileName).equal(testConfig.downloadFileName);
+        expect(getDownloadUrlRequest.fileName).equal(testConfig.normalDownloadFileName);
         expect(getDownloadUrlRequest.fileName).toNot.beNil();
     });
     it(@"get response", ^{

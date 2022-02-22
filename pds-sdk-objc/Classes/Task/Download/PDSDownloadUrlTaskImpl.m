@@ -90,8 +90,9 @@ static const int kMaxRenameCount = 10;
 
 
 - (void)setup {
-    self.operationQueue = [[NSOperationQueue alloc] init];
     self.status = PDSDownloadUrlTaskStatusInit;
+    self.operationQueue = [[NSOperationQueue alloc] init];
+    self.operationQueue.name = [NSString stringWithFormat:@"com.aliyun.pds.download.%@", self.taskIdentifier];
 }
 
 #pragma mark Task Actions
@@ -111,7 +112,7 @@ static const int kMaxRenameCount = 10;
         }
         self.executing = NO;
         if (self.hashTask) {
-            [self.hashTask suspend];
+            [self.hashTask cancel];
             self.hashTask = nil;
         }
         if (self.downloadTask) {

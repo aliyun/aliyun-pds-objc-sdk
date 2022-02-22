@@ -19,11 +19,12 @@
 @class PDSDownloadUrlRequest;
 @class PDSSessionDelegate;
 @class PDSTransportClient;
+@class PDSTaskStorageClient;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PDSDownloadLivePhotoTaskImpl : PDSDownloadTask
-- (id)initWithRequest:(PDSDownloadUrlRequest *)request identifier:(NSString *)identifier session:(NSURLSession *)session sessionDelegate:(PDSSessionDelegate *)sessionDelegate transportClient:(PDSTransportClient *)transportClient;
+- (id)initWithRequest:(PDSDownloadUrlRequest *)request identifier:(NSString *)identifier session:(NSURLSession *)session sessionDelegate:(PDSSessionDelegate *)sessionDelegate transportClient:(PDSTransportClient *)transportClient storageClient:(PDSTaskStorageClient *)storageClient;
 
 @end
 

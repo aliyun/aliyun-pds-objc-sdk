@@ -19,25 +19,46 @@
 
 @implementation PDSTestConfig (DownloadTask)
 
-- (NSString *)downloadUrl {
+- (NSString *)normalDownloadUrl {
     return self.config[@"download_url"];
 }
 
-- (NSString *)downloadFileID {
+- (NSString *)normalDownloadFileID {
     return self.config[@"download_file_id"];
 }
 
-- (NSString *)downloadHash {
+- (NSString *)normalDownloadHash {
     return self.config[@"download_hash"];
 }
 
-- (uint64_t)downloadSize {
+- (uint64_t)normalDownloadSize {
     return [self.config[@"download_size"] unsignedLongLongValue];
 }
 
-- (NSString *)downloadFileName {
+- (NSString *)normalDownloadFileName {
     return self.config[@"download_file_name"];
 }
+
+- (NSString *)livepDownloadUrl {
+    return self.config[@"livep_download_url"];
+}
+
+- (NSString *)livepDownloadFileID {
+    return self.config[@"livep_download_file_id"];
+}
+
+- (NSString *)livepDownloadHash {
+    return self.config[@"livep_download_hash"];
+}
+
+- (uint64_t)livepDownloadSize {
+    return [self.config[@"livep_download_size"] unsignedLongLongValue];
+}
+
+- (NSString *)livepDownloadFileName {
+    return self.config[@"livep_download_file_name"];
+}
+
 
 - (NSString *)downloadDestination {
     NSURL *documentUrl = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];

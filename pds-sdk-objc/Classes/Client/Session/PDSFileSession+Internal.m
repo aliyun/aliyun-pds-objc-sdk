@@ -20,11 +20,11 @@
 @implementation PDSFileSession (Internal)
 
 - (PDSDownloadTask *)downloadLivePhoto:(PDSDownloadUrlRequest *)request taskIdentifier:(NSString *)taskIdentifier {
-    return [self.transportClient requestDownloadLivePhoto:request taskIdentifier:taskIdentifier];
+    return [self.transportClient requestDownloadLivePhoto:request taskIdentifier:taskIdentifier storageClient:self.storageClient];
 }
 
-- (PDSUploadTask **)uploadLivePhoto:(PDSUploadPhotoRequest *)request taskIdentifier:(NSString *_Nullable)taskIdentifier {
-    return [self.transportClient requestUploadLivePhoto:request taskIdentifier:taskIdentifier];
+- (PDSUploadTask *)uploadLivePhoto:(PDSUploadPhotoRequest *)request taskIdentifier:(NSString *_Nullable)taskIdentifier {
+    return [self.transportClient requestUploadLivePhoto:request taskIdentifier:taskIdentifier storageClient:self.storageClient];
 }
 
 @end

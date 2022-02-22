@@ -16,6 +16,6 @@
     if (completeLength == 0) {
         return [NSString stringWithFormat:@"%llx", result];
     }
-    return [NSString stringWithFormat:[NSString stringWithFormat:@"%%0%dllx",completeLength],result];
+    return [NSString stringWithFormat:[NSString stringWithFormat:@"%%0%ldllx",completeLength],result];
 }
 @end

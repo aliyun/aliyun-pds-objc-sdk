@@ -124,16 +124,12 @@
 }
 
 
-- (PDSUploadTask **)requestUploadLivePhoto:(PDSUploadPhotoRequest *)request taskIdentifier:(NSString *)identifier {
+- (PDSUploadTask *)requestUploadLivePhoto:(PDSUploadPhotoRequest *)request taskIdentifier:(NSString *)identifier storageClient:(PDSTaskStorageClient *)storageClient {
     return NULL;
 }
 
-- (PDSDownloadTask *)requestDownloadLivePhoto:(PDSDownloadUrlRequest *)request taskIdentifier:(NSString *)identifier {
-    PDSDownloadLivePhotoTaskImpl *task = [[PDSDownloadLivePhotoTaskImpl alloc] initWithRequest:request
-                                                                                    identifier:identifier
-                                                                                       session:self.session
-                                                                               sessionDelegate:self.delegate
-                                                                               transportClient:self];
+- (PDSDownloadTask *)requestDownloadLivePhoto:(PDSDownloadUrlRequest *)request taskIdentifier:(NSString *)identifier storageClient:(PDSTaskStorageClient *)storageClient {
+    PDSDownloadLivePhotoTaskImpl *task = [[PDSDownloadLivePhotoTaskImpl alloc] initWithRequest:request identifier:identifier session:self.session sessionDelegate:self.delegate transportClient:self storageClient:storageClient];
     [task resume];
     return task;
 }

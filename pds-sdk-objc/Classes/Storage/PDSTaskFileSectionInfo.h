@@ -18,6 +18,7 @@
 
 @class PDSFileSubSection;
 @class PDSTaskFileSectionInfo;
+@class PDSAPIUploadFilePartInfoItem;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -67,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (PDSFileSubSection *)subSectionAtIndex:(NSUInteger)index;
 
-- (id)initWithTaskIdentifier:(NSString *)taskIdentifier fileSize:(uint64_t)fileSize sectionSize:(uint64_t)sectionSize fileID:(NSString *)fileId uploadID:(NSString *)uploadId subSections:(NSArray<PDSFileSubSection *> *)subSections;
+- (id)initWithTaskIdentifier:(NSString *)taskIdentifier fileSize:(uint64_t)fileSize sectionSize:(uint64_t)sectionSize fileID:(NSString *)fileId uploadID:(NSString *_Nullable)uploadId subSections:(NSArray<PDSFileSubSection *> *)subSections;
 
 - (BOOL)updateSubSection:(PDSFileSubSection *)subSection;
 
@@ -77,6 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<PDSFileSubSection *> *)getNextAvailableSections:(NSUInteger)count;
 
+- (NSArray<PDSAPIUploadFilePartInfoItem *> *)partInfoItems;
 @end
 
 NS_ASSUME_NONNULL_END

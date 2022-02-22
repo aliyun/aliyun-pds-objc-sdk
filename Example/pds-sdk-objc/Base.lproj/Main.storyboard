@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="whP-gf-Uak">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="whP-gf-Uak">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -163,10 +163,10 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6ue-7D-S1s" userLabel="上传状态管理">
-                                <rect key="frame" x="108" y="407.5" width="159" height="40"/>
+                                <rect key="frame" x="20" y="407.5" width="335" height="40"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="shM-Ro-Pxz" userLabel="开始">
-                                        <rect key="frame" x="0.0" y="0.0" width="53" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="111.5" height="40"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="开始"/>
                                         <connections>
@@ -175,7 +175,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sBb-fX-gKM" userLabel="暂停">
-                                        <rect key="frame" x="53" y="0.0" width="53" height="40"/>
+                                        <rect key="frame" x="111.5" y="0.0" width="112" height="40"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="暂停"/>
                                         <connections>
@@ -184,7 +184,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YF4-v5-jnh" userLabel="取消">
-                                        <rect key="frame" x="106" y="0.0" width="53" height="40"/>
+                                        <rect key="frame" x="223.5" y="0.0" width="111.5" height="40"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="取消"/>
                                         <connections>
@@ -213,6 +213,8 @@
                             <constraint firstItem="6ue-7D-S1s" firstAttribute="centerX" secondItem="TpU-gO-2f1" secondAttribute="centerX" id="EXR-yJ-fsf"/>
                             <constraint firstAttribute="trailing" secondItem="j0V-I7-cXm" secondAttribute="trailing" constant="20" id="EtY-Vh-eDe"/>
                             <constraint firstItem="j0V-I7-cXm" firstAttribute="top" secondItem="uEw-UM-LJ8" secondAttribute="bottom" constant="100" id="IgF-ka-o57"/>
+                            <constraint firstAttribute="trailing" secondItem="6ue-7D-S1s" secondAttribute="trailing" constant="20" id="JCy-p6-uyb"/>
+                            <constraint firstItem="6ue-7D-S1s" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" constant="20" id="Ken-vM-fVB"/>
                             <constraint firstItem="alI-wA-PO0" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" constant="20" id="QZx-qq-pPD"/>
                             <constraint firstItem="iMS-Ie-daV" firstAttribute="top" secondItem="yJe-Dx-LtD" secondAttribute="bottom" constant="50" id="Qay-0O-9Ye"/>
                             <constraint firstItem="j0V-I7-cXm" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" constant="20" id="S09-Ew-vUp"/>
@@ -228,6 +230,8 @@
                     <connections>
                         <outlet property="downloadProgressView" destination="Wj9-5w-UYg" id="sbF-iZ-t4b"/>
                         <outlet property="downloadStatusLabel" destination="elS-4n-avB" id="wky-Kd-UMd"/>
+                        <outlet property="startDownloadButton" destination="ksB-94-XRs" id="mk5-s1-TIS"/>
+                        <outlet property="startUploadButton" destination="shM-Ro-Pxz" id="U9f-Gu-6GR"/>
                         <outlet property="uploadProgressView" destination="fs8-TX-FGl" id="UaY-3O-sEs"/>
                         <outlet property="uploadStatusLabel" destination="J9N-fo-fMO" id="aaB-2p-CQK"/>
                     </connections>

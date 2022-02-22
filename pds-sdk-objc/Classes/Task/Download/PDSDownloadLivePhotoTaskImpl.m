@@ -29,6 +29,7 @@
 #import "PDSFileMetadata.h"
 #import "NSString+PDS.h"
 #import "PDSDownloadUrlTaskImpl.h"
+#import "PDSTaskStorageClient.h"
 #import <extobjc/EXTScope.h>
 
 typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
@@ -49,11 +50,12 @@ typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
 @property(nonatomic, weak) PDSSessionDelegate *sessionDelegate;
 @property(nonatomic, weak) NSURLSession *session;
 @property(nonatomic, weak) PDSTransportClient *transportClient;
+@property(nonatomic, strong) PDSTaskStorageClient *storageClient;
+
 @property(nonatomic, strong) PDSDownloadUrlRequest *request;
-
 @property(nonatomic, strong) PDSRequestError *requestError;
-@property(nonatomic, strong) PDSFileMetadata *resultData;
 
+@property(nonatomic, strong) PDSFileMetadata *resultData;
 @property(nonatomic, strong) NSOperationQueue *operationQueue;
 @property(nonatomic, assign) BOOL cancelled;
 @property(nonatomic, assign) BOOL suspended;
@@ -70,12 +72,13 @@ typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
 }
 
 
-- (id)initWithRequest:(PDSDownloadUrlRequest *)request identifier:(NSString *)identifier session:(NSURLSession *)session sessionDelegate:(PDSSessionDelegate *)sessionDelegate transportClient:(PDSTransportClient *)transportClient {
+- (id)initWithRequest:(PDSDownloadUrlRequest *)request identifier:(NSString *)identifier session:(NSURLSession *)session sessionDelegate:(PDSSessionDelegate *)sessionDelegate transportClient:(PDSTransportClient *)transportClient storageClient:(PDSTaskStorageClient *)storageClient {
     self = [self initWithIdentifier:identifier];
     self.request = request;
     self.session = session;
     self.sessionDelegate = sessionDelegate;
     self.transportClient = transportClient;
+    self.storageClient = storageClient;
     return self;
 }
 
@@ -117,11 +120,7 @@ typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
 }
 
 - (PDSTask *)restart {
-    PDSDownloadTask *task = [[PDSDownloadLivePhotoTaskImpl alloc] initWithRequest:self.request
-                                                                       identifier:self.taskIdentifier
-                                                                          session:self.session
-                                                                  sessionDelegate:self.sessionDelegate
-                                                                  transportClient:self.transportClient];
+    PDSDownloadTask *task = [[PDSDownloadLivePhotoTaskImpl alloc] initWithRequest:self.request identifier:self.taskIdentifier session:self.session sessionDelegate:self.sessionDelegate transportClient:self.transportClient storageClient:self.storageClient];
     [task setResponseBlock:_responseBlock queue:_responseQueue];
     [task setProgressBlock:_progressBlock queue:_progressQueue];
     task.retryCount = self.retryCount + 1;
@@ -246,7 +245,7 @@ typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
         return;
     }
     if (!self.downloadVideoRequest) {//不存在视频，说明不是一个标准的livep资源，当作普通文件下载
-        self.downloadTask = [self.transportClient requestDownload:self.downloadImageRequest taskIdentifier:self.taskIdentifier storageClient:NULL];
+        self.downloadTask = [self.transportClient requestDownload:self.downloadImageRequest taskIdentifier:self.taskIdentifier storageClient:self.storageClient];
         [self.downloadTask setProgressBlock:^(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
             @strongify(self);
             [self callProgressIfNeededWithBytesWritten:bytesWritten
@@ -271,7 +270,7 @@ typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
         }
         return;
     }
-    self.downloadTask = [self.transportClient requestDownload:self.downloadImageRequest taskIdentifier:self.downloadImageTaskId storageClient:NULL];
+    self.downloadTask = [self.transportClient requestDownload:self.downloadImageRequest taskIdentifier:self.downloadImageTaskId storageClient:self.storageClient];
     [self.downloadTask setProgressBlock:^(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
         @strongify(self);
         [self callProgressIfNeededWithBytesWritten:bytesWritten
@@ -279,8 +278,8 @@ typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
                          totalBytesExpectedToWrite:totalBytesExpectedToWrite];
     }                             queue:self.operationQueue];
     [self.downloadTask setResponseBlock:^(PDSFileMetadata *result, PDSRequestError *requestError, NSString *taskIdentifier) {
+        @strongify(self);
         if (requestError) {//失败直接返回
-            @strongify(self);
             @synchronized (self) {
                 self.requestError = requestError;
                 self.status = PDSDownloadLivePhotoTaskStatusFinished;
@@ -311,7 +310,7 @@ typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
     @weakify(self);
     uint64_t totalFileSize = self.downloadImageRequest.fileSize + self.downloadVideoRequest.fileSize;
     uint64_t imageFileSize = self.downloadImageRequest.fileSize;
-    self.downloadTask = [self.transportClient requestDownload:self.downloadVideoRequest taskIdentifier:self.downloadVideoTaskId storageClient:NULL];
+    self.downloadTask = [self.transportClient requestDownload:self.downloadVideoRequest taskIdentifier:self.downloadVideoTaskId storageClient:self.storageClient];
     [self.downloadTask setProgressBlock:^(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
         @strongify(self);
         [self callProgressIfNeededWithBytesWritten:bytesWritten
@@ -319,8 +318,8 @@ typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
                          totalBytesExpectedToWrite:totalFileSize];
     }                             queue:self.operationQueue];
     [self.downloadTask setResponseBlock:^(PDSFileMetadata *result, PDSRequestError *requestError, NSString *taskIdentifier) {
+        @strongify(self);
         if (requestError) {//失败直接返回
-            @strongify(self);
             @synchronized (self) {
                 self.requestError = requestError;
                 self.status = PDSDownloadLivePhotoTaskStatusFinished;

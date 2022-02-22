@@ -29,6 +29,8 @@
 #import "PDSAPICompleteFileResponse.h"
 #import "PDSAPIGetUploadUrlResponse.h"
 #import "PDSAPICompleteFileRequest.h"
+#import "PDSAPIGetUploadUrlRequest.h"
+#import "PDSAPIGetUploadUrlResponse.h"
 #import "PDSInternalHashTask.h"
 #import "PDSRequestError.h"
 #import "PDSError.h"
@@ -45,6 +47,7 @@
 typedef NS_ENUM(NSUInteger, PDSUploadFileTaskStatus) {
     PDSUploadFileTaskStatusInit = 0,
     PDSUploadFileTaskStatusFileCreated = 10,
+    PDSUploadFileTaskStatusRefreshUploadUrl = 11,
     PDSUploadFileTaskStatusUploading = 100,
     PDSUploadFileTaskStatusUploaded = 1000,
     PDSUploadFileTaskStatusFinished = 10000
@@ -63,6 +66,8 @@ typedef NS_ENUM(NSUInteger, PDSUploadFileTaskStatus) {
 @property(nonatomic, strong) PDSAPIRequestTask<PDSAPIGetUploadUrlResponse *> *getUploadUrlTask;
 @property(nonatomic, strong) PDSInternalHashTask *hashTask;
 @property(nonatomic, strong) PDSInternalUploadTask *uploadFileTask;
+@property(nonatomic, strong) NSOperationQueue *operationQueue;
+
 
 @property(nonatomic, strong) PDSUploadFileRequest *request;
 @property(nonatomic, strong) PDSRequestError *requestError;
@@ -88,9 +93,15 @@ typedef NS_ENUM(NSUInteger, PDSUploadFileTaskStatus) {
         self.sessionDelegate = sessionDelegate;
         self.transportClient = transportClient;
         self.storageClient = storageClient;
-        self.status = PDSUploadFileTaskStatusInit;
+        [self setup];
     }
     return self;
+}
+
+- (void)setup {
+    self.status = PDSUploadFileTaskStatusInit;
+    self.operationQueue = [[NSOperationQueue alloc] init];
+    self.operationQueue.name = [NSString stringWithFormat:@"com.aliyun.pds.upload.%@", self.taskIdentifier];
 }
 
 #pragma mark Task Control
@@ -187,8 +198,7 @@ typedef NS_ENUM(NSUInteger, PDSUploadFileTaskStatus) {
             [PDSLogger logDebug:@"开始进行上传任务"];
             if(!self.transportClient.clientConfig.enableFastUpload) {//禁用快速上传，直接开始上传
                 [self createFileTaskWithPreHash:nil fullHashValue:nil];
-            }
-            else {//启用快速上传，先计算1K的预Hash
+            } else {//启用快速上传，先计算1K的预Hash
                 [self startHashTask:PDSFileHashCalculateTypeOnly1K];
             }
             break;
@@ -197,6 +207,10 @@ typedef NS_ENUM(NSUInteger, PDSUploadFileTaskStatus) {
             //开始进行分片上传
             [PDSLogger logDebug:@"进行文件分片上传"];
             [self uploadNextSection];
+            break;
+        case PDSUploadFileTaskStatusRefreshUploadUrl:
+            [PDSLogger logDebug:@"上传链接过期，开始刷新url"];
+            [self refreshUploadUrl];
             break;
         case PDSUploadFileTaskStatusUploaded:
             //上传完成,调用完成文件接口
@@ -264,16 +278,15 @@ typedef NS_ENUM(NSUInteger, PDSUploadFileTaskStatus) {
                 self.status = PDSUploadFileTaskStatusFinished;
                 [self processStatus];
             }
-        }
-        else {//PreHash没有命中或者上传完整Hash直接创建文件接口返回成功,开始正常下载
+        } else {//PreHash没有命中或者上传完整Hash直接创建文件接口返回成功,开始正常下载
             @synchronized (self) {
                 //创建文件接口返回的信息解析完成,改变状态
                 self.status = PDSUploadFileTaskStatusFileCreated;
             }
-            [self updateFileSectionInfo:result];
+            [self updateFileSectionInfo:result.partInfoList fileID:result.fileId uploadID:result.uploadId];
             [self processStatus];
         }
-    }];
+    } queue:self.operationQueue];
 }
 
 /// 恢复状态
@@ -302,14 +315,11 @@ typedef NS_ENUM(NSUInteger, PDSUploadFileTaskStatus) {
     }];
 }
 
-
-- (void)updateFileSectionInfo:(PDSAPICreateFileResponse *)createFileResponse {
+- (void)updateFileSectionInfo:(NSArray<PDSAPIUploadFilePartInfoItem *> *)partInfoList fileID:(NSString *)fileID uploadID:(NSString *)uploadID {
     @synchronized (self) {
-        self.sectionInfo.fileID = createFileResponse.fileId;
-        self.sectionInfo.uploadID = createFileResponse.uploadId;
-
-        NSArray *partInfoList = createFileResponse.partInfoList;
-        [self.sectionInfo updateSubSections:^BOOL (PDSFileSubSection *subSection) {
+        self.sectionInfo.fileID = fileID;
+        self.sectionInfo.uploadID = uploadID;
+        [self.sectionInfo updateSubSections:^BOOL(PDSFileSubSection *subSection) {
             PDSAPIUploadFilePartInfoItem *partInfoItem = [partInfoList pds_objectAtIndex:subSection.index];
             if (partInfoItem) {
                 subSection.outputUrl = partInfoItem.uploadUrl;
@@ -319,6 +329,7 @@ typedef NS_ENUM(NSUInteger, PDSUploadFileTaskStatus) {
         }];
     }
 }
+
 
 - (void)uploadNextSection {
     __block PDSFileSubSection *toUploadSection = nil;
@@ -371,9 +382,34 @@ typedef NS_ENUM(NSUInteger, PDSUploadFileTaskStatus) {
     }
 }
 
-
-
 #pragma mark Private Method
+
+- (void)refreshUploadUrl {
+    PDSAPIGetUploadUrlRequest *getUploadUrlRequest = [[PDSAPIGetUploadUrlRequest alloc] initWithFileID:self.sectionInfo.fileID
+                                                                                              uploadID:self.sectionInfo.uploadID
+                                                                                               driveID:self.request.driveID
+                                                                                               shareID:self.request.shareID
+                                                                                          partInfoList:[self.sectionInfo partInfoItems]
+                                                                                            contentMd5:nil];
+    self.getUploadUrlTask = [self.transportClient requestSDAPIRequest:getUploadUrlRequest];
+    @weakify(self);
+    [self.getUploadUrlTask setResponseBlock:^(PDSAPIGetUploadUrlResponse *result, PDSRequestError *_Nullable requestError) {
+        @strongify(self);
+        if (requestError) {
+            @synchronized (self) {
+                self.requestError = requestError;
+                self.status = PDSUploadFileTaskStatusFinished;
+                [self processStatus];
+            }
+            return;
+        }
+        @synchronized (self) {
+            [self updateFileSectionInfo:result.partInfoList fileID:result.fileID uploadID:result.uploadID];
+            self.status = PDSUploadFileTaskStatusUploading;
+            [self processStatus];
+        }
+    }                                 queue:self.operationQueue];
+}
 
 - (void)handleComplete {
     PDSUploadFileTaskStatus status = PDSUploadFileTaskStatusInit;
@@ -405,7 +441,7 @@ typedef NS_ENUM(NSUInteger, PDSUploadFileTaskStatus) {
         }
         @synchronized (self) {
             self.requestError = requestError;
-            if(!requestError) {
+            if (!requestError) {
                 self.resultData = [[PDSFileMetadata alloc] initWithFileID:fileID
                                                                  fileName:self.request.fileName
                                                                  filePath:nil
@@ -415,7 +451,7 @@ typedef NS_ENUM(NSUInteger, PDSUploadFileTaskStatus) {
             self.status = PDSUploadFileTaskStatusFinished;
         }
         [self processStatus];
-    }];
+    }                                                                                                  queue:self.operationQueue];
 };
 
 #pragma mark State
@@ -505,9 +541,13 @@ typedef NS_ENUM(NSUInteger, PDSUploadFileTaskStatus) {
                 return NO;
             }
             @synchronized (self) {
-                self.requestError = requestError;
-                self.status = PDSUploadFileTaskStatusFinished;
-                [self callResponseBlockIfNeeded];
+                if (requestError.statusCode == 403) {//上传链接失效，刷新链接
+                    self.status = PDSUploadFileTaskStatusRefreshUploadUrl;
+                } else {
+                    self.requestError = requestError;
+                    self.status = PDSUploadFileTaskStatusFinished;
+                }
+                [self processStatus];
                 return NO;
             }
         }

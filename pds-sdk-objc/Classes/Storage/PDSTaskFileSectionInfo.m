@@ -18,6 +18,7 @@
 #import "PDSFileSubSection.h"
 #import "NSArray+PDS.h"
 #import "PDSLogger.h"
+#import "PDSAPIUploadFilePartInfoItem.h"
 
 @interface PDSTaskFileSectionInfo ()
 @property(nonatomic, strong) NSArray<PDSFileSubSection *> *subSections;
@@ -194,6 +195,16 @@
     @synchronized (self) {
         return self.subSections.count;
     }
+}
+
+- (NSArray<PDSAPIUploadFilePartInfoItem *> *)partInfoItems {
+    NSMutableArray *partInfoItems = [[NSMutableArray alloc] init];
+    [self.subSections enumerateObjectsUsingBlock:^(PDSFileSubSection *subSection, NSUInteger idx, BOOL *stop) {
+        PDSAPIUploadFilePartInfoItem *partInfoItem = [[PDSAPIUploadFilePartInfoItem alloc] initWithPartNumber:subSection.index
+                                                                                                    uploadUrl:subSection.outputUrl];
+        [partInfoItems addObject:partInfoItem];
+    }];
+    return [partInfoItems copy];
 }
 
 @end

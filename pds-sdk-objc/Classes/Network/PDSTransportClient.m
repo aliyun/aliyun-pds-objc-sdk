@@ -63,7 +63,7 @@
                                                                    sessionDelegate:self.delegate
                                                                    transportClient:self
                                                                      storageClient:storageClient];
-    [task resume];
+    [task start];
     return task;
 }
 
@@ -74,7 +74,7 @@
                                                          sessionDelegate:self.delegate
                                                          transportClient:self
                                                            storageClient:storageClient];
-    [task resume];
+    [task start];
     return task;
 }
 
@@ -85,7 +85,7 @@
                                                           sessionDelegate:self.delegate
                                                           transportClient:self
                                                             storageClient:storageClient];
-    [task resume];
+    [task start];
     return task;
 }
 

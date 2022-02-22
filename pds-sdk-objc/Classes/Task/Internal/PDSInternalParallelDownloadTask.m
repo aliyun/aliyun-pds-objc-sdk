@@ -126,7 +126,7 @@ typedef NS_ENUM(NSUInteger, PDSInternalParallelDownloadTaskStatus) {
 
 - (id <PDSInternalTask>)restart {
     @synchronized (self) {
-        PDSInternalParallelDownloadTask *task = [[PDSInternalParallelDownloadTask alloc] initWithRequest:self.request identifier:self.taskIdentifier session:self.session sessionDelegate:self.sessionDelegate storageClient:NULL];
+        PDSInternalParallelDownloadTask *task = [[PDSInternalParallelDownloadTask alloc] initWithRequest:self.request identifier:self.taskIdentifier session:self.session sessionDelegate:self.sessionDelegate storageClient:self.storageClient];
         task.retryCount = self.retryCount + 1;
         [task setProgressBlock:_progressBlock queue:_progressBlockQueue];
         [task setResponseBlock:_responseBlock queue:_responseBlockQueue];

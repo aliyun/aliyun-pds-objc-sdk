@@ -26,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *contentMd5;
 ///要上传到的磁盘driveID，可选
 @property(nonatomic, copy) NSString *driveID;
+///要上传到的分享ID,可选
+@property(nonatomic, copy) NSString *shareID;
 ///要上传的文件的fileID，必填
 @property(nonatomic, copy) NSString *fileID;
 ///之前获得的上传分片信息，可选
@@ -33,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///之前通过createFile接口获得的uploadID，必填
 @property(nonatomic, copy) NSString *uploadID;
 
-- (instancetype)initWithFileID:(NSString *)fileID uploadID:(NSString *)uploadID driveId:(NSString *)driveId partInfoList:(NSArray<PDSAPIUploadFilePartInfoItem *> *)partInfoList contentMd5:(NSString *)contentMd5;
+- (instancetype)initWithFileID:(NSString *)fileID uploadID:(NSString *)uploadID driveID:(NSString *_Nullable)driveID shareID:(NSString *_Nullable)shareID partInfoList:(NSArray<PDSAPIUploadFilePartInfoItem *> *)partInfoList contentMd5:(NSString *_Nullable)contentMd5;
 
 @end
 

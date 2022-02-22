@@ -27,10 +27,13 @@
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		C0EE316DA353902538C46132 /* Pods_pds_sdk_objc_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6BFC8CFC22B080C4C4D98C /* Pods_pds_sdk_objc_Example.framework */; };
 		D2C0C01BD4750F37ED9A344C /* HashTaskTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0CA2A8336D41791DEA2C1 /* HashTaskTest.m */; };
+		D2C0C099A7CF4F7F17A4B96B /* PDSTestConfig+DownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0C420EFB1531100F19536 /* PDSTestConfig+DownloadTask.m */; };
+		D2C0C0DF8E96EAF1F2CE9E66 /* PDSTestConfig+Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0CB6702D428AC40372E4C /* PDSTestConfig+Hash.m */; };
 		D2C0C1408C50B792CCBC2042 /* PDSTestStorageContext.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0C71E0896BE14718ADDD6 /* PDSTestStorageContext.m */; };
 		D2C0C18A5026D97F70929855 /* PDSTestConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0C32CFB37091F24DDDA56 /* PDSTestConfig.m */; };
 		D2C0C29C838FFCC0F2095802 /* DownloadTaskStorageTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0C8E82933194521CF1C38 /* DownloadTaskStorageTest.m */; };
 		D2C0C33D007BB3DE6EEB8197 /* UploadFileTaskTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0C80DF1F6028E9FF5D257 /* UploadFileTaskTest.m */; };
+		D2C0C3AE98FA0FBAFAB2DD59 /* PDSTestConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0C32CFB37091F24DDDA56 /* PDSTestConfig.m */; };
 		D2C0C3BEBB9C751B821A664B /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = D2C0C58872677D1843E0DD3A /* config.json */; };
 		D2C0C52CDA94782125FEED6B /* UploadTaskStorageTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0CEFFCE45FE3E26E91CDD /* UploadTaskStorageTest.m */; };
 		D2C0C6FAF086D0D5BA74DBAB /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = D2C0C58872677D1843E0DD3A /* config.json */; };
@@ -474,7 +477,6 @@
 				"${PODS_ROOT}/Target Support Files/Pods-pds-sdk-objc_Example/Pods-pds-sdk-objc_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/PDS_SDK/PDS_SDK.framework",
-				"${BUILT_PRODUCTS_DIR}/SQLCipher/SQLCipher.framework",
 				"${BUILT_PRODUCTS_DIR}/YYModel/YYModel.framework",
 				"${BUILT_PRODUCTS_DIR}/extobjc/extobjc.framework",
 			);
@@ -482,7 +484,6 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PDS_SDK.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLCipher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYModel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/extobjc.framework",
 			);
@@ -501,6 +502,9 @@
 				6003F59E195388D20070C39A /* SDAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* SDViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				D2C0C0DF8E96EAF1F2CE9E66 /* PDSTestConfig+Hash.m in Sources */,
+				D2C0C099A7CF4F7F17A4B96B /* PDSTestConfig+DownloadTask.m in Sources */,
+				D2C0C3AE98FA0FBAFAB2DD59 /* PDSTestConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

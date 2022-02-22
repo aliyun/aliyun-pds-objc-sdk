@@ -56,7 +56,6 @@
     } else {
         /// 剩余大小
         uint64_t freeSize = 0;
-        /// 是否登录
         NSError *error = nil;
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSDictionary *dictionary = [[NSFileManager defaultManager] attributesOfFileSystemForPath:[paths lastObject] error:&error];

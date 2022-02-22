@@ -18,12 +18,21 @@
 #import "PDSTestConfig.h"
 
 @interface PDSTestConfig (DownloadTask)
-@property(nonatomic, readonly) NSString *downloadUrl;
+//普通下载文件
+@property(nonatomic, readonly) NSString *normalDownloadUrl;
+@property(nonatomic, readonly) NSString *normalDownloadFileID;
+@property(nonatomic, readonly) NSString *normalDownloadFileName;
+@property(nonatomic, readonly) uint64_t normalDownloadSize;
+@property(nonatomic, readonly) NSString *normalDownloadHash;
+
+//live photo
+@property(nonatomic, readonly) NSString *livepDownloadUrl;
+@property(nonatomic, readonly) NSString *livepDownloadFileID;
+@property(nonatomic, readonly) NSString *livepDownloadFileName;
+@property(nonatomic, readonly) uint64_t livepDownloadSize;
+@property(nonatomic, readonly) NSString *livepDownloadHash;
+
 @property(nonatomic, readonly) NSString *downloadDestination;
-@property(nonatomic, readonly) NSString *downloadFileID;
-@property(nonatomic, readonly) NSString *downloadFileName;
-@property(nonatomic, readonly) NSString *downloadHash;
-@property(nonatomic, readonly) uint64_t downloadSize;
 
 - (void)cleanDownloaded;
 @end

@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)getUploadTaskInfoWithId:(NSString *)taskIdentifier completion:(PDSTaskStorageGetInfoCompletion)completion;
 
-- (void)setFileSubSections:(NSArray<PDSFileSubSection *> *)fileSubSections uploadTaskInfo:(id<PDSTaskStorageInfo>)taskInfo;
+- (void)setFileSubSections:(NSArray<PDSFileSubSection *> * _Nullable)fileSubSections uploadTaskInfo:(id<PDSTaskStorageInfo>)taskInfo;
 
 - (void)setFileSubSections:(NSArray<PDSFileSubSection *> *)fileSubSections forTaskIdentifier:(NSString *)taskIdentifier;
 

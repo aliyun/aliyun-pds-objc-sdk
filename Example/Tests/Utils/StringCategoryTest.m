@@ -21,14 +21,13 @@
 SpecBegin(StringCategory)
 
 describe(@"parse", ^{
-    it(@"hex to decimal", ^{
-        NSString *correct = @"4487330454159893554";
-        NSString *converted = [@"0x3E463345EDFE2432" pds_hexToDecimal];
-        expect(converted).equal(correct);
-        converted = [@"3E463345EDFE2432" pds_hexToDecimal];
-        expect(converted).equal(correct);
-        converted = [@"#3E463345EDFE2432" pds_hexToDecimal];
-        expect(converted).equal(correct);
+    it(@"decimalToHex", ^{
+        NSString *converted = [@"4487330454159893554" pds_decimalToHexWithCompleteLength:0];
+        expect(converted).to.equal(@"3e463345edfe2432");
+        converted = [@"487330454159893554" pds_decimalToHexWithCompleteLength:0];
+        expect(converted).to.equal(@"6c35877506e2432");
+        converted = [@"487330454159893554" pds_decimalToHexWithCompleteLength:16];
+        expect(converted).to.equal(@"06c35877506e2432");
     });
 });
 

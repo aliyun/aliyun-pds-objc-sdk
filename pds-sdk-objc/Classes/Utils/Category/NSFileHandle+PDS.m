@@ -15,6 +15,7 @@
 // *
 
 #import "NSFileHandle+PDS.h"
+#import "NSError+PDS.h"
 
 
 @implementation NSFileHandle (PDS)
@@ -29,10 +30,7 @@
         }
         @catch (NSException *e) {
             if (error != NULL) {
-                NSDictionary *userInfo = @{
-                        NSLocalizedDescriptionKey: @"Failed to write data",
-                };
-                *error = [NSError errorWithDomain:@"MyStuff" code:123 userInfo:userInfo];
+                *error = [NSError pds_errorWithCode:PDSErrorFileReadError];
             }
             return nil;
         }
@@ -49,10 +47,7 @@
         }
         @catch (NSException *e) {
             if (error != NULL) {
-                NSDictionary *userInfo = @{
-                        NSLocalizedDescriptionKey: @"Failed to write data",
-                };
-                *error = [NSError errorWithDomain:@"MyStuff" code:123 userInfo:userInfo];
+                *error = [NSError pds_errorWithCode:PDSErrorFileReadError];
             }
             return NO;
         }

@@ -43,7 +43,9 @@
 - (void)setupConfig {
     NSData *configData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"config" withExtension:@"json"]];
     self.config = [NSJSONSerialization JSONObjectWithData:configData options:NSJSONReadingFragmentsAllowed error:nil];
-    PDSClientConfig *clientConfig = [[PDSClientConfig alloc] initWithHost:self.config[@"host"] userAgent:self.config[@"user_agent"]];
+    PDSClientConfig *clientConfig = [[PDSClientConfig alloc] init];
+    clientConfig.host = self.config[@"host"];
+    clientConfig.userAgent = self.config[@"user_agent"];
     [PDSClientManager setupWithAccessToken:self.config[@"access_token"] clientConfig:clientConfig];
 }
 

@@ -103,7 +103,12 @@
 }
 
 - (id <PDSInternalTask>)restart {
-    return nil;
+    PDSInternalHashTask *hashTask = [[PDSInternalHashTask alloc] initWithFilePath:self.filePath
+                                                                         hashType:self.hashType
+                                                                        hashValue:self.hashValue
+                                                                    calculateType:self.calculateType];
+    [hashTask start];
+    return hashTask;
 }
 
 - (void)cleanup {

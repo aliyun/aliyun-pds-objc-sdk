@@ -15,6 +15,7 @@
 // *
 
 #import "SDViewController.h"
+#import "PDSTestConfig.h"
 #import <extobjc/EXTobjc.h>
 @import PDS_SDK;
 
@@ -23,10 +24,13 @@
 @property(weak, nonatomic) IBOutlet UIProgressView *uploadProgressView;
 @property(weak, nonatomic) IBOutlet UILabel *downloadStatusLabel;
 @property(weak, nonatomic) IBOutlet UILabel *uploadStatusLabel;
+@property (weak, nonatomic) IBOutlet UIButton *startUploadButton;
+@property (weak, nonatomic) IBOutlet UIButton *startDownloadButton;
+
 @property(nonatomic, strong) PDSDownloadTask *downloadTask;
 @property(nonatomic, strong) PDSUploadTask *uploadTask;
-@property(nonatomic, copy) NSDictionary *config;
-@property(nonatomic, copy) NSString *samplePath;
+
+@property(nonatomic, strong) PDSTestConfig *config;
 @end
 
 @implementation SDViewController
@@ -37,18 +41,13 @@
 }
 
 - (void)setup {
-    NSData *configData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"config" withExtension:@"json"]];
-    self.config = [NSJSONSerialization JSONObjectWithData:configData options:NSJSONReadingFragmentsAllowed error:nil];
-    PDSClientConfig *clientConfig = [[PDSClientConfig alloc] initWithHost:self.config[@"host"] userAgent:self.config[@"user_agent"]];
-    [PDSClientManager setupWithAccessToken:self.config[@"access_token"] clientConfig:clientConfig];
-
-    self.samplePath = [[NSBundle mainBundle] pathForResource:@"sample" ofType:@""];
+    self.config = [[PDSTestConfig alloc] init];
     self.uploadProgressView.progress = 0;
     self.downloadProgressView.progress = 0;
 }
 
 - (IBAction)startDownloadAction:(UIButton *)sender {
-    sender.enabled = NO;
+    self.startDownloadButton.enabled = NO;
     if (self.downloadTask) {
         [self.downloadTask cancel];
     }
@@ -59,10 +58,11 @@
     @weakify(self);
     [self.downloadTask setProgressBlock:^(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
         @strongify(self);
-       self.downloadProgressView.progress = totalBytesWritten / (float)totalBytesExpectedToWrite;
+        self.downloadProgressView.progress = totalBytesWritten / (float) totalBytesExpectedToWrite;
     }];
     [self.downloadTask setResponseBlock:^(PDSFileMetadata *result, PDSRequestError *networkError, NSString *taskIdentifier) {
-        sender.enabled = YES;
+        @strongify(self);
+        self.startDownloadButton.enabled = YES;
     }];
 }
 
@@ -82,15 +82,25 @@
     if (self.uploadTask) {
         return;
     }
-    PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:self.samplePath
-                                                                                  parentFileID:self.config[@"parent_file_id"] driveID:self.config[@"drive_id"] shareID:nil fileName:nil];
+    [self.config refreshSample];
+    PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:self.config.samplePath
+                                                                                  parentFileID:self.config.parentID
+                                                                                       driveID:self.config.driveID
+                                                                                       shareID:nil
+                                                                                      fileName:nil];
+    @weakify(self);
     self.uploadTask = [[[[PDSClientManager defaultClient].file uploadFile:uploadFileRequest
-                                                          taskIdentifier:nil]
+                                                           taskIdentifier:nil]
             setResponseBlock:^(PDSFileMetadata *result, PDSRequestError *requestError, NSString *taskIdentifier) {
-        self.uploadStatusLabel.text = @"上传完成";
+                @strongify(self);
+                self.uploadStatusLabel.text = [NSString stringWithFormat:@"上传%@%@",
+                                                                         requestError ? @"@失败" : @"@成功",
+                                                                         requestError ? requestError.description : @""];
+                self.startUploadButton.enabled = YES;
             }] setProgressBlock:^(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
+        @strongify(self);
         self.uploadStatusLabel.text = @"上传中";
-        self.uploadProgressView.progress = totalBytesWritten / (float)totalBytesExpectedToWrite;
+        self.uploadProgressView.progress = totalBytesWritten / (float) totalBytesExpectedToWrite;
     }];
 }
 

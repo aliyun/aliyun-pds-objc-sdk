@@ -21,11 +21,11 @@
 /// @param request 下载live photo任务请求
 /// @param taskIdentifier 任务ID,SDK会通过taskID判断之前是否创建过下载任务，如果创建过会尝试恢复之前的上传记录
 /// @return 下载任务
-- (PDSDownloadTask *)downloadLivePhoto:(PDSDownloadUrlRequest *)request taskIdentifier:(NSString *_Nullable)taskIdentifier;
+- (PDSDownloadTask *_Nullable)downloadLivePhoto:(PDSDownloadUrlRequest *_Nullable)request taskIdentifier:(NSString *_Nullable)taskIdentifier;
 
 /// 创建下载Live Photo任务，仅用于PDS业务内部使用，外部客户请不要调用这个方法
 /// @param request 下载live photo任务请求
 /// @param taskIdentifier 任务ID,SDK会通过taskID判断之前是否创建过下载任务，如果创建过会尝试恢复之前的上传记录
 /// @return 下载任务
-- (PDSUploadTask **)uploadLivePhoto:(PDSUploadPhotoRequest *)request taskIdentifier:(NSString *_Nullable)taskIdentifier;
+- (PDSUploadTask *_Nullable)uploadLivePhoto:(PDSUploadPhotoRequest *_Nullable)request taskIdentifier:(NSString *_Nullable)taskIdentifier;
 @end

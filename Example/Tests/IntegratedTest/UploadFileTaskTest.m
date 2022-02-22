@@ -58,13 +58,33 @@ describe(@"002 UploadFileTask", ^{
             }];
         });
     });
-    it(@"003 resume file upload",^{
+
+    it(@"003 fast file upload", ^{
+        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath parentFileID:testConfig.parentID driveID:testConfig.driveID shareID:nil fileName:nil];
+        uploadTask = [[PDSClientManager defaultClient].file uploadFile:uploadFileRequest taskIdentifier:nil];
+        expect(uploadTask).toNot.beNil();
+        [uploadTask setProgressBlock:^(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
+        }];
+        waitUntilTimeout(100.0, ^(DoneCallback done) {
+            [uploadTask setResponseBlock:^(PDSFileMetadata *result, PDSRequestError *requestError, NSString *taskIdentifier) {
+                expect(requestError).to.beNil();
+                expect(result).notTo.beNil();
+                expect(result.fileName).notTo.beNil();
+                expect(result.fileID).notTo.beNil();
+                expect(result.uploadID).notTo.beNil();
+                expect(result.driveID).notTo.beNil();
+                done();
+            }];
+        });
+    });
+
+    it(@"004 resume file upload",^{
         [testConfig refreshSample];
         PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath parentFileID:testConfig.parentID driveID:testConfig.driveID shareID:nil fileName:nil];
         uploadTask = [[PDSClientManager defaultClient].file uploadFile:uploadFileRequest taskIdentifier:nil];
         expect(uploadTask).toNot.beNil();
         //暂停0.1秒再暂停上传任务，确保上传任务已经进入了上传流程
-        waitUntilTimeout(1000, ^(DoneCallback done) {
+        waitUntilTimeout(100, ^(DoneCallback done) {
             NSTimeInterval delayInSeconds = 0.1;
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -78,10 +98,28 @@ describe(@"002 UploadFileTask", ^{
                  
             });
         });
-});
-//    it(@"004 zero size file upload", ^{
-//        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath parentFileID:testConfig.parentID driveID:testConfig.driveID shareID:nil fileName:nil];
-//    });
+    });
+
+    it(@"005 cancel file upload", ^{
+        [testConfig refreshSample];
+        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath parentFileID:testConfig.parentID driveID:testConfig.driveID shareID:nil fileName:nil];
+        uploadTask = [[PDSClientManager defaultClient].file uploadFile:uploadFileRequest taskIdentifier:nil];
+        expect(uploadTask).toNot.beNil();
+        //暂停0.1秒再暂停上传任务，确保上传任务已经进入了上传流程
+        waitUntilTimeout(4, ^(DoneCallback done) {
+            NSTimeInterval delayInSeconds = 0.1;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t) (delayInSeconds * NSEC_PER_SEC));
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+                [uploadTask cancel];
+                expect(uploadTask.isCancelled).beTruthy();
+                [uploadTask suspend];
+                expect(uploadTask.isCancelled).beTruthy();
+                [uploadTask resume];
+                expect(uploadTask.isCancelled).beTruthy();
+                done();
+            });
+        });
+    });
 });
 
 SpecEnd
