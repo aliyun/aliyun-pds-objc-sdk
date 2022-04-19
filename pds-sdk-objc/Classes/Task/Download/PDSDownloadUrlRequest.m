@@ -37,6 +37,12 @@
     return self;
 }
 
+- (instancetype)requestWithNewDestination:(NSString *)destination {
+    PDSDownloadUrlRequest *request = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:self.downloadUrl destination:destination fileSize:self.fileSize fileID:self.fileID hashValue:self.hashValue hashType:self.hashType driveID:self.driveID shareID:self.shareID];
+    return request;
+}
+
+
 - (NSString *)relativeDestination {
     if (PDSIsEmpty(self.destination)) {
         return nil;

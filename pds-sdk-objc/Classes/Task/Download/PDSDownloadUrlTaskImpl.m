@@ -52,6 +52,8 @@ static const int kPDSDownloadTaskMaxFailRetryCount = 3;
 
 static const int kMaxRenameCount = 10;
 
+static const int MAX_PDS_FILE_NAME_LENGTH = 64;
+
 @interface PDSDownloadUrlTaskImpl ()
 @property(nonatomic, assign) PDSDownloadUrlTaskStatus status;
 @property(nonatomic, strong) PDSInternalParallelDownloadTask *downloadTask;
@@ -276,6 +278,15 @@ static const int kMaxRenameCount = 10;
 }
 
 - (BOOL)validate:(NSError **)error {
+    //如果文件名过长，截断一下
+    NSString *fileName = [[self.request.destination lastPathComponent] stringByDeletingPathExtension];
+    if(fileName.length > MAX_PDS_FILE_NAME_LENGTH) {
+        NSString *newFileName = [[fileName substringToIndex:MAX_PDS_FILE_NAME_LENGTH] stringByAppendingString:@"..."];
+        NSString *newDestination = [self.request.destination stringByReplacingOccurrencesOfString:fileName withString:newFileName];
+        self.request = [self.request requestWithNewDestination:newDestination];
+    }
+
+    //进行其他验证
     NSError *theError = nil;
     PDSTaskFolderExistValidator *folderExistValidator = [PDSTaskFolderExistValidator validatorWithFolderPath:
                                                                                              [self.request.destination stringByDeletingLastPathComponent]];
@@ -325,7 +336,7 @@ static const int kMaxRenameCount = 10;
 }
 
 - (void)refreshDownloadUrl {
-    PDSAPIGetDownloadUrlRequest *getDownloadUrlRequest = [[PDSAPIGetDownloadUrlRequest alloc] initWithShareID:nil
+    PDSAPIGetDownloadUrlRequest *getDownloadUrlRequest = [[PDSAPIGetDownloadUrlRequest alloc] initWithShareID:self.request.shareID
                                                                                                       driveID:self.request.driveID
                                                                                                        fileID:self.request.fileID
                                                                                                      fileName:self.request.destination.lastPathComponent];

@@ -168,7 +168,7 @@ typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
 }
 
 - (void)refreshDownloadUrl {
-    PDSAPIGetDownloadUrlRequest *getDownloadUrlRequest = [[PDSAPIGetDownloadUrlRequest alloc] initWithShareID:nil
+    PDSAPIGetDownloadUrlRequest *getDownloadUrlRequest = [[PDSAPIGetDownloadUrlRequest alloc] initWithShareID:self.request.shareID
                                                                                                       driveID:self.request.driveID
                                                                                                        fileID:self.request.fileID
                                                                                                      fileName:self.request.destination.lastPathComponent];

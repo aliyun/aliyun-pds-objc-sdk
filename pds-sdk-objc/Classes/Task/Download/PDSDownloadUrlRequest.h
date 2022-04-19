@@ -50,4 +50,10 @@
  */
 - (instancetype)initWithDownloadUrl:(NSString *)downloadUrl destination:(NSString *)destination fileSize:(uint64_t)fileSize fileID:(NSString *)fileID hashValue:(NSString *)hashValue hashType:(PDSFileHashType)hashType driveID:(NSString *)driveID shareID:(NSString *)shareID;
 
+/**
+ * 创建一个新的请求，使用传入的新的目标地址
+ * @param destination
+ * @return
+ */
+- (instancetype)requestWithNewDestination:(NSString *)destination;
 @end
