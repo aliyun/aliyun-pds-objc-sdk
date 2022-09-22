@@ -37,6 +37,13 @@
 @property(nonatomic, copy) NSString *driveID;
 //分享空间ID
 @property(nonatomic, copy) NSString *shareID;
+//分享令牌，用于直接进行分享下载
+@property(nonatomic, copy) NSString *shareToken;
+//分享密码，用于分享令牌过期之后进行刷新
+@property(nonatomic, copy) NSString *sharePassword;
+//版本ID，用于历史版本文件下载，可选。默认不传值的话，会返回最新版本的文件
+@property(nonatomic, copy) NSString *revisionId;
+
 /**
  * 初始化通过Url下载的任务请求
  * @param downloadUrl 下载链接，必填
@@ -48,7 +55,11 @@
  * @param hashType 文件校验算法，可选
  * @return 通过URL下载任务请求
  */
-- (instancetype)initWithDownloadUrl:(NSString *)downloadUrl destination:(NSString *)destination fileSize:(uint64_t)fileSize fileID:(NSString *)fileID hashValue:(NSString *)hashValue hashType:(PDSFileHashType)hashType driveID:(NSString *)driveID shareID:(NSString *)shareID;
+- (instancetype)initWithDownloadUrl:(NSString *)downloadUrl destination:(NSString *)destination
+                           fileSize:(uint64_t)fileSize fileID:(NSString *)fileID hashValue:(NSString *)hashValue
+                           hashType:(PDSFileHashType)hashType driveID:(NSString *)driveID
+                            shareID:(NSString *__nullable)shareID shareToken:(NSString *__nullable)shareToken
+                         revisionId:(NSString *__nullable)revisionId sharePassword:(NSString *__nullable)sharePassword;
 
 /**
  * 创建一个新的请求，使用传入的新的目标地址

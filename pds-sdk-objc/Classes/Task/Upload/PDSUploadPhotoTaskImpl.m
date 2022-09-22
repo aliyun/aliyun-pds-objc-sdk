@@ -200,9 +200,13 @@ typedef NS_ENUM(NSUInteger, PDSUploadPhotoTaskStatus) {
     NSString *fileName = PDSIsEmpty(self.request.fileName) ? self.exportedFileName : self.request.fileName;
     PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:self.exportedFilePath
                                                                                   parentFileID:self.request.parentFileID
+                                                                                        fileID:self.request.fileID
                                                                                        driveID:self.request.driveID
                                                                                        shareID:self.request.shareID
-                                                                                      fileName:fileName];
+                                                                                      fileName:fileName
+                                                                                 checkNameMode:self.request.checkNameMode
+                                                                                    shareToken:self.request.shareToken
+                                                                                 sharePassword:self.request.sharePassword];
     self.uploadFileTask = [[PDSUploadFileTaskImpl alloc] initWithRequest:uploadFileRequest identifier:self.taskIdentifier session:self.session sessionDelegate:self.sessionDelegate transportClient:self.transportClient storageClient:self.storageClient];
     @weakify(self);
     [self.uploadFileTask setResponseBlock:^(PDSFileMetadata *result, PDSRequestError *requestError, NSString *taskIdentifier) {

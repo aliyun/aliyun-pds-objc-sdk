@@ -23,16 +23,17 @@
 @implementation PDSAPICompleteFileRequest {
 
 }
-- (instancetype)initWithShareID:(NSString *)shareID driveID:(NSString *)driveID fileID:(NSString *)fileID uploadID:(NSString *)uploadID parentFileID:(NSString *)parentFileID fileName:(NSString *)fileName contentType:(NSString *)contentType {
+- (instancetype)initWithShareID:(NSString *_Nullable)shareID driveID:(NSString *_Nullable)driveID fileID:(NSString *)fileID uploadID:(NSString *)uploadID parentFileID:(NSString *)parentFileID fileName:(NSString *)fileName contentType:(NSString *_Nullable)contentType shareToken:(NSString *_Nullable)shareToken {
     self = [super init];
     if (self) {
-        _shareID = [shareID copy];
-        _driveID = [driveID copy];
-        _fileID = [fileID copy];
-        _uploadID = [uploadID copy];
-        _parentFileID = [parentFileID copy];
-        _fileName = [fileName copy];
-        _contentType = [contentType copy];
+        _shareID = shareID;
+        _driveID = driveID;
+        _fileID = fileID;
+        _uploadID = uploadID;
+        _parentFileID = parentFileID;
+        _fileName = fileName;
+        _contentType = contentType;
+        _shareToken = shareToken;
     }
 
     return self;
@@ -61,6 +62,14 @@
     params[@"content_type"] = self.contentType;
     params[@"file_id"] = self.fileID;
     params[@"upload_id"] = self.uploadID;
+    return [params copy];
+}
+
+- (NSDictionary *)headerParams {
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithDictionary:[super headerParams]];
+    if (self.shareToken) {
+        params[@"x-share-token"] = self.shareToken;
+    }
     return [params copy];
 }
 

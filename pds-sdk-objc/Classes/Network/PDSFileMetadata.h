@@ -23,6 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 //文件ID
 @property(nonatomic, copy) NSString *fileID;
 
+//版本ID
+@property(nonatomic, copy) NSString *revisionID;
+
 //文件名
 @property(nonatomic, copy) NSString *fileName;
 
@@ -35,7 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 //文件的上传ID，仅针对上传文件有效
 @property(nonatomic, copy) NSString *uploadID;
 
-- (instancetype)initWithFileID:(NSString *)fileID fileName:(NSString *)fileName filePath:(NSString *_Nullable)filePath driveID:(NSString *_Nullable)driveID uploadID:(NSString *_Nullable)uploadID;
+- (instancetype)initWithFileID:(NSString *)fileID revisionID:(NSString *)revisionID fileName:(NSString *)fileName
+                      filePath:(NSString *)filePath driveID:(NSString *)driveID uploadID:(NSString *)uploadID;
 
 @end
 

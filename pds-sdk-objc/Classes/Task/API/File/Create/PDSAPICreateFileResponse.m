@@ -37,16 +37,19 @@
     if (self) {
         NSNumber *rapid_upload = data[@"rapid_upload"];
         NSString *status = data[@"status"];
+        NSString *type = data[@"type"];
         /// 判断文件是否可秒传 status = available 或者 rapid_upload = true 都是秒传
-        if ((rapid_upload && [rapid_upload boolValue]) || [@"available" isEqualToString:status]) {
+        if ((rapid_upload && [rapid_upload boolValue]) || [@"available" isEqualToString:status] || [type isEqualToString:@"folder"]) {
             //预秒传成功，这种情况下直接返回成功结果就行了
             self.fileId = data[@"file_id"];
+            self.revisionId = data[@"revision_id"];
             self.completeTime = [[NSDate date] timeIntervalSince1970] * 1000;
             self.fileName = data[@"file_name"];
             self.status = PDSAPICreateFileStatusFinished;
         } else {//需要准备上传
             self.uploadId = data[@"upload_id"];
             self.fileId = data[@"file_id"];
+            self.revisionId = data[@"revision_id"];
             NSArray *partInfoDataList = data[@"part_info_list"];
             NSMutableArray *parInfoList = nil;
             if (!PDSIsEmpty(partInfoDataList)) {

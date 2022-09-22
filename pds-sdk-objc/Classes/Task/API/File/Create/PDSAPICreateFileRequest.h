@@ -59,9 +59,12 @@ typedef NS_ENUM(NSInteger,PDSAPICreateFileType){
 @property(nonatomic, assign) uint64_t sectionSize;
 ///分片数量
 @property(nonatomic, assign) NSUInteger sectionCount;
+//当要上传的文件夹中已经有同名文件时候的处理方式，默认为自动重命名
+@property(nonatomic, copy) NSString *checkNameMode;
+//分享令牌，用于分享上传文件
+@property(nonatomic, copy) NSString *shareToken;
 
-
-- (instancetype)initWithShareID:(NSString *_Nullable)shareID driveID:(NSString *_Nullable)driveID parentFileID:(NSString *)parentFileID fileName:(NSString *)fileName fileID:(NSString *_Nullable)fileID fileSize:(uint64_t)fileSize hashValue:(NSString *_Nullable)hashValue preHashValue:(NSString *_Nullable)preHashValue sectionSize:(uint64_t)sectionSize sectionCount:(NSUInteger)sectionCount;
+- (instancetype)initWithShareID:(NSString *_Nullable)shareID driveID:(NSString *_Nullable)driveID parentFileID:(NSString *)parentFileID fileName:(NSString *)fileName fileID:(NSString *_Nullable)fileID fileSize:(uint64_t)fileSize hashValue:(NSString *_Nullable)hashValue preHashValue:(NSString *_Nullable)preHashValue sectionSize:(uint64_t)sectionSize sectionCount:(NSUInteger)sectionCount checkNameMode:(NSString *_Nullable)checkNameMode shareToken:(NSString *_Nullable)shareToken type:(PDSAPICreateFileType)type;
 
 @end
 

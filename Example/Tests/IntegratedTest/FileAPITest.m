@@ -45,7 +45,7 @@ beforeAll(^{
 
 describe(@"API requests", ^{
     it(@"001 create file", ^{
-        createFileRequest = [[PDSAPICreateFileRequest alloc] initWithShareID:nil driveID:testConfig.driveID parentFileID:testConfig.parentID fileName:fileName fileID:nil fileSize:0 hashValue:nil preHashValue:nil sectionSize:4000 sectionCount:0];
+        createFileRequest = [[PDSAPICreateFileRequest alloc] initWithShareID:nil driveID:testConfig.driveID parentFileID:testConfig.parentID fileName:fileName fileID:nil fileSize:0 hashValue:nil preHashValue:nil sectionSize:4000 sectionCount:0 checkNameMode:nil shareToken:nil type: PDSAPICreateFileTypeFolder];
         waitUntil(^(DoneCallback done) {
             createFileTask = [[PDSClientManager defaultClient].file createFile:createFileRequest];
             [createFileTask setResponseBlock:^(PDSAPICreateFileResponse * _Nullable result, PDSRequestError * _Nullable requestError) {
@@ -65,7 +65,8 @@ describe(@"API requests", ^{
                                                                         uploadID:uploadID
                                                                     parentFileID:testConfig.parentID
                                                                         fileName:fileName
-                                                                     contentType:nil];
+                                                                     contentType:nil
+                                                                      shareToken:nil];
         expect(completeFileRequest).toNot.beNil();
         expect(completeFileRequest.driveID).equal(testConfig.driveID);
         expect(completeFileRequest.driveID).toNot.beNil();
@@ -232,10 +233,7 @@ describe(@"API requests", ^{
 
 describe(@"get download url", ^{
     it(@"001 create request", ^{
-        getDownloadUrlRequest = [[PDSAPIGetDownloadUrlRequest alloc] initWithShareID:nil
-                                                               driveID:testConfig.driveID
-                                                                fileID:testConfig.normalDownloadFileID
-                                                              fileName:testConfig.normalDownloadFileName];
+        getDownloadUrlRequest = [[PDSAPIGetDownloadUrlRequest alloc] initWithShareID:nil driveID:testConfig.driveID fileID:testConfig.normalDownloadFileID fileName:testConfig.normalDownloadFileName shareToken:nil revisionId:nil];
         expect(getDownloadUrlRequest).toNot.beNil();
         expect(getDownloadUrlRequest.driveID).equal(testConfig.driveID);
         expect(getDownloadUrlRequest.driveID).toNot.beNil();

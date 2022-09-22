@@ -34,8 +34,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSArray<PDSAPIUploadFilePartInfoItem *> *partInfoList;
 ///之前通过createFile接口获得的uploadID，必填
 @property(nonatomic, copy) NSString *uploadID;
+///分享令牌，用于分享上传
+@property(nonatomic, copy) NSString *shareToken;
 
-- (instancetype)initWithFileID:(NSString *)fileID uploadID:(NSString *)uploadID driveID:(NSString *_Nullable)driveID shareID:(NSString *_Nullable)shareID partInfoList:(NSArray<PDSAPIUploadFilePartInfoItem *> *)partInfoList contentMd5:(NSString *_Nullable)contentMd5;
+- (instancetype)initWithFileID:(NSString *)fileID uploadID:(NSString *)uploadID driveID:(NSString *_Nullable)driveID shareID:(NSString *_Nullable)shareID partInfoList:(NSArray<PDSAPIUploadFilePartInfoItem *> *)partInfoList contentMd5:(NSString *_Nullable)contentMd5 shareToken:(NSString *_Nullable)shareToken;
 
 @end
 

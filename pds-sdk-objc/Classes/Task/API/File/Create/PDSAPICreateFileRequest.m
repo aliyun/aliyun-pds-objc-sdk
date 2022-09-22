@@ -30,7 +30,7 @@
 @implementation PDSAPICreateFileRequest {
 
 }
-- (instancetype)initWithShareID:(NSString *_Nullable)shareID driveID:(NSString *_Nullable)driveID parentFileID:(NSString *)parentFileID fileName:(NSString *)fileName fileID:(NSString *)fileID fileSize:(uint64_t)fileSize hashValue:(NSString *_Nullable)hashValue preHashValue:(NSString *_Nullable)preHashValue sectionSize:(uint64_t)sectionSize sectionCount:(NSUInteger)sectionCount {
+- (instancetype)initWithShareID:(NSString *_Nullable)shareID driveID:(NSString *_Nullable)driveID parentFileID:(NSString *)parentFileID fileName:(NSString *)fileName fileID:(NSString *_Nullable)fileID fileSize:(uint64_t)fileSize hashValue:(NSString *_Nullable)hashValue preHashValue:(NSString *_Nullable)preHashValue sectionSize:(uint64_t)sectionSize sectionCount:(NSUInteger)sectionCount checkNameMode:(NSString *_Nullable)checkNameMode shareToken:(NSString *_Nullable)shareToken type:(PDSAPICreateFileType)type{
     self = [super init];
     if (self) {
         _shareID = [shareID copy];
@@ -43,6 +43,9 @@
         _preHashValue = [preHashValue copy];
         _sectionCount = sectionCount;
         _sectionSize = sectionSize;
+        _shareToken = shareToken;
+        _checkNameMode = PDSIsEmpty(checkNameMode) ? @"auto_rename" : checkNameMode;
+        _type = type;
     }
 
     return self;
@@ -87,7 +90,7 @@
     params[@"image_media_metadata"] = [self.imageMeta yy_modelToJSONObject];
     params[@"video_media_metadata"] = [self.videoMeta yy_modelToJSONObject];
     params[@"user_meta"] = self.userMeta;
-    params[@"check_name_mode"] = @"auto_rename";
+    params[@"check_name_mode"] = self.checkNameMode;
     NSMutableArray *partInfoList = [[NSMutableArray alloc] init];
     for (int i = 0; i < self.sectionCount; ++i) {
         PDSAPIUploadFilePartInfoItem *uploadFilePartInfo = [[PDSAPIUploadFilePartInfoItem alloc] init];
@@ -98,5 +101,14 @@
     params[@"part_info_list"] = [partInfoList yy_modelToJSONObject];
     return [params copy];
 }
+
+- (NSDictionary *)headerParams {
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithDictionary:[super headerParams]];
+    if (self.shareToken) {
+        params[@"x-share-token"] = self.shareToken;
+    }
+    return [params copy];
+}
+
 
 @end

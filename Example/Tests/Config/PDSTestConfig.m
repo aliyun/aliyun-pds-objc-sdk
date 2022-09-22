@@ -80,6 +80,14 @@
     return self.config[@"drive_id"];
 }
 
+- (NSString *)driveName {
+    return self.config[@"drive_name"];
+}
+
+- (NSString *)owner {
+    return self.config[@"owner"];
+}
+
 
 - (nullable NSData *)randomDataOfSize:(size_t)sizeInBytes
 {

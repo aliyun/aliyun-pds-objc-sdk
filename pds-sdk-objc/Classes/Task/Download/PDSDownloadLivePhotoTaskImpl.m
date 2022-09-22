@@ -72,7 +72,9 @@ typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
 }
 
 
-- (id)initWithRequest:(PDSDownloadUrlRequest *)request identifier:(NSString *)identifier session:(NSURLSession *)session sessionDelegate:(PDSSessionDelegate *)sessionDelegate transportClient:(PDSTransportClient *)transportClient storageClient:(PDSTaskStorageClient *)storageClient {
+- (id)initWithRequest:(PDSDownloadUrlRequest *)request identifier:(NSString *)identifier session:(NSURLSession *)session
+      sessionDelegate:(PDSSessionDelegate *)sessionDelegate transportClient:(PDSTransportClient *)transportClient
+        storageClient:(PDSTaskStorageClient *)storageClient {
     self = [self initWithIdentifier:identifier];
     self.request = request;
     self.session = session;
@@ -120,7 +122,12 @@ typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
 }
 
 - (PDSTask *)restart {
-    PDSDownloadTask *task = [[PDSDownloadLivePhotoTaskImpl alloc] initWithRequest:self.request identifier:self.taskIdentifier session:self.session sessionDelegate:self.sessionDelegate transportClient:self.transportClient storageClient:self.storageClient];
+    PDSDownloadTask *task = [[PDSDownloadLivePhotoTaskImpl alloc] initWithRequest:self.request
+                                                                       identifier:self.taskIdentifier
+                                                                          session:self.session
+                                                                  sessionDelegate:self.sessionDelegate
+                                                                  transportClient:self.transportClient
+                                                                    storageClient:self.storageClient];
     [task setResponseBlock:_responseBlock queue:_responseQueue];
     [task setProgressBlock:_progressBlock queue:_progressQueue];
     task.retryCount = self.retryCount + 1;
@@ -171,7 +178,9 @@ typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
     PDSAPIGetDownloadUrlRequest *getDownloadUrlRequest = [[PDSAPIGetDownloadUrlRequest alloc] initWithShareID:self.request.shareID
                                                                                                       driveID:self.request.driveID
                                                                                                        fileID:self.request.fileID
-                                                                                                     fileName:self.request.destination.lastPathComponent];
+                                                                                                     fileName:self.request.destination.lastPathComponent
+                                                                                                   shareToken:self.request.shareToken
+                                                                                                   revisionId:self.request.revisionId];
     self.getDownloadUrlTask = [self.transportClient requestSDAPIRequest:getDownloadUrlRequest];
     @weakify(self);
     [self.getDownloadUrlTask setResponseBlock:^(PDSAPIGetDownloadUrlResponse *result, PDSRequestError *_Nullable requestError) {
@@ -193,7 +202,10 @@ typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
                                                                                      hashValue:self.request.hashValue
                                                                                       hashType:PDSFileHashTypeCrc64
                                                                                        driveID:self.request.driveID
-                                                                                       shareID:self.request.shareID];
+                                                                                       shareID:self.request.shareID
+                                                                                    shareToken:self.request.shareToken
+                                                                                    revisionId:self.request.revisionId
+                                                                                 sharePassword:self.request.sharePassword];
                 self.status = PDSDownloadLivePhotoTaskStatusGetDownloadUrl;
                 [self processStatus];
             } else if (!PDSIsEmpty(result.streams_info)) {//是livep资源
@@ -226,7 +238,10 @@ typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
                                                                                   hashValue:streamInfo[@"crc64_hash"]
                                                                                    hashType:PDSFileHashTypeCrc64
                                                                                     driveID:self.request.driveID
-                                                                                    shareID:self.request.shareID];
+                                                                                    shareID:self.request.shareID
+                                                                                 shareToken:self.request.shareToken
+                                                                                 revisionId:self.request.revisionId
+                                                                              sharePassword:self.request.sharePassword];
 
         if ([extension isEqualToString:@"mov"]) {//视频数据
             self.downloadImageTaskId = [self.taskIdentifier stringByAppendingFormat:@"-%@", @"movie"];
@@ -337,10 +352,9 @@ typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
 
 - (void)createFileResult {
     @synchronized (self) {
-        self.resultData = [[PDSFileMetadata alloc] initWithFileID:self.request.fileID
+        self.resultData = [[PDSFileMetadata alloc] initWithFileID:self.request.fileID revisionID:self.request.revisionId
                                                          fileName:self.request.destination.lastPathComponent
-                                                         filePath:self.request.destination
-                                                          driveID:nil
+                                                         filePath:self.request.destination driveID:self.request.driveID
                                                          uploadID:nil];
         self.status = PDSDownloadLivePhotoTaskStatusFinished;
         [self processStatus];

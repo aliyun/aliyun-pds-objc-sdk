@@ -25,7 +25,10 @@
 @implementation PDSAPIGetUploadUrlRequest {
 
 }
-- (instancetype)initWithFileID:(NSString *)fileID uploadID:(NSString *)uploadID driveID:(NSString *)driveID shareID:(NSString *)shareID partInfoList:(NSArray<PDSAPIUploadFilePartInfoItem *> *)partInfoList contentMd5:(NSString *)contentMd5 {
+- (instancetype)initWithFileID:(NSString *)fileID uploadID:(NSString *)uploadID driveID:(NSString *_Nullable)driveID
+                       shareID:(NSString *_Nullable)shareID
+                  partInfoList:(NSArray<PDSAPIUploadFilePartInfoItem *> *)partInfoList
+                    contentMd5:(NSString *_Nullable)contentMd5 shareToken:(NSString *_Nullable)shareToken {
     self = [super init];
     if (self) {
         _fileID = [fileID copy];
@@ -34,6 +37,7 @@
         _shareID = [shareID copy];
         _partInfoList = [partInfoList copy];
         _contentMd5 = [contentMd5 copy];
+        _shareToken = [shareToken copy];
     }
 
     return self;
@@ -62,6 +66,14 @@
     }
     if (!PDSIsEmpty(self.contentMd5)) {
         params[@"content_md5"] = self.contentMd5;
+    }
+    return [params copy];
+}
+
+- (NSDictionary *)headerParams {
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithDictionary:[super headerParams]];
+    if (self.shareToken) {
+        params[@"x-share-token"] = self.shareToken;
     }
     return [params copy];
 }

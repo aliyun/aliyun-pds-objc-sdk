@@ -116,4 +116,9 @@
 - (PDSAPIRequestTask<PDSAPICopyFileResponse *> *)copyFile:(PDSAPICopyFileRequest *)request {
     return [self.transportClient requestSDAPIRequest:request];
 }
+
+- (PDSAPIRequestTask<PDSAPIListFileResponse *> *)listFile:(PDSAPIListFileRequest *)request {
+    return [self.transportClient requestSDAPIRequest:request];
+}
+
 @end

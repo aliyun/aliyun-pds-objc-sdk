@@ -36,8 +36,19 @@ NS_ASSUME_NONNULL_BEGIN
  * 文件名
  */
 @property(nonatomic, copy) NSString *fileName;
+/**
+ * 分享令牌
+ */
+@property(nonatomic, copy) NSString *shareToken;
+/**
+ * 版本ID，用于历史版本文件下载，可选。默认不传值的话，会返回最新版本的文件
+ */
+@property(nonatomic, copy) NSString *revisionId;
 
-- (instancetype)initWithShareID:(NSString *__nullable)shareID driveID:(NSString *__nullable)driveID fileID:(NSString *)fileID fileName:(NSString *__nullable)fileName;
+
+- (instancetype)initWithShareID:(NSString *__nullable)shareID driveID:(NSString *)driveID fileID:(NSString *)fileID
+                       fileName:(NSString *__nullable)fileName shareToken:(NSString *__nullable)shareToken
+                     revisionId:(NSString *__nullable)revisionId;
 
 @end
 

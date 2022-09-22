@@ -22,6 +22,10 @@
 
 }
 
++ (nullable NSDictionary<NSString *, id> *)serialize:(id)instance {
+    return nil;
+}
+
 + (id)deserialize:(NSDictionary<NSString *, id> *)dict {
     return [self yy_modelWithDictionary:dict];
 }

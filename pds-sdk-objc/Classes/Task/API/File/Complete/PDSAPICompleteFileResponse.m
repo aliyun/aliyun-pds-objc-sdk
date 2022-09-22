@@ -42,6 +42,7 @@
             @"encryptMode": @"encrypt_mode",
             @"fileExtension": @"file_extension",
             @"fileID": @"file_id",
+            @"revisionID": @"revision_id",
             @"imageMetaData": @"image_media_metadata",
             @"parentFileID": @"parent_file_id",
             @"uploadID": @"upload_id",

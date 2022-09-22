@@ -50,8 +50,10 @@ NS_ASSUME_NONNULL_BEGIN
  * MIME类型
  */
 @property(nonatomic, copy) NSString *contentType;
+//分享令牌，用于分享上传文件
+@property(nonatomic, copy) NSString *shareToken;
 
-- (instancetype)initWithShareID:( NSString * _Nullable)shareID driveID:(NSString * _Nullable)driveID fileID:(NSString *)fileID uploadID:(NSString *)uploadID parentFileID:(NSString *)parentFileID fileName:(NSString *)fileName contentType:(NSString * _Nullable)contentType;
+- (instancetype)initWithShareID:(NSString *_Nullable)shareID driveID:(NSString *_Nullable)driveID fileID:(NSString *)fileID uploadID:(NSString *)uploadID parentFileID:(NSString *)parentFileID fileName:(NSString *)fileName contentType:(NSString *_Nullable)contentType shareToken:(NSString *_Nullable)shareToken;
 
 @end
 

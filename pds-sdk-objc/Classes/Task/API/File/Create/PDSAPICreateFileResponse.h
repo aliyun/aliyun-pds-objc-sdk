@@ -37,6 +37,10 @@ typedef NS_ENUM(NSInteger, PDSAPICreateFileStatus) {
  */
 @property(nonatomic, copy) NSString *fileName;
 /**
+ * 历史版本
+ */
+@property(nonatomic, copy) NSString *revisionId;
+/**
  * 完成时间
  */
 @property(nonatomic, assign) NSTimeInterval completeTime;

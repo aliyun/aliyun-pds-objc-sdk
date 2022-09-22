@@ -18,6 +18,7 @@
 #import "PDSTransportClient.h"
 #import "PDSTaskStorageClient.h"
 #import "PDSFileSession.h"
+#import "PDSDriveSession.h"
 #import "PDSSDKConstants.h"
 #import "PDSClientConfig.h"
 
@@ -28,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, readwrite) PDSTransportClient *transportClient;
 @property(nonatomic, strong, readwrite) PDSTaskStorageClient *storageClient;
 @property(nonatomic, strong, readwrite) PDSFileSession *file;
+@property(nonatomic, strong, readwrite) PDSDriveSession *drive;
 @end
 
 @implementation PDSUserClient
@@ -43,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.transportClient = transportClient;
         self.storageClient = storageClient;
         self.file = [[PDSFileSession alloc] initWithTransportClient:transportClient storageClient:storageClient];
+        self.drive = [[PDSDriveSession alloc] initWithTransportClient:transportClient storageClient:storageClient];
     }
     return self;
 }

@@ -22,13 +22,18 @@
 @implementation PDSUploadFileRequest {
 
 }
-- (instancetype)initWithUploadPath:(NSString *)uploadPath parentFileID:(NSString *)parentFileID driveID:(NSString *_Nullable)driveID shareID:(NSString *_Nullable)shareID fileName:(NSString *_Nullable)fileName {
+- (instancetype)initWithUploadPath:(NSString *)uploadPath parentFileID:(NSString *)parentFileID
+                            fileID:(NSString *_Nullable)fileID
+                           driveID:(NSString *_Nullable)driveID shareID:(NSString *_Nullable)shareID
+                          fileName:(NSString *_Nullable)fileName checkNameMode:(NSString *_Nullable)checkNameMode
+                        shareToken:(NSString *_Nullable)shareToken sharePassword:(NSString *__nullable)sharePassword {
     self = [super init];
     if (self) {
-        _uploadPath = [uploadPath copy];
-        _parentFileID = [parentFileID copy];
-        _driveID = [driveID copy];
-        _shareID = [shareID copy];
+        _uploadPath = uploadPath;
+        _parentFileID = parentFileID;
+        _driveID = driveID;
+        _shareID = shareID;
+        _fileID = fileID;
         _sectionSize = 4 * 1000 * 1000;
         _fileSize = [[NSFileManager defaultManager] pds_fileSizeForPath:uploadPath];
         _contentType = [[NSFileManager defaultManager] pds_mimeTypeForPath:uploadPath];
@@ -37,6 +42,9 @@
         } else {
             _fileName = fileName;
         }
+        _checkNameMode = PDSIsEmpty(checkNameMode) ? @"auto_rename" : checkNameMode;
+        _shareToken = shareToken;
+        _sharePassword = sharePassword;
     }
     return self;
 }

@@ -26,6 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly) NSString *parentID;
 @property(nonatomic, readonly) NSString *toMoveParentID;
 @property(nonatomic, readonly) NSString *driveID;
+@property(nonatomic, readonly) NSString *driveName;
+@property(nonatomic, readonly) NSString *owner;
+@property(nonatomic, readonly) NSString *userID;
 
 /// 重新生成sample文件
 - (void)refreshSample;

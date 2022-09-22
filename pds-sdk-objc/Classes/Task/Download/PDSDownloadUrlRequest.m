@@ -21,7 +21,11 @@
 @implementation PDSDownloadUrlRequest {
 
 }
-- (instancetype)initWithDownloadUrl:(NSString *)downloadUrl destination:(NSString *)destination fileSize:(uint64_t)fileSize fileID:(NSString *)fileID hashValue:(NSString *)hashValue hashType:(PDSFileHashType)hashType driveID:(NSString *)driveID shareID:(NSString *)shareID {
+- (instancetype)initWithDownloadUrl:(NSString *)downloadUrl destination:(NSString *)destination
+                           fileSize:(uint64_t)fileSize fileID:(NSString *)fileID hashValue:(NSString *)hashValue
+                           hashType:(PDSFileHashType)hashType driveID:(NSString *)driveID
+                            shareID:(NSString *__nullable)shareID shareToken:(NSString *__nullable)shareToken
+                         revisionId:(NSString *__nullable)revisionId sharePassword:(NSString *__nullable)sharePassword {
     self = [super init];
     if (self) {
         _downloadUrl = [downloadUrl copy];
@@ -32,13 +36,26 @@
         _destination = [destination copy];
         _shareID = [shareID copy];
         _driveID = [driveID copy];
+        _shareToken = [shareToken copy];
+        _revisionId = [revisionId copy];
+        _sharePassword = [sharePassword copy];
     }
 
     return self;
 }
 
 - (instancetype)requestWithNewDestination:(NSString *)destination {
-    PDSDownloadUrlRequest *request = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:self.downloadUrl destination:destination fileSize:self.fileSize fileID:self.fileID hashValue:self.hashValue hashType:self.hashType driveID:self.driveID shareID:self.shareID];
+    PDSDownloadUrlRequest *request = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:self.downloadUrl
+                                                                            destination:destination
+                                                                               fileSize:self.fileSize
+                                                                                 fileID:self.fileID
+                                                                              hashValue:self.hashValue
+                                                                               hashType:self.hashType
+                                                                                driveID:self.driveID
+                                                                                shareID:self.shareID
+                                                                             shareToken:self.shareToken
+                                                                             revisionId:self.revisionId
+                                                                          sharePassword:self.sharePassword];
     return request;
 }
 

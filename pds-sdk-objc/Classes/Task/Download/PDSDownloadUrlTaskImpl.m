@@ -22,6 +22,7 @@
 #import "PDSInternalParallelDownloadTask.h"
 #import "PDSDownloadUrlRequest.h"
 #import "PDSSessionDelegate.h"
+#import "PDSAPIRequestTask.h"
 #import "PDSInternalHashTask.h"
 #import "PDSRequestError.h"
 #import "NSFileManager+PDS.h"
@@ -36,21 +37,20 @@
 #import "PDSFileMetadata.h"
 #import "NSString+PDS.h"
 #import <extobjc/EXTScope.h>
+#import "PDSAPIGetShareTokenRequest.h"
+#import "PDSAPIGetShareTokenResponse.h"
 #import "PDSTaskStorageClient.h"
 
 typedef NS_ENUM(NSUInteger, PDSDownloadUrlTaskStatus) {
     PDSDownloadUrlTaskStatusInit = 0,
     PDSDownloadUrlTaskStatusRefreshUrl = 2,
+    PDSDownloadUrlTaskStatusRefreshShareToken = 3,
     PDSDownloadUrlTaskStatusDownloading = 10,
     PDSDownloadUrlTaskStatusDownloaded = 11,
     PDSDownloadUrlTaskStatusHashing = 100,//正在校验
     PDSDownloadUrlTaskStatusChecked = 101,//文件校验成功
     PDSDownloadUrlTaskStatusFinished = 1000
 };
-
-static const int kPDSDownloadTaskMaxFailRetryCount = 3;
-
-static const int kMaxRenameCount = 10;
 
 static const int MAX_PDS_FILE_NAME_LENGTH = 64;
 
@@ -70,6 +70,7 @@ static const int MAX_PDS_FILE_NAME_LENGTH = 64;
 @property(nonatomic, assign) BOOL cancelled;
 @property(nonatomic, assign) BOOL executing;
 @property(nonatomic, assign) BOOL started;
+@property(nonatomic, strong) PDSAPIRequestTask *getShareTokenTask;
 @end
 
 @implementation PDSDownloadUrlTaskImpl {
@@ -142,7 +143,11 @@ static const int MAX_PDS_FILE_NAME_LENGTH = 64;
 }
 
 - (PDSTask *)restart {
-    PDSDownloadTask *task = [[PDSDownloadUrlTaskImpl alloc] initWithRequest:self.request identifier:self.taskIdentifier session:self.session sessionDelegate:self.sessionDelegate transportClient:self.transportClient storageClient:self.storageClient];
+    PDSDownloadTask *task = [[PDSDownloadUrlTaskImpl alloc] initWithRequest:self.request identifier:self.taskIdentifier
+                                                                    session:self.session
+                                                            sessionDelegate:self.sessionDelegate
+                                                            transportClient:self.transportClient
+                                                              storageClient:self.storageClient];
     [task setResponseBlock:_responseBlock queue:_responseQueue];
     [task setProgressBlock:_progressBlock queue:_progressQueue];
     task.retryCount = self.retryCount + 1;
@@ -167,6 +172,9 @@ static const int MAX_PDS_FILE_NAME_LENGTH = 64;
             break;
         case PDSDownloadUrlTaskStatusRefreshUrl:
             [self refreshDownloadUrl];
+            break;
+        case PDSDownloadUrlTaskStatusRefreshShareToken:
+            [self refreshShareToken];
             break;
         case PDSDownloadUrlTaskStatusDownloading:
             [self startDownload];
@@ -221,7 +229,10 @@ static const int MAX_PDS_FILE_NAME_LENGTH = 64;
                                                                                   hashValue:self.request.hashValue
                                                                                    hashType:self.request.hashType
                                                                                     driveID:self.request.driveID
-                                                                                    shareID:self.request.shareID];
+                                                                                    shareID:self.request.shareID
+                                                                                 shareToken:self.request.shareToken
+                                                                                 revisionId:self.request.revisionId
+                                                                              sharePassword:self.request.sharePassword];
         self.downloadTask = [[PDSInternalParallelDownloadTask alloc] initWithRequest:request
                                                                           identifier:self.taskIdentifier
                                                                              session:self.session
@@ -264,6 +275,9 @@ static const int MAX_PDS_FILE_NAME_LENGTH = 64;
                         [self processStatus];
                     }
                     return;
+                } else if(networkError.statusCode == 401 && !PDSIsEmpty(self.request.shareID) && !PDSIsEmpty(self.request.shareToken)) {//分享token过期
+                    self.status = PDSDownloadUrlTaskStatusRefreshShareToken;
+                    [self processStatus];
                 }
                 @synchronized (self) {
                     //返回失败原因
@@ -325,11 +339,9 @@ static const int MAX_PDS_FILE_NAME_LENGTH = 64;
             [self processStatus];
             return;
         }
-        self.resultData = [[PDSFileMetadata alloc] initWithFileID:self.request.fileID
-                                                         fileName:[destination lastPathComponent]
-                                                         filePath:destination
-                                                          driveID:self.request.driveID
-                                                         uploadID:nil];
+        self.resultData = [[PDSFileMetadata alloc] initWithFileID:self.request.fileID revisionID:self.request.revisionId
+                                                         fileName:[destination lastPathComponent] filePath:destination
+                                                          driveID:self.request.driveID uploadID:nil];
         self.status = PDSDownloadUrlTaskStatusFinished;
         [self processStatus];
     }
@@ -339,7 +351,9 @@ static const int MAX_PDS_FILE_NAME_LENGTH = 64;
     PDSAPIGetDownloadUrlRequest *getDownloadUrlRequest = [[PDSAPIGetDownloadUrlRequest alloc] initWithShareID:self.request.shareID
                                                                                                       driveID:self.request.driveID
                                                                                                        fileID:self.request.fileID
-                                                                                                     fileName:self.request.destination.lastPathComponent];
+                                                                                                     fileName:self.request.destination.lastPathComponent
+                                                                                                   shareToken:self.request.shareToken
+                                                                                                   revisionId:self.request.revisionId];
     self.getDownloadUrlTask = [self.transportClient requestSDAPIRequest:getDownloadUrlRequest];
     @weakify(self);
     [self.getDownloadUrlTask setResponseBlock:^(PDSAPIGetDownloadUrlResponse *result, PDSRequestError *_Nullable requestError) {
@@ -353,7 +367,51 @@ static const int MAX_PDS_FILE_NAME_LENGTH = 64;
             return;
         }
         @synchronized (self) {
-            self.request = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:result.url destination:self.request.destination fileSize:result.size fileID:self.request.fileID hashValue:self.request.hashValue hashType:self.request.hashType driveID:self.request.driveID shareID:self.request.driveID];
+            self.request = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:result.url
+                                                                  destination:self.request.destination
+                                                                     fileSize:result.size
+                                                                       fileID:self.request.fileID
+                                                                    hashValue:self.request.hashValue
+                                                                     hashType:self.request.hashType
+                                                                      driveID:self.request.driveID
+                                                                      shareID:self.request.shareID
+                                                                   shareToken:self.request.shareToken
+                                                                   revisionId:self.request.revisionId
+                                                                sharePassword:self.request.sharePassword];
+            self.status = PDSDownloadUrlTaskStatusDownloading;
+            [self processStatus];
+        }
+    }                                   queue:self.operationQueue];
+}
+
+- (void)refreshShareToken {
+    PDSAPIGetShareTokenRequest *getShareTokenRequest = [[PDSAPIGetShareTokenRequest alloc] initWithShareId:self.request.shareID
+                                                                                             sharePassword:self.request.sharePassword
+                                                                                        checkSharePassword:NO];
+    self.getShareTokenTask = [self.transportClient requestSDAPIRequest:getShareTokenRequest];
+    @weakify(self);
+    [self.getShareTokenTask setResponseBlock:^(PDSAPIGetShareTokenResponse *result, PDSRequestError *_Nullable requestError) {
+        @strongify(self);
+        if (requestError) {
+            @synchronized (self) {
+                self.requestError = requestError;
+                self.status = PDSDownloadUrlTaskStatusFinished;
+                [self processStatus];
+            }
+            return;
+        }
+        @synchronized (self) {
+            self.request = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:self.request.downloadUrl
+                                                                  destination:self.request.destination
+                                                                     fileSize:self.request.fileSize
+                                                                       fileID:self.request.fileID
+                                                                    hashValue:self.request.hashValue
+                                                                     hashType:self.request.hashType
+                                                                      driveID:self.request.driveID
+                                                                      shareID:self.request.shareID
+                                                                   shareToken:result.shareToken
+                                                                   revisionId:self.request.revisionId
+                                                                sharePassword:self.request.sharePassword];
             self.status = PDSDownloadUrlTaskStatusDownloading;
             [self processStatus];
         }

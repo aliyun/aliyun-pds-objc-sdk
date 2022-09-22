@@ -5,6 +5,9 @@ platform :ios, '9.0'
 
 target 'pds-sdk-objc_Example' do
   pod 'PDS_SDK', :path => '../',:inhibit_warnings => false
+  
+  pod 'SVProgressHUD'
+  pod 'TZImagePickerController'
 
   target 'pds-sdk-objc_Tests' do
     inherit! :search_paths

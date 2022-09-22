@@ -21,6 +21,7 @@
 @class PDSSessionDelegate;
 @class PDSTransportClient;
 @class PDSTaskStorageClient;
+@class PDSAPIRequestTask;
 
 @interface PDSDownloadUrlTaskImpl : PDSDownloadTask
 

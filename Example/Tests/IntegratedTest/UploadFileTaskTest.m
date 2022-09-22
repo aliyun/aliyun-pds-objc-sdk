@@ -36,14 +36,24 @@ describe(@"001 test config", ^{
 
 describe(@"002 UploadFileTask", ^{
     it(@"001 file request init", ^{
-        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath parentFileID:testConfig.parentID driveID:testConfig.driveID shareID:nil fileName:nil];
+        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath
+                                                                                      parentFileID:testConfig.parentID
+                                                                                           driveID:testConfig.driveID
+                                                                                           shareID:nil fileName:nil
+                                                                                     checkNameMode:nil shareToken:nil
+                                                                                     sharePassword:nil];
         expect(uploadFileRequest.fileName).equal(testConfig.sampleName);
         expect(uploadFileRequest.fileSize).equal(testConfig.sampleSize);
         expect(uploadFileRequest.contentType).toNot.beNil();
         expect(uploadFileRequest.uploadPath).equal(testConfig.samplePath);
     });
     it(@"002 normal file upload", ^{
-        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath parentFileID:testConfig.parentID driveID:testConfig.driveID shareID:nil fileName:nil];
+        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath
+                                                                                      parentFileID:testConfig.parentID
+                                                                                           driveID:testConfig.driveID
+                                                                                           shareID:nil fileName:nil
+                                                                                     checkNameMode:nil shareToken:nil
+                                                                                     sharePassword:nil];
         uploadTask = [[PDSClientManager defaultClient].file uploadFile:uploadFileRequest taskIdentifier:nil];
         expect(uploadTask).toNot.beNil();
         waitUntilTimeout(100.0, ^(DoneCallback done) {
@@ -60,7 +70,12 @@ describe(@"002 UploadFileTask", ^{
     });
 
     it(@"003 fast file upload", ^{
-        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath parentFileID:testConfig.parentID driveID:testConfig.driveID shareID:nil fileName:nil];
+        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath
+                                                                                      parentFileID:testConfig.parentID
+                                                                                           driveID:testConfig.driveID
+                                                                                           shareID:nil fileName:nil
+                                                                                     checkNameMode:nil shareToken:nil
+                                                                                     sharePassword:nil];
         uploadTask = [[PDSClientManager defaultClient].file uploadFile:uploadFileRequest taskIdentifier:nil];
         expect(uploadTask).toNot.beNil();
         [uploadTask setProgressBlock:^(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
@@ -80,7 +95,12 @@ describe(@"002 UploadFileTask", ^{
 
     it(@"004 resume file upload",^{
         [testConfig refreshSample];
-        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath parentFileID:testConfig.parentID driveID:testConfig.driveID shareID:nil fileName:nil];
+        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath
+                                                                                      parentFileID:testConfig.parentID
+                                                                                           driveID:testConfig.driveID
+                                                                                           shareID:nil fileName:nil
+                                                                                     checkNameMode:nil shareToken:nil
+                                                                                     sharePassword:nil];
         uploadTask = [[PDSClientManager defaultClient].file uploadFile:uploadFileRequest taskIdentifier:nil];
         expect(uploadTask).toNot.beNil();
         //暂停0.1秒再暂停上传任务，确保上传任务已经进入了上传流程
@@ -102,7 +122,12 @@ describe(@"002 UploadFileTask", ^{
 
     it(@"005 cancel file upload", ^{
         [testConfig refreshSample];
-        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath parentFileID:testConfig.parentID driveID:testConfig.driveID shareID:nil fileName:nil];
+        PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:testConfig.samplePath
+                                                                                      parentFileID:testConfig.parentID
+                                                                                           driveID:testConfig.driveID
+                                                                                           shareID:nil fileName:nil
+                                                                                     checkNameMode:nil shareToken:nil
+                                                                                     sharePassword:nil];
         uploadTask = [[PDSClientManager defaultClient].file uploadFile:uploadFileRequest taskIdentifier:nil];
         expect(uploadTask).toNot.beNil();
         //暂停0.1秒再暂停上传任务，确保上传任务已经进入了上传流程

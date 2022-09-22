@@ -16,18 +16,28 @@
 // *
 
 #import "PDSUploadPhotoRequest.h"
+#import "PDSMacro.h"
 
 @implementation PDSUploadPhotoRequest
 
-- (instancetype)initWithLocalIdentifier:(NSString *)localIdentifier parentFileID:(NSString *)parentFileID driveID:(NSString *_Nullable)driveID shareID:(NSString *_Nullable)shareID fileName:(NSString *_Nullable)fileName {
+- (instancetype)initWithLocalIdentifier:(NSString *)localIdentifier parentFileID:(NSString *)parentFileID
+                                 fileID:(NSString *_Nullable)fileID
+                                driveID:(NSString *_Nullable)driveID shareID:(NSString *_Nullable)shareID
+                               fileName:(NSString *_Nullable)fileName checkNameMode:(NSString *_Nullable)checkNameMode
+                             shareToken:(NSString *_Nullable)shareToken
+                          sharePassword:(NSString *_Nullable)sharePassword {
     self = [super init];
     if (self) {
-        _localIdentifier = [localIdentifier copy];
-        _parentFileID = [parentFileID copy];
-        _driveID = [driveID copy];
-        _shareID = [shareID copy];
+        _localIdentifier = localIdentifier;
+        _parentFileID = parentFileID;
+        _driveID = driveID;
+        _shareID = shareID;
+        _fileID = fileID;
         _sectionSize = 4 * 1000 * 1000;
         _fileName = fileName;
+        _checkNameMode = PDSIsEmpty(checkNameMode) ? @"auto_rename" : checkNameMode;
+        _shareToken = shareToken;
+        _sharePassword = sharePassword;
     }
     return self;
 }

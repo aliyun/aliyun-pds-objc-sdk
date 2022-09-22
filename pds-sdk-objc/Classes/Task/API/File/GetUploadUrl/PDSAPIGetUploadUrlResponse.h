@@ -15,12 +15,13 @@
 // *
 
 #import <Foundation/Foundation.h>
+#import <PDS_SDK/PDSSerializable.h>
 
 @class PDSAPIUploadFilePartInfoItem;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PDSAPIGetUploadUrlResponse : NSObject
+@interface PDSAPIGetUploadUrlResponse : NSObject <PDSSerializable>
 @property(nonatomic, copy) NSString *createAt;
 @property(nonatomic, copy) NSString *domainID;
 @property(nonatomic, copy) NSString *driveID;

@@ -22,15 +22,18 @@
 @implementation PDSAPIGetDownloadUrlRequest {
 
 }
-- (instancetype)initWithShareID:(NSString *)shareID driveID:(NSString *)driveID fileID:(NSString *)fileID fileName:(NSString *)fileName {
+- (instancetype)initWithShareID:(NSString *__nullable)shareID driveID:(NSString *)driveID fileID:(NSString *)fileID
+                       fileName:(NSString *__nullable)fileName shareToken:(NSString *__nullable)shareToken
+                     revisionId:(NSString *__nullable)revisionId {
     self = [super init];
     if (self) {
         _shareID = [shareID copy];
         _driveID = [driveID copy];
         _fileID = [fileID copy];
         _fileName = [fileName copy];
+        _shareToken = [shareToken copy];
+        _revisionId = revisionId;
     }
-
     return self;
 }
 
@@ -42,7 +45,6 @@
 - (Class <PDSSerializable>)responseClass {
     return [PDSAPIGetDownloadUrlResponse class];
 }
-
 
 - (NSDictionary *)requestParams {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
@@ -57,6 +59,18 @@
     if (!PDSIsEmpty(self.fileID)) {
         params[@"file_id"] = self.fileID;
     }
+    if (!PDSIsEmpty(self.revisionId)) {
+        params[@"revision_id"] = self.revisionId;
+    }
     return [params copy];
 }
+
+- (NSDictionary *)headerParams {
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithDictionary:[super headerParams]];
+    if (self.shareToken) {
+        params[@"x-share-token"] = self.shareToken;
+    }
+    return [params copy];
+}
+
 @end

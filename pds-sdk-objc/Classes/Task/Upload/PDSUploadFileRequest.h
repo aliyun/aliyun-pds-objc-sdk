@@ -30,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign, readonly) uint64_t fileSize;
 //存储空间ID
 @property(nonatomic, copy, readonly) NSString *driveID;
+///文件ID，选填
+@property(nonatomic, copy) NSString *fileID;
 //分享ID
 @property(nonatomic, copy, readonly) NSString *shareID;
 //分片上传大小，默认为4M
@@ -38,6 +40,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *fileName;
 //文件类型
 @property(nonatomic, readonly) NSString *contentType;
+//当要上传的文件夹中已经有同名文件时候的处理方式，默认为自动重命名
+@property(nonatomic, copy) NSString *checkNameMode;
+//分享令牌，用于分享上传文件
+@property(nonatomic, copy) NSString *shareToken;
+//分享密码，用于分享令牌过期之后进行刷新
+@property(nonatomic, copy) NSString *sharePassword;
 
 /**
  * 初始化上传文件请求
@@ -48,7 +56,11 @@ NS_ASSUME_NONNULL_BEGIN
  * @param fileName 文件名，如果不传的话会取上传路径的文件名
  * @return 文件上传请求
  */
-- (instancetype)initWithUploadPath:(NSString *)uploadPath parentFileID:(NSString *)parentFileID driveID:(NSString *_Nullable)driveID shareID:(NSString *_Nullable)shareID fileName:(NSString *_Nullable)fileName;
+- (instancetype)initWithUploadPath:(NSString *)uploadPath parentFileID:(NSString *)parentFileID
+                            fileID:(NSString *_Nullable)fileID
+                           driveID:(NSString *_Nullable)driveID shareID:(NSString *_Nullable)shareID
+                          fileName:(NSString *_Nullable)fileName checkNameMode:(NSString *_Nullable)checkNameMode
+                        shareToken:(NSString *_Nullable)shareToken sharePassword:(NSString *__nullable)sharePassword;
 
 @end
 

@@ -20,10 +20,12 @@
 @implementation PDSFileMetadata {
 
 }
-- (instancetype)initWithFileID:(NSString *)fileID fileName:(NSString *)fileName filePath:(NSString *)filePath driveID:(NSString *)driveID uploadID:(NSString *)uploadID {
+- (instancetype)initWithFileID:(NSString *)fileID revisionID:(NSString *)revisionID fileName:(NSString *)fileName
+                      filePath:(NSString *)filePath driveID:(NSString *)driveID uploadID:(NSString *)uploadID {
     self = [super init];
     if (self) {
         self.fileID = fileID;
+        self.revisionID = revisionID;
         self.fileName = fileName;
         self.filePath = filePath;
         self.driveID = driveID;

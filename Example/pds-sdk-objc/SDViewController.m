@@ -17,6 +17,7 @@
 #import "SDViewController.h"
 #import "PDSTestConfig.h"
 #import <extobjc/EXTobjc.h>
+#import "SDListViewController.h"
 @import PDS_SDK;
 
 @interface SDViewController ()
@@ -53,7 +54,13 @@
     }
     NSURL *documentUrl = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
     documentUrl = [documentUrl URLByAppendingPathComponent:@"download/WeChatMac.dmg"];
-    PDSDownloadUrlRequest *request = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:@"https://dldir1.qq.com/weixin/mac/WeChatMac.dmg" destination:documentUrl.path fileSize:141830090 fileID:@"10293783" hashValue:@"5b813cf4fd285088440c3f58d74c772d72c6a326" hashType:PDSFileHashTypeSha1 driveID:nil shareID:nil];
+    PDSDownloadUrlRequest *request = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:@"https://dldir1.qq.com/weixin/mac/WeChatMac.dmg"
+                                                                            destination:documentUrl.path
+                                                                               fileSize:141830090 fileID:@"10293783"
+                                                                              hashValue:@"5b813cf4fd285088440c3f58d74c772d72c6a326"
+                                                                               hashType:PDSFileHashTypeSha1 driveID:nil
+                                                                                shareID:nil shareToken:nil
+                                                                             revisionId:nil sharePassword:nil];
     self.downloadTask = [[PDSClientManager defaultClient].file downloadUrl:request taskIdentifier:nil];
     @weakify(self);
     [self.downloadTask setProgressBlock:^(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
@@ -86,8 +93,9 @@
     PDSUploadFileRequest *uploadFileRequest = [[PDSUploadFileRequest alloc] initWithUploadPath:self.config.samplePath
                                                                                   parentFileID:self.config.parentID
                                                                                        driveID:self.config.driveID
-                                                                                       shareID:nil
-                                                                                      fileName:nil];
+                                                                                       shareID:nil fileName:nil
+                                                                                 checkNameMode:nil shareToken:nil
+                                                                                 sharePassword:nil];
     @weakify(self);
     self.uploadTask = [[[[PDSClientManager defaultClient].file uploadFile:uploadFileRequest
                                                            taskIdentifier:nil]
@@ -110,6 +118,10 @@
 
 - (IBAction)cancelUpload:(id)sender {
     [self.uploadTask cancel];
+}
+- (IBAction)listFile:(id)sender {
+    SDListViewController *vc= [[SDListViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

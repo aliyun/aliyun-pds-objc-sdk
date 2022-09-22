@@ -33,7 +33,17 @@ SpecBegin(DownloadFileTask)
     describe(@"download from pds server", ^{
         it(@"001 init success", ^{
             NSString *destinationDirPath = [testConfig.downloadDestination stringByAppendingPathComponent:testConfig.normalDownloadFileName];
-            PDSDownloadUrlRequest *downloadUrlRequest = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:testConfig.normalDownloadUrl destination:destinationDirPath fileSize:testConfig.normalDownloadSize fileID:testConfig.normalDownloadFileID hashValue:testConfig.normalDownloadHash hashType:PDSFileHashTypeCrc64 driveID:testConfig.driveID shareID:nil];
+            PDSDownloadUrlRequest *downloadUrlRequest = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:testConfig.normalDownloadUrl
+                                                                                               destination:destinationDirPath
+                                                                                                  fileSize:testConfig.normalDownloadSize
+                                                                                                    fileID:testConfig.normalDownloadFileID
+                                                                                                 hashValue:testConfig.normalDownloadHash
+                                                                                                  hashType:PDSFileHashTypeCrc64
+                                                                                                   driveID:testConfig.driveID
+                                                                                                   shareID:nil
+                                                                                                shareToken:nil
+                                                                                                revisionId:nil
+                                                                                             sharePassword:nil];
             expect(downloadUrlRequest).toNot.beNil();
             expect(downloadUrlRequest.hashValue).equal(testConfig.normalDownloadHash);
             expect(downloadUrlRequest.fileSize).equal(@(testConfig.normalDownloadSize));
@@ -42,7 +52,17 @@ SpecBegin(DownloadFileTask)
         });
         it(@"002 start download", ^{
             NSString *destinationDirPath = [testConfig.downloadDestination stringByAppendingPathComponent:testConfig.normalDownloadFileName];
-            PDSDownloadUrlRequest *downloadUrlRequest = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:testConfig.normalDownloadUrl destination:destinationDirPath fileSize:testConfig.normalDownloadSize fileID:testConfig.normalDownloadFileID hashValue:testConfig.normalDownloadHash hashType:PDSFileHashTypeCrc64 driveID:testConfig.driveID shareID:nil];
+            PDSDownloadUrlRequest *downloadUrlRequest = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:testConfig.normalDownloadUrl
+                                                                                               destination:destinationDirPath
+                                                                                                  fileSize:testConfig.normalDownloadSize
+                                                                                                    fileID:testConfig.normalDownloadFileID
+                                                                                                 hashValue:testConfig.normalDownloadHash
+                                                                                                  hashType:PDSFileHashTypeCrc64
+                                                                                                   driveID:testConfig.driveID
+                                                                                                   shareID:nil
+                                                                                                shareToken:nil
+                                                                                                revisionId:nil
+                                                                                             sharePassword:nil];
             downloadTask = [[PDSClientManager defaultClient].file downloadUrl:downloadUrlRequest
                                                                taskIdentifier:nil];
             expect(downloadTask).toNot.beNil();
@@ -59,7 +79,17 @@ SpecBegin(DownloadFileTask)
         });
         it(@"003 start download again", ^{
             NSString *destinationDirPath = [testConfig.downloadDestination stringByAppendingPathComponent:testConfig.normalDownloadFileName];
-            PDSDownloadUrlRequest *downloadUrlRequest = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:testConfig.normalDownloadUrl destination:destinationDirPath fileSize:testConfig.normalDownloadSize fileID:testConfig.normalDownloadFileID hashValue:testConfig.normalDownloadHash hashType:PDSFileHashTypeCrc64 driveID:testConfig.driveID shareID:nil];
+            PDSDownloadUrlRequest *downloadUrlRequest = [[PDSDownloadUrlRequest alloc] initWithDownloadUrl:testConfig.normalDownloadUrl
+                                                                                               destination:destinationDirPath
+                                                                                                  fileSize:testConfig.normalDownloadSize
+                                                                                                    fileID:testConfig.normalDownloadFileID
+                                                                                                 hashValue:testConfig.normalDownloadHash
+                                                                                                  hashType:PDSFileHashTypeCrc64
+                                                                                                   driveID:testConfig.driveID
+                                                                                                   shareID:nil
+                                                                                                shareToken:nil
+                                                                                                revisionId:nil
+                                                                                             sharePassword:nil];
             downloadTask = [[PDSClientManager defaultClient].file downloadUrl:downloadUrlRequest
                                                                taskIdentifier:nil];
             expect(downloadTask).toNot.beNil();
@@ -81,7 +111,10 @@ SpecBegin(DownloadFileTask)
                                                                                                  hashValue:testConfig.livepDownloadHash
                                                                                                   hashType:PDSFileHashTypeCrc64
                                                                                                    driveID:testConfig.driveID
-                                                                                                   shareID:nil];
+                                                                                                   shareID:nil
+                                                                                                shareToken:nil
+                                                                                                revisionId:nil
+                                                                                             sharePassword:nil];
 
             livepDownloadTask = [[PDSClientManager defaultClient].file downloadUrl:downloadUrlRequest taskIdentifier:nil];
             [livepDownloadTask setProgressBlock:^(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {

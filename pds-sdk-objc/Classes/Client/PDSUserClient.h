@@ -18,12 +18,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @class PDSFileSession;
+@class PDSDriveSession;
 @class PDSClientConfig;
-@class PDSAPIClient;
 
 @interface PDSUserClient : NSObject
 @property(nonatomic, strong, readonly) PDSFileSession *file;
-@property(nonatomic, strong, readonly) PDSAPIClient *api;
+@property(nonatomic, strong, readonly) PDSDriveSession *drive;
 
 - (instancetype)initWithAccessToken:(NSString *)accessToken clientConfig:(PDSClientConfig *)clientConfig;
 

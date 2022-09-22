@@ -48,9 +48,10 @@ NS_ASSUME_NONNULL_BEGIN
 @class PDSAPICopyFileRequest;
 @class PDSAPICopyFileResponse;
 @class PDSUploadPhotoRequest;
+@class PDSAPIListFileResponse;
+@class PDSAPIListFileRequest;
 
 @interface PDSFileSession : PDSBaseSession
-
 
 /// 通过URL创建下载任务
 /// @param request 下载任务请求
@@ -143,6 +144,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// https://help.aliyun.com/document_detail/175927.html#h2-u62F7u8D1Du6587u4EF6u6216u6587u4EF6u593913
 /// @param request 复制文件接口请求
 - (PDSAPIRequestTask<PDSAPICopyFileResponse *> *)copyFile:(PDSAPICopyFileRequest *)request;
+
+/// 通过URL创建下载任务
+/// @param request 下载任务请求
+/// @param taskIdentifier 任务ID,SDK会通过taskID判断之前是否创建过下载任务，如果创建过会尝试恢复之前的下载记录
+/// @return 下载任务
+- (PDSAPIRequestTask<PDSAPIListFileResponse *> *)listFile:(PDSAPIListFileRequest *)request;
+
 @end
 
 NS_ASSUME_NONNULL_END

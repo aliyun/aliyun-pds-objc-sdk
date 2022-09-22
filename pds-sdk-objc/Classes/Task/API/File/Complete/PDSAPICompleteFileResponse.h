@@ -39,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *encryptMode;
 @property(nonatomic, copy) NSString *fileExtension;
 @property(nonatomic, copy) NSString *fileID;
+@property(nonatomic, copy) NSString *revisionID;
 @property(nonatomic, copy) NSString *hidden;
 @property(nonatomic, strong) PDSAPIImageMetaData *imageMetaData;
 @property(nonatomic, copy) NSArray<NSString *> *labels;
@@ -50,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *thumbnail;
 @property(nonatomic, copy) NSString *url;
 @property(nonatomic, copy) NSString *userMeta;
-@property(nonatomic, strong) NSString *videoMetaData;
+@property(nonatomic, copy) NSString *videoMetaData;
 @end
 
 NS_ASSUME_NONNULL_END

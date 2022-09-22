@@ -20,6 +20,7 @@
 @class PDSUploadFileRequest;
 @class PDSSessionDelegate;
 @class PDSTransportClient;
+@class PDSAPIRequestTask;
 
 NS_ASSUME_NONNULL_BEGIN
 
