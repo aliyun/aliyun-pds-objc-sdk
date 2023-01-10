@@ -78,7 +78,9 @@
                                                               clientError:nil];
             } else {
                 result = request.responseClass ? result : nil;
-                requestError = ((PDSAPIResponse *) result).error;
+                if ([result isKindOfClass:[PDSAPIResponse class]]) {
+                    requestError = ((PDSAPIResponse *) result).error;
+                }
                 if (!requestError) {//没有错误
                     successful = YES;
                 }

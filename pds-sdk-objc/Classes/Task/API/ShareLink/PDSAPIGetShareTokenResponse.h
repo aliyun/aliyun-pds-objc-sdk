@@ -14,11 +14,11 @@
 // * limitations under the License.
 // *
 #import <Foundation/Foundation.h>
-#import <PDS_SDK/PDSSerializable.h>
+#import <PDS_SDK/PDSAPIResponse.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PDSAPIGetShareTokenResponse : NSObject <PDSSerializable>
+@interface PDSAPIGetShareTokenResponse : PDSAPIResponse
 @property(nonatomic, copy) NSString *shareToken;
 @property(nonatomic, copy) NSString *expireTime;
 @property(nonatomic, copy) NSString *expireIn;

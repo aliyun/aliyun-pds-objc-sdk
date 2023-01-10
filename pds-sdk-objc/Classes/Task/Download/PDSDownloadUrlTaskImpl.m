@@ -470,6 +470,12 @@ static const int MAX_PDS_FILE_NAME_LENGTH = 64;
     }
 }
 
+- (BOOL)isSuspended {
+    @synchronized (self) {
+        return self.executing == NO;
+    }
+}
+
 - (NSString *)tempDestination {
     @synchronized (self) {
         if (self.request.destination) {

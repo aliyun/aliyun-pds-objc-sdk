@@ -45,6 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isCancelled;
 
 - (BOOL)isFinished;
+
+- (BOOL)isSuspended;
 @end
 
 

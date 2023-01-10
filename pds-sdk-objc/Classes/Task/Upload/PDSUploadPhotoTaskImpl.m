@@ -251,6 +251,17 @@ typedef NS_ENUM(NSUInteger, PDSUploadPhotoTaskStatus) {
     }
 }
 
+- (BOOL)isCancelled {
+    @synchronized (self) {
+        return self.cancelled;
+    }
+}
+
+- (BOOL)isSuspended {
+    @synchronized (self) {
+        return self.suspended;
+    }
+}
 
 #pragma mark Callback
 

@@ -143,6 +143,11 @@ typedef NS_ENUM(NSUInteger, PDSDownloadLivePhotoTaskStatus) {
     return status == PDSDownloadLivePhotoTaskStatusFinished;
 }
 
+- (BOOL)isSuspended {
+    @synchronized (self) {
+        return self.suspended;
+    }
+}
 
 #pragma mark Private Methods
 

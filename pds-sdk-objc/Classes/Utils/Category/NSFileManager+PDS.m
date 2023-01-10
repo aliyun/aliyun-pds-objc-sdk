@@ -45,27 +45,15 @@
 
 
 - (uint64_t)pds_diskAvailableCapacity {
-    uint64_t availableCapacity = 0;
-    if (@available(iOS 11.0, *)) {
-        NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:NSTemporaryDirectory()];
-        NSDictionary *results = [fileURL resourceValuesForKeys:@[NSURLVolumeAvailableCapacityForImportantUsageKey] error:nil];
-        NSNumber *availableCapacityNum = results[NSURLVolumeAvailableCapacityForImportantUsageKey];
-//        这里拿到的值的单位是bytes，iOS11是这样算的1000MB = 1，1000进制算的
-//        bytes->KB->MB->G
-        availableCapacity = availableCapacityNum.unsignedLongLongValue;
-    } else {
-        /// 剩余大小
-        uint64_t freeSize = 0;
-        NSError *error = nil;
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSDictionary *dictionary = [[NSFileManager defaultManager] attributesOfFileSystemForPath:[paths lastObject] error:&error];
-        if (dictionary) {
-            NSNumber *_free = dictionary[NSFileSystemFreeSize];
-            freeSize = [_free unsignedLongLongValue];
-        }
-        availableCapacity = freeSize;
+    uint64_t freeSize = 0;
+    NSError *error = nil;
+    NSDictionary *dictionary = [[NSFileManager defaultManager] attributesOfFileSystemForPath:NSHomeDirectory()
+                                                                                       error:&error];
+    if (dictionary) {
+        NSNumber *_free = dictionary[NSFileSystemFreeSize];
+        freeSize = [_free unsignedLongLongValue];
     }
-    return availableCapacity;
+    return freeSize;
 }
 
 - (BOOL)pds_autoRenameFile:(NSString **)filePath {

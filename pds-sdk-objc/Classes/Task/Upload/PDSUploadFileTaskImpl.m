@@ -121,6 +121,7 @@ typedef NS_ENUM(NSUInteger, PDSUploadFileTaskStatus) {
         [self.completeFileTask cancel];
         [self.uploadFileTask cancel];
         [self.hashTask cancel];
+        [PDSLogger logDebug:@"调用取消任务"];
         self.status = PDSUploadFileTaskStatusFinished;
     }
 }
@@ -190,8 +191,13 @@ typedef NS_ENUM(NSUInteger, PDSUploadFileTaskStatus) {
         cancelled = self.cancelled;
         status = self.status;
     }
-    //统一持久化任务状态
-    [self syncTaskStatus:status];
+    /**
+     统一持久化任务状态,当存在错误的情况下面不持久化finished的状态，避免下次恢复任务时候失败任务直接
+     返回finished导致任务失败但是被返回成完成状态。
+     **/
+     if(!self.requestError) {
+        [self syncTaskStatus:status];
+    }
 
     if (cancelled || !executing) {
         return;
@@ -376,7 +382,7 @@ typedef NS_ENUM(NSUInteger, PDSUploadFileTaskStatus) {
     }
     //开始上传
     @synchronized (self) {
-        [PDSLogger logDebug:[NSString stringWithFormat:@"开始上传分片:%@", toUploadSection]];
+//        [PDSLogger logDebug:[NSString stringWithFormat:@"开始上传分片:%@", toUploadSection]];
         self.uploadFileTask = [[PDSInternalUploadTask alloc] initWithRequest:self.request
                                                                uploadSection:toUploadSection
                                                                      session:self.session
@@ -511,6 +517,12 @@ typedef NS_ENUM(NSUInteger, PDSUploadFileTaskStatus) {
 - (BOOL)isFinished {
     @synchronized (self) {
         return self.status == PDSUploadFileTaskStatusFinished;
+    }
+}
+
+- (BOOL)isSuspended {
+    @synchronized (self) {
+        return self.executing == NO;
     }
 }
 
