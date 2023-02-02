@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'PDS_SDK'
-  s.version          = '0.0.4'
+  s.version          = '0.0.7'
   s.summary          = '阿里云相册与网盘服务Objc SDK'
 
 # This description is used to generate tags and improve search results.
@@ -42,6 +42,7 @@ Pod::Spec.new do |s|
     inspector.libraries = 'resolv'
     inspector.dependency 'Reachability'
     inspector.dependency 'extobjc'
+    inspector.dependency 'PDS_SDK/Core'
   end
 
   s.dependency 'FMDB', '~> 2.7'

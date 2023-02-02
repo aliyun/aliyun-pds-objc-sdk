@@ -20,11 +20,7 @@
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #include <netdb.h>
-#if TARGET_IPHONE_SIMULATOR
-#include <net/route.h>
-#else
 #include "PDSRoute.h"
-#endif /*the very same from google-code*/
 
 @implementation PDSInspectTool
 
