@@ -12,14 +12,14 @@
 #import <TZImagePickerController/TZImagePickerController.h>
 #import "SDTargetViewController.h"
 #import "SDTableViewCell.h"
-#import "SVProgressHUD.h"
 #import "PDSTestConfig.h"
 #import "SDTool.h"
 
+@import PDS_SDK;
+#import <SVProgressHUD/SVProgressHUD.h>
+
 #define kWidth     self.view.frame.size.width
 #define kHeight   self.view.frame.size.height
-
-@import PDS_SDK;
 
 @interface SDListViewController ()<UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate>
 
@@ -227,7 +227,7 @@
         PDSAPIDeleteFileRequest *request = [[PDSAPIDeleteFileRequest alloc] initWithDriveID:self.testConfig.driveID fileID:model.fileID permanently: YES];
         self.deleteFileTask = [[PDSClientManager defaultClient].file deleteFile:request];
         [self.deleteFileTask setResponseBlock:^(PDSAPIDeleteFileResponse * _Nullable result, PDSRequestError * _Nullable requestError) {
-            if (!requestError && result.driveID.length > 0) {
+            if (!requestError) {
                 [SVProgressHUD showSuccessWithStatus:@"删除成功"];
                 [weakSelf.dataArray removeObject:model];
                 [weakSelf.tableView reloadData];
@@ -258,8 +258,16 @@
 - (void)upload:(PHAsset *)asset model:(PDSAPIGetFileResponse *)model {
     NSString *fileName =  [asset valueForKey:@"filename"];
     NSString *localIdentifier = asset.localIdentifier;
-    self.taskID ++;
-    PDSUploadPhotoRequest *request = [[PDSUploadPhotoRequest alloc] initWithLocalIdentifier:localIdentifier parentFileID:model.fileID driveID:self.testConfig.driveID shareID:nil fileName:fileName checkNameMode:nil shareToken:nil sharePassword:nil];
+    self.taskID++;
+    PDSUploadPhotoRequest *request = [[PDSUploadPhotoRequest alloc] initWithLocalIdentifier:localIdentifier
+                                                                               parentFileID:model.fileID
+                                                                                     fileID:nil
+                                                                                    driveID:self.testConfig.driveID
+                                                                                    shareID:nil
+                                                                                   fileName:fileName
+                                                                              checkNameMode:nil
+                                                                                 shareToken:nil
+                                                                              sharePassword:nil];
     self.uploadTask = [[PDSClientManager defaultClient].file uploadPhotoAsset:request taskIdentifier:[NSString stringWithFormat:@"%d",self.taskID]];
     [SVProgressHUD show];
     [self.uploadTask setResponseBlock:^(PDSFileMetadata * _Nullable result, PDSRequestError * _Nullable requestError, NSString * _Nonnull taskIdentifier) {

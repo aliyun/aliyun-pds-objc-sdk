@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'PDS_SDK'
-  s.version          = '0.0.6'
+  s.version          = '0.0.4'
   s.summary          = '阿里云相册与网盘服务Objc SDK'
 
 # This description is used to generate tags and improve search results.
@@ -28,10 +28,22 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'pds-sdk-objc/Classes/**/*'
+  s.default_subspec = 'Core'
+
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES'}
-  s.public_header_files = 'pds-sdk-objc/Classes/**/*.h'
-#  s.frameworks = 'UIKit', 'MapKit'
+
+  s.subspec 'Core' do |core|
+    core.source_files = 'pds-sdk-objc/Classes/Core/**/*'
+  end
+
+  s.subspec 'Inspector' do |inspector|
+    inspector.public_header_files = 'pds-sdk-objc/Classes/Inspector/**/*.h'
+    inspector.source_files = 'pds-sdk-objc/Classes/Inspector/**/*'
+    inspector.libraries = 'resolv'
+    inspector.dependency 'Reachability'
+    inspector.dependency 'extobjc'
+  end
+
   s.dependency 'FMDB', '~> 2.7'
   s.dependency 'extobjc'
   s.dependency 'YYModel'

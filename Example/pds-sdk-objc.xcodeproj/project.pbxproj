@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E39E89A298B65A2001150A7 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E39E899298B65A2001150A7 /* config.json */; };
+		0E39E89B298B65A2001150A7 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E39E899298B65A2001150A7 /* config.json */; };
 		0EBB624D27688BDC003CDC21 /* hash.sample in Resources */ = {isa = PBXBuildFile; fileRef = 0EBB624C27688B98003CDC21 /* hash.sample */; };
 		0EBB624E27688BDD003CDC21 /* hash.sample in Resources */ = {isa = PBXBuildFile; fileRef = 0EBB624C27688B98003CDC21 /* hash.sample */; };
 		0EBB6262276997EF003CDC21 /* StringCategoryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBB6261276997EF003CDC21 /* StringCategoryTest.m */; };
@@ -23,11 +25,11 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6368B4C3FD090F561C975DAD /* Pods_pds_sdk_objc_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA85207ABBD2E14F8138AA3D /* Pods_pds_sdk_objc_Tests.framework */; };
+		650F51DD2943AC1500ADE533 /* SDDiagnoseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 650F51DC2943AC1500ADE533 /* SDDiagnoseViewController.m */; };
+		650F51E02943ACBA00ADE533 /* PDSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 650F51DF2943ACBA00ADE533 /* PDSTextView.m */; };
 		651406E3283CBEB1007AD822 /* PDSTestConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0C32CFB37091F24DDDA56 /* PDSTestConfig.m */; };
 		655BC41E283B75C90056BBA1 /* DriveAPITest.m in Sources */ = {isa = PBXBuildFile; fileRef = 655BC41B283B65E50056BBA1 /* DriveAPITest.m */; };
 		659C5B95283F82B500531B47 /* SDListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 659C5B94283F82B400531B47 /* SDListViewController.m */; };
-		659C5BA8284066E500531B47 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 659C5BA7284066E500531B47 /* config.json */; };
-		659C5BA92840673200531B47 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 659C5BA7284066E500531B47 /* config.json */; };
 		659C5BB22840A3E900531B47 /* SDTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 659C5BB02840A3E900531B47 /* SDTableViewCell.m */; };
 		659C5BB32840A3E900531B47 /* SDTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 659C5BB12840A3E900531B47 /* SDTableViewCell.xib */; };
 		659C5BB82840AFC600531B47 /* SDPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 659C5BB62840AFC600531B47 /* SDPopViewController.m */; };
@@ -62,6 +64,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E39E899298B65A2001150A7 /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
 		0EBB624C27688B98003CDC21 /* hash.sample */ = {isa = PBXFileReference; lastKnownFileType = file; path = hash.sample; sourceTree = "<group>"; };
 		0EBB6261276997EF003CDC21 /* StringCategoryTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StringCategoryTest.m; sourceTree = "<group>"; };
 		3E336865B1D101BC1F2DA89B /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -84,12 +87,14 @@
 		6003F5B7195388D20070C39A /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
-		655BC417283B350F0056BBA1 /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
+		650F51DB2943AC1500ADE533 /* SDDiagnoseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDDiagnoseViewController.h; sourceTree = "<group>"; };
+		650F51DC2943AC1500ADE533 /* SDDiagnoseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDDiagnoseViewController.m; sourceTree = "<group>"; };
+		650F51DE2943ACBA00ADE533 /* PDSTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDSTextView.h; sourceTree = "<group>"; };
+		650F51DF2943ACBA00ADE533 /* PDSTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDSTextView.m; sourceTree = "<group>"; };
+		65103A832965490A0039B21D /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		655BC41B283B65E50056BBA1 /* DriveAPITest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DriveAPITest.m; sourceTree = "<group>"; };
 		659C5B93283F82B400531B47 /* SDListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDListViewController.h; sourceTree = "<group>"; };
 		659C5B94283F82B400531B47 /* SDListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDListViewController.m; sourceTree = "<group>"; };
-		659C5BA5283F905400531B47 /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
-		659C5BA7284066E500531B47 /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
 		659C5BAF2840A3E900531B47 /* SDTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDTableViewCell.h; sourceTree = "<group>"; };
 		659C5BB02840A3E900531B47 /* SDTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDTableViewCell.m; sourceTree = "<group>"; };
 		659C5BB12840A3E900531B47 /* SDTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SDTableViewCell.xib; sourceTree = "<group>"; };
@@ -186,7 +191,6 @@
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 				D810D0CC2BE952509046E4BE /* Pods */,
-				659C5B90283F81C700531B47 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -202,6 +206,7 @@
 		6003F58C195388D20070C39A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				65103A832965490A0039B21D /* libresolv.tbd */,
 				6003F58D195388D20070C39A /* Foundation.framework */,
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
@@ -215,7 +220,6 @@
 		6003F593195388D20070C39A /* Example for pds-sdk-objc */ = {
 			isa = PBXGroup;
 			children = (
-				659C5BA5283F905400531B47 /* config.json */,
 				6003F59C195388D20070C39A /* SDAppDelegate.h */,
 				6003F59D195388D20070C39A /* SDAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
@@ -251,7 +255,6 @@
 				0E2C4CDA27562303004627B4 /* Utils */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
 				D2C0CEA1700018D0BE16DD19 /* Config */,
-				D2C0C30F7399708173C80D48 /* API */,
 				D2C0C30E0B07FDC9A1A2EDE3 /* Storage */,
 				D2C0C8A01FAF23525962A418 /* Context */,
 			);
@@ -278,14 +281,6 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
-		659C5B90283F81C700531B47 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				655BC417283B350F0056BBA1 /* config.json */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		659C5B91283F825700531B47 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -295,6 +290,8 @@
 				659C5BC1284461E800531B47 /* SDTargetViewController.m */,
 				659C5BB52840AFC600531B47 /* SDPopViewController.h */,
 				659C5BB62840AFC600531B47 /* SDPopViewController.m */,
+				650F51DB2943AC1500ADE533 /* SDDiagnoseViewController.h */,
+				650F51DC2943AC1500ADE533 /* SDDiagnoseViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -325,6 +322,8 @@
 				659C5BC92844D10000531B47 /* SDTool.m */,
 				659C5BBA2840B02200531B47 /* SDPopoverAnimator.h */,
 				659C5BBB2840B02200531B47 /* SDPopoverAnimator.m */,
+				650F51DE2943ACBA00ADE533 /* PDSTextView.h */,
+				650F51DF2943ACBA00ADE533 /* PDSTextView.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -347,13 +346,6 @@
 			path = Storage;
 			sourceTree = "<group>";
 		};
-		D2C0C30F7399708173C80D48 /* API */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = API;
-			sourceTree = "<group>";
-		};
 		D2C0C8A01FAF23525962A418 /* Context */ = {
 			isa = PBXGroup;
 			children = (
@@ -366,7 +358,7 @@
 		D2C0CEA1700018D0BE16DD19 /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				659C5BA7284066E500531B47 /* config.json */,
+				0E39E899298B65A2001150A7 /* config.json */,
 				0EBB624C27688B98003CDC21 /* hash.sample */,
 				D2C0C32CFB37091F24DDDA56 /* PDSTestConfig.m */,
 				D2C0CCEAF58224FBF72FD53C /* PDSTestConfig.h */,
@@ -442,7 +434,8 @@
 				ORGANIZATIONNAME = turygo;
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
-						DevelopmentTeam = TNLSTR73NT;
+						DevelopmentTeam = 4C3559AT2B;
+						ProvisioningStyle = Manual;
 					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
@@ -474,7 +467,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				659C5BA8284066E500531B47 /* config.json in Resources */,
+				0E39E89A298B65A2001150A7 /* config.json in Resources */,
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				659C5BB32840A3E900531B47 /* SDTableViewCell.xib in Resources */,
 				0EBB624D27688BDC003CDC21 /* hash.sample in Resources */,
@@ -490,7 +483,7 @@
 			files = (
 				6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */,
 				0EBB624E27688BDD003CDC21 /* hash.sample in Resources */,
-				659C5BA92840673200531B47 /* config.json in Resources */,
+				0E39E89B298B65A2001150A7 /* config.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -574,6 +567,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-pds-sdk-objc_Example/Pods-pds-sdk-objc_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/PDS_SDK/PDS_SDK.framework",
+				"${BUILT_PRODUCTS_DIR}/Reachability/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/TZImagePickerController/TZImagePickerController.framework",
 				"${BUILT_PRODUCTS_DIR}/YYModel/YYModel.framework",
@@ -583,6 +577,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PDS_SDK.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TZImagePickerController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYModel.framework",
@@ -601,6 +596,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* SDAppDelegate.m in Sources */,
+				650F51E02943ACBA00ADE533 /* PDSTextView.m in Sources */,
 				659C5B95283F82B500531B47 /* SDListViewController.m in Sources */,
 				6003F5A7195388D20070C39A /* SDViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
@@ -612,6 +608,7 @@
 				659C5BCA2844D10000531B47 /* SDTool.m in Sources */,
 				659C5BB82840AFC600531B47 /* SDPopViewController.m in Sources */,
 				659C5BB22840A3E900531B47 /* SDTableViewCell.m in Sources */,
+				650F51DD2943AC1500ADE533 /* SDDiagnoseViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -752,14 +749,18 @@
 			baseConfigurationReference = ADA81D61064109D2D35E4AAD /* Pods-pds-sdk-objc_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = TNLSTR73NT;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4C3559AT2B;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pds-sdk-objc/pds-sdk-objc-Prefix.pch";
 				INFOPLIST_FILE = "pds-sdk-objc/pds-sdk-objc-Info.plist";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.pds-sdk-objc-Example";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aliyun.pds-sdk-objc-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.aliyun.*";
 				SWIFT_VERSION = 4.0;
 				WRAPPER_EXTENSION = app;
 			};
@@ -770,7 +771,8 @@
 			baseConfigurationReference = 6BBC0806436AA4C7583CC10D /* Pods-pds-sdk-objc_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = TNLSTR73NT;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pds-sdk-objc/pds-sdk-objc-Prefix.pch";
@@ -778,6 +780,7 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				WRAPPER_EXTENSION = app;
 			};

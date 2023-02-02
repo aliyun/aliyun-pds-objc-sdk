@@ -1,9 +1,17 @@
 # PDS Objective-C SDK 说明
 
+## Demo使用说明
+由于demo使用涉及到access_token和测试文件等相关数据配置，需要用户自行配置为自己这边数据。
+因此初次使用demo，请将example/Tests/config.json.example重命名为config.json，然后修改其中的配置为自己的配置值，然后运行example进行测试。
+
 ## 文档地址
 https://help.aliyun.com/document_detail/406278.html
 
 ## 更新日志
+0.0.7 2023-02-02 a63aedf
+1. 增加示例配置文件
+2.  修复一些编译错误
+
 0.0.6 2023-01-08 1d58e55
 1. 修复SDK刷新URL解析错误情况下会crash的问题
 2. 修复获取剩余磁盘空间偶现crahs的问题

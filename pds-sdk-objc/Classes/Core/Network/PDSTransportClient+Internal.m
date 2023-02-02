@@ -112,7 +112,7 @@
 }
 
 + (id)resultWithRequest:(PDSAPIRequest *)request data:(NSData *)data serializationError:(NSError **)serializationError {
-    if (!request.responseClass) {
+    if (!(request.responseClass && data)) {
         return nil;
     }
     id jsonData =

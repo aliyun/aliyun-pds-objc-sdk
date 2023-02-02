@@ -31,11 +31,14 @@
 #import "PDSAPIUpdateFileResponse.h"
 #import "PDSAPIDeleteFileRequest.h"
 #import "PDSAPIDeleteFileResponse.h"
+#import "PDSAPIRecyclebinFileRequest.h"
+#import "PDSAPIRecyclebinFileResponse.h"
 #import "PDSAPIGetAsyncTaskResponse.h"
 #import "PDSAPIGetAsyncTaskRequest.h"
 #import "PDSAPISearchFileRequest.h"
 #import "PDSAPIMoveFileRequest.h"
 #import "PDSAPICopyFileRequest.h"
+#import "PDSAPIListFileRequest.h"
 #import "PDSUploadTask.h"
 #import "PDSTaskStorageClient.h"
 
@@ -118,6 +121,10 @@
 }
 
 - (PDSAPIRequestTask<PDSAPIListFileResponse *> *)listFile:(PDSAPIListFileRequest *)request {
+    return [self.transportClient requestSDAPIRequest:request];
+}
+
+- (PDSAPIRequestTask<PDSAPIRecyclebinFileResponse *> *)recyclebinFile:(PDSAPIRecyclebinFileRequest *)request {
     return [self.transportClient requestSDAPIRequest:request];
 }
 

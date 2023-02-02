@@ -50,6 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class PDSUploadPhotoRequest;
 @class PDSAPIListFileResponse;
 @class PDSAPIListFileRequest;
+@class PDSAPIRecyclebinFileRequest;
+@class PDSAPIRecyclebinFileResponse;
 
 @interface PDSFileSession : PDSBaseSession
 
@@ -150,6 +152,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param taskIdentifier 任务ID,SDK会通过taskID判断之前是否创建过下载任务，如果创建过会尝试恢复之前的下载记录
 /// @return 下载任务
 - (PDSAPIRequestTask<PDSAPIListFileResponse *> *)listFile:(PDSAPIListFileRequest *)request;
+
+/// 可回收接口
+/// @param request 可回收接口请求
+- (PDSAPIRequestTask<PDSAPIRecyclebinFileResponse *> *)recyclebinFile:(PDSAPIRecyclebinFileRequest *)request;
 
 @end
 

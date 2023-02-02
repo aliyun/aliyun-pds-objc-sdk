@@ -1,0 +1,20 @@
+{
+  "access_token": "请使用服务端下发的access_token",
+  "user_id": "测试用户ID",
+  "domain_id": "测试的domainID,用于",
+  "drive_id": "测试的driveID",
+  "parent_file_id": "测试的文件夹ID",
+  "to_parent_file_id" : "测试的复制文件夹ID",
+
+  "download_url": "测试的下载链接，可以从web后台获取",
+  "download_file_name": "下载文件名",
+  "download_size" : 1241521,
+  "download_file_id" : "下载文件ID",
+  "download_hash" : "下载文件的hash",
+
+  "livep_download_url": "livp的下载地址",
+  "live_download_file_name": "livp的下载文件名",
+  "livep_download_size" : 1241521,
+  "livep_download_file_id" : "livp的下载文件ID ",
+  "livep_download_hash" : "10691915185549903247"
+}

@@ -14,17 +14,25 @@
 // * limitations under the License.
 // *
 
-#import "PDSAPIDeleteFileResponse.h"
+#import "PDSFileMetadata.h"
 
-@implementation PDSAPIDeleteFileResponse
 
-+ (NSDictionary *)modelCustomPropertyMapper {
-    return @{
-        @"driveID" : @"drive_id",
-        @"fileID" : @"file_id",
-        @"domainID" : @"domain_id",
-        @"asyncTaskID" : @"async_task_id"
-    };
+@implementation PDSFileMetadata {
+
+}
+- (instancetype)initWithFileID:(NSString *)fileID revisionID:(NSString *)revisionID fileName:(NSString *)fileName
+                      filePath:(NSString * _Nullable)filePath driveID:(NSString *)driveID uploadID:(NSString * _Nullable)uploadID {
+    self = [super init];
+    if (self) {
+        self.fileID = fileID;
+        self.revisionID = revisionID;
+        self.fileName = fileName;
+        self.filePath = filePath;
+        self.driveID = driveID;
+        self.uploadID = uploadID;
+    }
+
+    return self;
 }
 
 @end

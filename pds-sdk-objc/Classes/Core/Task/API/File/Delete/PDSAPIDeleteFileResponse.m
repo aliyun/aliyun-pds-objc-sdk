@@ -14,25 +14,19 @@
 // * limitations under the License.
 // *
 
-#import "PDSFileMetadata.h"
+#import "PDSAPIDeleteFileResponse.h"
+//#import <YYModel/NSObject+YYModel.h>
 
+@implementation PDSAPIDeleteFileResponse
 
-@implementation PDSFileMetadata {
-
-}
-- (instancetype)initWithFileID:(NSString *)fileID revisionID:(NSString *)revisionID fileName:(NSString *)fileName
-                      filePath:(NSString *)filePath driveID:(NSString *)driveID uploadID:(NSString *)uploadID {
-    self = [super init];
-    if (self) {
-        self.fileID = fileID;
-        self.revisionID = revisionID;
-        self.fileName = fileName;
-        self.filePath = filePath;
-        self.driveID = driveID;
-        self.uploadID = uploadID;
-    }
-
-    return self;
+//+ (id)deserialize:(NSDictionary<NSString *, id> *)dict {
+//    return [self yy_modelWithDictionary:dict];
+//}
+//
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{
+        @"fileID" : @"id",
+    };
 }
 
 @end

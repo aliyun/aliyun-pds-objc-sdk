@@ -18,9 +18,11 @@
 #import <PDS_SDK/PDSRequest.h>
 #import <PDS_SDK/PDSFileHash.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface PDSDownloadUrlRequest : PDSRequest
 // 下载链接
-@property(nonatomic, copy, readonly) NSString *downloadUrl;
+@property(nonatomic, copy, readonly) NSString * downloadUrl;
 //文件的保存路径，如果对应的文件存储的目录不存在，SDK内部会自动创建
 @property(nonatomic, copy, readonly) NSString *destination;
 //下载文件的相对路径
@@ -68,3 +70,5 @@
  */
 - (instancetype)requestWithNewDestination:(NSString *)destination;
 @end
+
+NS_ASSUME_NONNULL_END

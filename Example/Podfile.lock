@@ -21,7 +21,18 @@ PODS:
   - PDS_SDK (0.0.4):
     - extobjc
     - FMDB (~> 2.7)
+    - PDS_SDK/Core (= 0.0.4)
     - YYModel
+  - PDS_SDK/Core (0.0.4):
+    - extobjc
+    - FMDB (~> 2.7)
+    - YYModel
+  - PDS_SDK/Inspector (0.0.4):
+    - extobjc
+    - FMDB (~> 2.7)
+    - Reachability
+    - YYModel
+  - Reachability (3.2)
   - Specta (2.0.0)
   - SVProgressHUD (2.2.5)
   - TZImagePickerController (3.8.3):
@@ -33,9 +44,11 @@ PODS:
 
 DEPENDENCIES:
   - Expecta
+  - extobjc
   - OCMock
   - OHHTTPStubs
   - PDS_SDK (from `../`)
+  - PDS_SDK/Inspector (from `../`)
   - Specta
   - SVProgressHUD
   - TZImagePickerController
@@ -47,6 +60,7 @@ SPEC REPOS:
     - FMDB
     - OCMock
     - OHHTTPStubs
+    - Reachability
     - Specta
     - SVProgressHUD
     - TZImagePickerController
@@ -62,12 +76,13 @@ SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   OCMock: 9491e4bec59e0b267d52a9184ff5605995e74be8
   OHHTTPStubs: 90eac6d8f2c18317baeca36698523dc67c513831
-  PDS_SDK: d13866410f3de0d5c0122bd354bfbeb5875f78ce
+  PDS_SDK: 86418a319d3ff19a3236e281301f6a02d5d56218
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   Specta: b79d84043684b35ffdc2680df578dc318ec2efc2
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   TZImagePickerController: e9909edbadf7381140efc5b5c9f5bdbfd630f7d4
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 28392a57df8abe9480ab4a04ead0376955562634
+PODFILE CHECKSUM: 8a761e483a8b8fafae07031aef35ff4e8f9aab0f
 
 COCOAPODS: 1.11.3
