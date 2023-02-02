@@ -1,5 +1,5 @@
 //
-//  PDSNetWorkRequest.m
+//  PDSNetworkRequest.m
 //  PDSNetDetectionSDK
 //
 //  Created by issuser on 2022/11/23.
@@ -7,21 +7,21 @@
 
 #define BAIDU_ADDRESS  @"https://www.baidu.com"
 
-#import "PDSNetWorkRequest.h"
+#import "PDSNetworkRequest.h"
 #import <extobjc/EXTobjc.h>
 #import "PDSConstants.h"
 
-@interface PDSNetWorkRequest ()
+@interface PDSNetworkRequest ()
 
 @end
 
-@implementation PDSNetWorkRequest
+@implementation PDSNetworkRequest
 
 + (instancetype)sharedInstance{
-    static PDSNetWorkRequest *tool;
+    static PDSNetworkRequest *tool;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        tool = [[PDSNetWorkRequest alloc] init];
+        tool = [[PDSNetworkRequest alloc] init];
     });
     return tool;
 }

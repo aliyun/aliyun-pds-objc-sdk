@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *deviceModelName;
 
-@property (nonatomic, assign) PDSNetWorkType netWorkType;
+@property (nonatomic, assign) PDSNetworkType netWorkType;
 
 @property (nonatomic, copy) NSString *deviceIPAddress;
 

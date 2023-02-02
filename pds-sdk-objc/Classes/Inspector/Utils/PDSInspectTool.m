@@ -20,21 +20,21 @@
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #include <netdb.h>
-#include "PDSRoute.h"
+#include "route.h"
 
 @implementation PDSInspectTool
 
 /*
  * 获取当前网络类型
  */
-+ (PDSNetWorkType)getNetworkType {
-    PDSNetWorkType netWorkType = PDSNetWorkTypeNone;
++ (PDSNetworkType)getNetworkType {
+    PDSNetworkType netWorkType = PDSNetworkTypeNone;
     @try {
         Reachability *reach = [Reachability reachabilityForInternetConnection];
         NetworkStatus status = [reach currentReachabilityStatus];
         
         if (status == ReachableViaWiFi) {
-            netWorkType = PDSNetWorkTypeWIFI;
+            netWorkType = PDSNetworkTypeWIFI;
         } else if (status == ReachableViaWWAN) {
             
             static CTTelephonyNetworkInfo *netInfo = nil;
@@ -52,24 +52,24 @@
             }
             
             if ([currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyGPRS] || [currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyEdge]) {
-                netWorkType = PDSNetWorkType2G;
+                netWorkType = PDSNetworkType2G;
             } else if ([currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyWCDMA] || [currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyHSDPA] || [currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyHSUPA] || [currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMA1x] || ([currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORev0] || [currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevA] || [currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevB] || [currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyeHRPD])) {
-                netWorkType = PDSNetWorkType3G;
+                netWorkType = PDSNetworkType3G;
             } else if ([currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyLTE]) {
-                netWorkType = PDSNetWorkType4G;
+                netWorkType = PDSNetworkType4G;
             } else {
                 if (@available(iOS 14.1, *)) {
                     if ([currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyNRNSA]){
-                        netWorkType = PDSNetWorkType5G;
+                        netWorkType = PDSNetworkType5G;
                     }else if ([currentRadioAccessTechnology isEqualToString:CTRadioAccessTechnologyNR]){
-                        netWorkType = PDSNetWorkType5G;
+                        netWorkType = PDSNetworkType5G;
                     }
                 }else{
-                    netWorkType = PDSNetWorkTypeUNKNOWN;
+                    netWorkType = PDSNetworkTypeUnknown;
                 }
             }
         } else {
-            netWorkType = PDSNetWorkTypeNone;
+            netWorkType = PDSNetworkTypeNone;
         }
     } @catch (NSException *exception) {
         NSLog(@"%@: %@", self, exception);

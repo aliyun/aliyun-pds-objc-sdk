@@ -10,7 +10,7 @@
 #import "PDSInspectTool.h"
 #import "PDSInspectDNS.h"
 #import "PDSInspectDeviceInfo.h"
-#import "PDSNetWorkRequest.h"
+#import "PDSNetworkRequest.h"
 #import "PDSConstants.h"
 #import "PDSCustomParameters.h"
 #import "PDSTaskRequest.h"
@@ -111,14 +111,14 @@
 - (void)stop {
     [self.inspectorQueue cancelAllOperations];
     [self.inspectPing cancelPing];
-    [self.taskRequest cancleTask];
+    [self.taskRequest cancel];
     self.result = [[PDSInspectResult alloc] init];
     self.isRunning = NO;
 }
 
 - (void)testNetInfo {
     //获取当前设备info
-    if (self.deviceInfo.netWorkType == PDSNetWorkTypeNone) {
+    if (self.deviceInfo.netWorkType == PDSNetworkTypeNone) {
         //2.判断当前是否有网
         PDSInspectResult *result = [[PDSInspectResult alloc] initWithContent:self.deviceInfo.description success:NO errorMessage:PDSNetErrorNoneKey context:nil];
         [self.result addResult:result];
@@ -180,7 +180,7 @@
     [self.inspectorQueue addOperationWithBlock:^{
         @strongify(self);
         dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-        [PDSNetWorkRequest requestBaiduAddressBlock:^(PDSInspectResult *result) {
+        [PDSNetworkRequest requestBaiduAddressBlock:^(PDSInspectResult *result) {
             [NSThread sleepForTimeInterval:1.0f];
             PDSDispatch_Main(^{
                 [self progressHandlerTaskType:PDSInspectTaskTypeBaidu status:PDSInspectTaskStatusEnd];
@@ -198,10 +198,10 @@
     [self.inspectorQueue addOperationWithBlock:^{
         @strongify(self);
         dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-        [PDSNetWorkRequest postRequestMyDomainAddress:self.customParameters.myDomainAddress resonseBlock:^(PDSInspectResult *result) {
+        [PDSNetworkRequest postRequestMyDomainAddress:self.customParameters.myDomainAddress resonseBlock:^(PDSInspectResult *result) {
             [NSThread sleepForTimeInterval:1.0f];
             PDSDispatch_Main(^{
-                [self progressHandlerTaskType:PDSInspectTaskTypeMydomain status:PDSInspectTaskStatusEnd];
+                [self progressHandlerTaskType:PDSInspectTaskTypeMyDomain status:PDSInspectTaskStatusEnd];
             });
             [self.result addResult:result];
             dispatch_semaphore_signal(sem);

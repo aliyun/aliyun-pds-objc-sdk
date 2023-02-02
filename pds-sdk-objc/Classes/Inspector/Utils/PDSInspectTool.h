@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  * 获取当前网络类型
  */
-+ (PDSNetWorkType)getNetworkType;
++ (PDSNetworkType)getNetworkType;
 
 /*
  * 获取当前设备ip地址

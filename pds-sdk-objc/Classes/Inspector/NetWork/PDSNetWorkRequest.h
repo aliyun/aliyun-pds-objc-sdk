@@ -1,5 +1,5 @@
 //
-//  PDSNetWorkRequest.h
+//  PDSNetworkRequest.h
 //  PDSNetDetectionSDK
 //
 //  Created by issuser on 2022/11/23.
@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^PDSFileProgressBlock)(int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite);
 
-@interface PDSNetWorkRequest : NSObject
+@interface PDSNetworkRequest : NSObject
 
 + (instancetype)sharedInstance;
 

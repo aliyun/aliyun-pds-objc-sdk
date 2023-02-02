@@ -10,14 +10,14 @@
 
 
 typedef enum {
-    PDSNetWorkTypeNone = 0,//未连接网络
-    PDSNetWorkType2G = 1,
-    PDSNetWorkType3G = 2,
-    PDSNetWorkType4G = 3,
-    PDSNetWorkType5G = 4,
-    PDSNetWorkTypeWIFI = 5,
-    PDSNetWorkTypeUNKNOWN = 6
-}  PDSNetWorkType;
+    PDSNetworkTypeNone = 0,//未连接网络
+    PDSNetworkType2G = 1,
+    PDSNetworkType3G = 2,
+    PDSNetworkType4G = 3,
+    PDSNetworkType5G = 4,
+    PDSNetworkTypeWIFI = 5,
+    PDSNetworkTypeUnknown = 6
+}  PDSNetworkType;
 
 
 typedef NS_ENUM(NSInteger, PDSNetErrorType) {
@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, PDSInspectTaskType) {
     PDSInspectTaskTypePing,
     PDSInspectTaskTypeDNS,
     PDSInspectTaskTypeBaidu,
-    PDSInspectTaskTypeMydomain,
+    PDSInspectTaskTypeMyDomain,
     PDSInspectTaskTypeUpload,
     PDSInspectTaskTypeDownload
 };

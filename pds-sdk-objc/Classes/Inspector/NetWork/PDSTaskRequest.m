@@ -142,7 +142,7 @@
     }
 }
 
-- (void)cancleTask{
+- (void)cancel{
     [self.uploadTask cancel];
     [self.downloadTask cancel];
 }

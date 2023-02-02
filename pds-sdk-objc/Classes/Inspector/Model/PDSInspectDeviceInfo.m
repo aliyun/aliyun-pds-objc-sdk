@@ -28,7 +28,7 @@
     return [NSString stringWithCString: systemInfo.machine encoding:NSASCIIStringEncoding];
 }
 
-- (PDSNetWorkType)netWorkType {
+- (PDSNetworkType)netWorkType {
     return [PDSInspectTool getNetworkType];
 }
 
@@ -41,7 +41,7 @@
 }
 
 - (NSString *)subnetMaskAddress {
-    if (self.netWorkType == PDSNetWorkTypeWIFI) {
+    if (self.netWorkType == PDSNetworkTypeWIFI) {
         return [PDSInspectTool getCurrentWifiMessage];
     }
     return @"";

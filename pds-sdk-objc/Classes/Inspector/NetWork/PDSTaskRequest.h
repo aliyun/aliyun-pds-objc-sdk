@@ -23,7 +23,7 @@ typedef void (^PDSFileCompleteBlock)(PDSInspectResult *result);
 
 - (void)requestDeleteFileCustomParameters:(PDSCustomParameters *)customParameters resonseBlock:(void(^)(BOOL))block;
 
-- (void)cancleTask;
+- (void)cancel;
 
 @end
 
